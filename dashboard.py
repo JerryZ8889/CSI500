@@ -122,7 +122,12 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ── 全局 matplotlib 中文字体 ──────────────────────────────────────────────────
-plt.rcParams['font.sans-serif'] = ['SimHei', 'WenQuanYi Zen Hei', 'Microsoft YaHei']
+import matplotlib.font_manager as _fm
+_available = {f.name for f in _fm.fontManager.ttflist}
+for _font in ['SimHei', 'WenQuanYi Zen Hei', 'Microsoft YaHei']:
+    if _font in _available:
+        plt.rcParams['font.sans-serif'] = [_font]
+        break
 plt.rcParams['axes.unicode_minus'] = False
 
 # ═══════════════════════════════════════════════════════════════════════════════
