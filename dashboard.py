@@ -33,7 +33,7 @@ st.markdown("""
 
     /* 页面顶部彩条 */
     .top-bar {
-        background: linear-gradient(90deg, #e11d48 0%, #f43f5e 100%);
+        background: linear-gradient(90deg, #1e3a5f 0%, #2d5a87 100%);
         color: white; padding: 18px 24px; border-radius: 12px;
         margin-bottom: 20px;
     }
@@ -60,7 +60,7 @@ st.markdown("""
 
     /* Section 标题 */
     .section-head {
-        border-left: 4px solid #e11d48; padding-left: 12px;
+        border-left: 4px solid #1e3a5f; padding-left: 12px;
         font-size: 1.15rem; font-weight: 700; margin: 24px 0 12px 0;
     }
 
@@ -122,7 +122,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ── 全局 matplotlib 中文字体 ──────────────────────────────────────────────────
-plt.rcParams['font.sans-serif'] = ['SimHei']
+plt.rcParams['font.sans-serif'] = ['WenQuanYi Zen Hei', 'SimHei', 'Microsoft YaHei', 'sans-serif']
 plt.rcParams['axes.unicode_minus'] = False
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -343,7 +343,7 @@ for i in range(1, n):
 
 ax1.plot(dates, df['bench_nav'], color='#94a3b8', linewidth=1.0,
          linestyle='--', alpha=0.7, label='基准净值 (买入持有)')
-ax1.plot(dates, df['strat_nav'], color='#e11d48', linewidth=2.0,
+ax1.plot(dates, df['strat_nav'], color='#1e3a5f', linewidth=2.0,
          label='策略净值')
 
 # 买卖标记 (T+1 执行日)
