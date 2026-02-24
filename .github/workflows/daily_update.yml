@@ -14,7 +14,7 @@ on:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 180          # 3小时上限
+    timeout-minutes: 360          # 6小时（GitHub Actions 上限）
 
     steps:
       - name: Checkout repository
@@ -34,7 +34,6 @@ jobs:
       - name: Run daily update
         env:
           TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}
-          RETRY_MAX_TOTAL: '10'
         run: |
           if [ -n "${{ github.event.inputs.date }}" ]; then
             python daily_update.py --date "${{ github.event.inputs.date }}"

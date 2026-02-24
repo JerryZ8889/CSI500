@@ -47,7 +47,6 @@ API_SLEEP  = 0.35
 RETRY_INITIAL_COUNT = 3
 RETRY_INITIAL_WAIT  = 600     # 10 分钟
 RETRY_EXTENDED_WAIT = 1800    # 30 分钟
-RETRY_MAX_TOTAL     = int(os.environ.get('RETRY_MAX_TOTAL', 0))  # 0=无限, CI 建议设 10
 
 # ── 复权基准日 ───────────────────────────────────────────────────────────────
 ADJ_BASE_DATE = '20260213'
@@ -231,11 +230,6 @@ def fetch_daily_data(today_str, index_daily, status, logger):
 
         except Exception as e:
             retry_count += 1
-            if RETRY_MAX_TOTAL > 0 and retry_count > RETRY_MAX_TOTAL:
-                raise RuntimeError(
-                    f"重试 {RETRY_MAX_TOTAL} 次后仍失败: {e}"
-                ) from e
-
             status['retry_count'] = retry_count
             status['error_message'] = str(e)
             status['status'] = 'retrying'
