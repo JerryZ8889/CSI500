@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+.claude/
+~$*
+
+# 日志文件
+daily_update.log
+daily_update_console.log
+
+# 临时/测试文件
+verify_adj.py
+app_raw_temp.py
+app_remote.py
+backtest_result.png
+backtest_kline_*.png
+runscan.py
+
+# 本地批处理（已改用 GitHub Actions）
+update_daily.bat

@@ -1,0 +1,57 @@
+name: CSI500 每日数据更新
+
+on:
+  schedule:
+    # UTC 09:30 = 北京时间 17:30
+    - cron: '30 9 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      date:
+        description: '指定更新日期 (YYYYMMDD)，留空则默认今日'
+        required: false
+        default: ''
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180          # 3小时上限
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run daily update
+        env:
+          TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}
+          RETRY_MAX_TOTAL: '10'
+        run: |
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            python daily_update.py --date "${{ github.event.inputs.date }}"
+          else
+            python daily_update.py
+          fi
+
+      - name: Commit and push updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add stocks_data/ strategy_data.csv update_status.json csi500_components_schedule.csv
+          if git diff --cached --quiet; then
+            echo "No data changes to commit"
+          else
+            git commit -m "data: 自动更新 $(date -u +%Y%m%d)
+
+            Co-Authored-By: github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+            git push
+          fi
