@@ -15,5 +15,11 @@ backtest_result.png
 backtest_kline_*.png
 runscan.py
 
+# 本地文档（仅本地保留）
+文档说明/
+策略Opus4.6.docx
+工作日志_*.docx
+generate_worklog_doc.py
+
 # 本地批处理（已改用 GitHub Actions）
 update_daily.bat
