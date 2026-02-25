@@ -24,7 +24,7 @@ import json
 import time
 import logging
 import argparse
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 # ── 路径配置 ─────────────────────────────────────────────────────────────────
 DATA_DIR      = os.path.dirname(os.path.abspath(__file__))
@@ -50,6 +50,9 @@ RETRY_EXTENDED_WAIT = 1800    # 30 分钟
 
 # ── 复权基准日 ───────────────────────────────────────────────────────────────
 ADJ_BASE_DATE = '20260213'
+
+# ── 时区 ──────────────────────────────────────────────────────────────────────
+TZ_BEIJING = timezone(timedelta(hours=8))
 
 # ── Tushare 初始化 ───────────────────────────────────────────────────────────
 ts.set_token(TOKEN)
@@ -584,7 +587,7 @@ def run_daily_update(today_str=None):
     logger = setup_logging()
 
     if today_str is None:
-        today_str = datetime.today().strftime('%Y%m%d')
+        today_str = datetime.now(TZ_BEIJING).strftime('%Y%m%d')
 
     logger.info("=" * 60)
     logger.info(f"每日更新启动: {today_str}")
@@ -604,7 +607,7 @@ def run_daily_update(today_str=None):
         # Step 1: 检查是否为交易日
         is_td, index_daily = is_trading_day(today_str, logger)
         if not is_td:
-            status['last_update_time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            status['last_update_time'] = datetime.now(TZ_BEIJING).strftime('%Y-%m-%d %H:%M:%S')
             status['status'] = 'idle'
             status['error_message'] = f'{today_str} 非交易日'
             save_status(status)
@@ -626,7 +629,7 @@ def run_daily_update(today_str=None):
 
         # 更新状态
         status['last_update_date'] = today_str
-        status['last_update_time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        status['last_update_time'] = datetime.now(TZ_BEIJING).strftime('%Y-%m-%d %H:%M:%S')
         status['status'] = 'success'
         status['retry_count'] = 0
         status['error_message'] = None
@@ -640,7 +643,7 @@ def run_daily_update(today_str=None):
         logger.error(f"更新失败: {e}", exc_info=True)
         status['status'] = 'failed'
         status['error_message'] = str(e)
-        status['last_update_time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        status['last_update_time'] = datetime.now(TZ_BEIJING).strftime('%Y-%m-%d %H:%M:%S')
         save_status(status)
         sys.exit(1)
 
@@ -661,7 +664,7 @@ if __name__ == '__main__':
     elif args.check_rebalance:
         log = setup_logging()
         base = generate_adj_factor_base(log)
-        td = args.date or datetime.today().strftime('%Y%m%d')
+        td = args.date or datetime.now(TZ_BEIJING).strftime('%Y%m%d')
         check_component_rebalance(td, base, log, force=True)
     else:
         run_daily_update(args.date)
