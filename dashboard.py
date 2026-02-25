@@ -475,7 +475,7 @@ st.divider()
 # Section C: 战术指令板
 # ═══════════════════════════════════════════════════════════════════════════════
 st.markdown('<div class="section-head">🎯 战术指令板</div>', unsafe_allow_html=True)
-st.caption(f"以下分析基于最新数据日：{last['trade_date']}")
+st.caption(f"以下分析基于最新数据日：{pd.to_datetime(last['trade_date'], format='%Y%m%d').strftime('%Y年%m月%d日')}")
 
 # ── 提取最新数据 ─────────────────────────────────────────────────────────────
 breadth_val = last['breadth']
