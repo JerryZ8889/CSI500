@@ -143,10 +143,10 @@ COST       = 0.001
 # 数据加载 & 策略引擎
 # ═══════════════════════════════════════════════════════════════════════════════
 @st.cache_data(ttl=3600)
-def load_and_compute():
+def load_and_compute(end_date):
     df = pd.read_csv(DATA_FILE)
     df['trade_date'] = df['trade_date'].astype(str)
-    df = df[(df['trade_date'] >= START_DATE) & (df['trade_date'] <= END_DATE)].copy()
+    df = df[(df['trade_date'] >= START_DATE) & (df['trade_date'] <= end_date)].copy()
     df = df.sort_values('trade_date').reset_index(drop=True)
     df['date'] = pd.to_datetime(df['trade_date'], format='%Y%m%d')
 
@@ -250,7 +250,7 @@ def load_and_compute():
 
     return df
 
-df = load_and_compute()
+df = load_and_compute(END_DATE)
 n = len(df)
 
 # ── 统计指标 ──
