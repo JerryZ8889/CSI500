@@ -501,147 +501,6 @@ st.markdown(f'''<div class="metric-grid">
 st.divider()
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# Section B: 参考图表
-# ═══════════════════════════════════════════════════════════════════════════════
-st.markdown('<div class="section-head">📈 参考图表</div>', unsafe_allow_html=True)
-
-dates = df['date'].values
-
-# ── 图 1：策略净值 vs 基准净值 + 信号标记 ─────────────────────────────────────
-fig1, ax1 = plt.subplots(figsize=(16, 6))
-
-# 持仓区间阴影
-for i in range(1, n):
-    if df['actual_pos'].iloc[i] == 1:
-        ax1.axvspan(df['date'].iloc[i - 1], df['date'].iloc[i],
-                    color='#3b82f6', alpha=0.06)
-
-ax1.plot(dates, df['bench_nav'], color='#94a3b8', linewidth=1.0,
-         linestyle='--', alpha=0.7, label='基准净值 (买入持有)')
-ax1.plot(dates, df['strat_nav'], color='#1e3a5f', linewidth=2.0,
-         label='策略净值')
-
-# 买卖标记 (T+1 执行日)
-for i in range(n):
-    if df['signal'].iloc[i] == 1 and i + 1 < n:
-        ax1.scatter(df['date'].iloc[i + 1], df['strat_nav'].iloc[i + 1],
-                    marker='^', color='#22c55e', s=120, zorder=5)
-    elif df['signal'].iloc[i] == -1 and i + 1 < n:
-        ax1.scatter(df['date'].iloc[i + 1], df['strat_nav'].iloc[i + 1],
-                    marker='v', color='#ef4444', s=120, zorder=5)
-
-ax1.axhline(y=1.0, color='gray', linestyle=':', alpha=0.4)
-ax1.set_title('策略净值表现与信号点分布', fontsize=14)
-ax1.set_ylabel('累计净值')
-ax1.legend(loc='upper left', fontsize=10)
-ax1.grid(True, alpha=0.2)
-ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
-ax1.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
-fig1.autofmt_xdate(rotation=30)
-plt.tight_layout()
-st.pyplot(fig1)
-plt.close(fig1)
-
-# ── 图 2：中证500 收盘价 + MA30 ──────────────────────────────────────────────
-fig2, ax2 = plt.subplots(figsize=(16, 5))
-
-# 价格在 MA30 上方/下方的区间填充
-ax2.fill_between(dates, df['close'], df['ma_30'],
-                 where=(df['close'] >= df['ma_30']),
-                 color='#22c55e', alpha=0.08, interpolate=True)
-ax2.fill_between(dates, df['close'], df['ma_30'],
-                 where=(df['close'] < df['ma_30']),
-                 color='#ef4444', alpha=0.08, interpolate=True)
-
-ax2.plot(dates, df['close'], color='#1e40af', linewidth=1.2, label='中证500收盘价')
-ax2.plot(dates, df['ma_30'], color='#f59e0b', linewidth=1.5,
-         linestyle='--', label='MA30 趋势线')
-
-ax2.set_title('中证500 价格趋势 & MA30 生命线', fontsize=14)
-ax2.set_ylabel('指数点位')
-ax2.legend(loc='upper left', fontsize=10)
-ax2.grid(True, alpha=0.2)
-ax2.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
-ax2.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
-fig2.autofmt_xdate(rotation=30)
-plt.tight_layout()
-st.pyplot(fig2)
-plt.close(fig2)
-
-# ── 图 3：市场广度监控 ───────────────────────────────────────────────────────
-fig3, ax3 = plt.subplots(figsize=(16, 4))
-
-for i in range(1, n):
-    if df['actual_pos'].iloc[i] == 1:
-        ax3.axvspan(df['date'].iloc[i - 1], df['date'].iloc[i],
-                    color='#3b82f6', alpha=0.06)
-
-ax3.plot(dates, df['breadth'], color='#f59e0b', linewidth=1.2,
-         label='MA20上方占比 (%)')
-ax3.axhline(y=16, color='#22c55e', linestyle='--', linewidth=1, label='冰点线 (16%)')
-ax3.axhline(y=80, color='#ef4444', linestyle='--', linewidth=1, label='过热线 (80%)')
-ax3.fill_between(dates, 0, 16, color='#22c55e', alpha=0.04)
-ax3.fill_between(dates, 80, 100, color='#ef4444', alpha=0.04)
-
-ax3.set_title('市场广度监控', fontsize=14)
-ax3.set_ylabel('广度 (%)')
-ax3.set_ylim(0, 100)
-ax3.legend(loc='upper left', fontsize=9, ncol=3)
-ax3.grid(True, alpha=0.2)
-ax3.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
-ax3.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
-fig3.autofmt_xdate(rotation=30)
-plt.tight_layout()
-st.pyplot(fig3)
-plt.close(fig3)
-
-# ── 图 4：资金成交热度 Z-Score ────────────────────────────────────────────────
-fig4, ax4 = plt.subplots(figsize=(16, 4))
-
-hz_pos = df['heat_z'].clip(lower=0)
-hz_neg = df['heat_z'].clip(upper=0)
-ax4.fill_between(dates, 0, hz_pos, color='#ef4444', alpha=0.4, label='过热 (Z>0)')
-ax4.fill_between(dates, 0, hz_neg, color='#3b82f6', alpha=0.4, label='冷清 (Z<0)')
-ax4.axhline(y=1.5, color='#ef4444', linestyle=':', linewidth=1, label='过热阈值 (1.5σ)')
-ax4.axhline(y=-1.5, color='#3b82f6', linestyle=':', linewidth=1, label='冰点阈值 (-1.5σ)')
-ax4.axhline(y=0, color='gray', linestyle='-', linewidth=0.5, alpha=0.5)
-
-ax4.set_title('资金成交热度 (Z-Score)', fontsize=14)
-ax4.set_ylabel('Z-Score (σ)')
-ax4.legend(loc='upper left', fontsize=9, ncol=4)
-ax4.grid(True, alpha=0.2)
-ax4.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
-ax4.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
-fig4.autofmt_xdate(rotation=30)
-plt.tight_layout()
-st.pyplot(fig4)
-plt.close(fig4)
-
-# ── 图 5：ETF 换手率 ─────────────────────────────────────────────────────────
-fig5, ax5 = plt.subplots(figsize=(16, 4))
-
-ax5.plot(dates, df['etf_turnover'], color='#8b5cf6', linewidth=1.0,
-         label='510500 ETF 换手率 (%)')
-ax5.axhline(y=1.0, color='#22c55e', linestyle='--', linewidth=1,
-            label='流动性下限 (1.0%)')
-ax5.fill_between(dates, 0, df['etf_turnover'],
-                 where=(df['etf_turnover'] < 1.0),
-                 color='#fbbf24', alpha=0.15)
-
-ax5.set_title('510500 ETF 换手率监控', fontsize=14)
-ax5.set_ylabel('换手率 (%)')
-ax5.legend(loc='upper left', fontsize=9)
-ax5.grid(True, alpha=0.2)
-ax5.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
-ax5.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
-fig5.autofmt_xdate(rotation=30)
-plt.tight_layout()
-st.pyplot(fig5)
-plt.close(fig5)
-
-st.divider()
-
-# ═══════════════════════════════════════════════════════════════════════════════
 # Section C: 战术指令板
 # ═══════════════════════════════════════════════════════════════════════════════
 st.markdown('<div class="section-head">🎯 战术指令板</div>', unsafe_allow_html=True)
@@ -866,6 +725,147 @@ st.markdown(f'''<div class="metric-grid">
   <div class="metric-item"><div class="label">ETF换手率</div><div class="value">{turn_val:.2f}%</div></div>
   <div class="metric-item"><div class="label">MA30</div><div class="value">{ma30_val:.2f}</div></div>
 </div>''', unsafe_allow_html=True)
+
+st.divider()
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# Section B: 参考图表
+# ═══════════════════════════════════════════════════════════════════════════════
+st.markdown('<div class="section-head">📈 参考图表</div>', unsafe_allow_html=True)
+
+dates = df['date'].values
+
+# ── 图 1：策略净值 vs 基准净值 + 信号标记 ─────────────────────────────────────
+fig1, ax1 = plt.subplots(figsize=(16, 6))
+
+# 持仓区间阴影
+for i in range(1, n):
+    if df['actual_pos'].iloc[i] == 1:
+        ax1.axvspan(df['date'].iloc[i - 1], df['date'].iloc[i],
+                    color='#3b82f6', alpha=0.06)
+
+ax1.plot(dates, df['bench_nav'], color='#94a3b8', linewidth=1.0,
+         linestyle='--', alpha=0.7, label='基准净值 (买入持有)')
+ax1.plot(dates, df['strat_nav'], color='#1e3a5f', linewidth=2.0,
+         label='策略净值')
+
+# 买卖标记 (T+1 执行日)
+for i in range(n):
+    if df['signal'].iloc[i] == 1 and i + 1 < n:
+        ax1.scatter(df['date'].iloc[i + 1], df['strat_nav'].iloc[i + 1],
+                    marker='^', color='#22c55e', s=120, zorder=5)
+    elif df['signal'].iloc[i] == -1 and i + 1 < n:
+        ax1.scatter(df['date'].iloc[i + 1], df['strat_nav'].iloc[i + 1],
+                    marker='v', color='#ef4444', s=120, zorder=5)
+
+ax1.axhline(y=1.0, color='gray', linestyle=':', alpha=0.4)
+ax1.set_title('策略净值表现与信号点分布', fontsize=14)
+ax1.set_ylabel('累计净值')
+ax1.legend(loc='upper left', fontsize=10)
+ax1.grid(True, alpha=0.2)
+ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
+ax1.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
+fig1.autofmt_xdate(rotation=30)
+plt.tight_layout()
+st.pyplot(fig1)
+plt.close(fig1)
+
+# ── 图 2：中证500 收盘价 + MA30 ──────────────────────────────────────────────
+fig2, ax2 = plt.subplots(figsize=(16, 5))
+
+# 价格在 MA30 上方/下方的区间填充
+ax2.fill_between(dates, df['close'], df['ma_30'],
+                 where=(df['close'] >= df['ma_30']),
+                 color='#22c55e', alpha=0.08, interpolate=True)
+ax2.fill_between(dates, df['close'], df['ma_30'],
+                 where=(df['close'] < df['ma_30']),
+                 color='#ef4444', alpha=0.08, interpolate=True)
+
+ax2.plot(dates, df['close'], color='#1e40af', linewidth=1.2, label='中证500收盘价')
+ax2.plot(dates, df['ma_30'], color='#f59e0b', linewidth=1.5,
+         linestyle='--', label='MA30 趋势线')
+
+ax2.set_title('中证500 价格趋势 & MA30 生命线', fontsize=14)
+ax2.set_ylabel('指数点位')
+ax2.legend(loc='upper left', fontsize=10)
+ax2.grid(True, alpha=0.2)
+ax2.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
+ax2.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
+fig2.autofmt_xdate(rotation=30)
+plt.tight_layout()
+st.pyplot(fig2)
+plt.close(fig2)
+
+# ── 图 3：市场广度监控 ───────────────────────────────────────────────────────
+fig3, ax3 = plt.subplots(figsize=(16, 4))
+
+for i in range(1, n):
+    if df['actual_pos'].iloc[i] == 1:
+        ax3.axvspan(df['date'].iloc[i - 1], df['date'].iloc[i],
+                    color='#3b82f6', alpha=0.06)
+
+ax3.plot(dates, df['breadth'], color='#f59e0b', linewidth=1.2,
+         label='MA20上方占比 (%)')
+ax3.axhline(y=16, color='#22c55e', linestyle='--', linewidth=1, label='冰点线 (16%)')
+ax3.axhline(y=80, color='#ef4444', linestyle='--', linewidth=1, label='过热线 (80%)')
+ax3.fill_between(dates, 0, 16, color='#22c55e', alpha=0.04)
+ax3.fill_between(dates, 80, 100, color='#ef4444', alpha=0.04)
+
+ax3.set_title('市场广度监控', fontsize=14)
+ax3.set_ylabel('广度 (%)')
+ax3.set_ylim(0, 100)
+ax3.legend(loc='upper left', fontsize=9, ncol=3)
+ax3.grid(True, alpha=0.2)
+ax3.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
+ax3.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
+fig3.autofmt_xdate(rotation=30)
+plt.tight_layout()
+st.pyplot(fig3)
+plt.close(fig3)
+
+# ── 图 4：资金成交热度 Z-Score ────────────────────────────────────────────────
+fig4, ax4 = plt.subplots(figsize=(16, 4))
+
+hz_pos = df['heat_z'].clip(lower=0)
+hz_neg = df['heat_z'].clip(upper=0)
+ax4.fill_between(dates, 0, hz_pos, color='#ef4444', alpha=0.4, label='过热 (Z>0)')
+ax4.fill_between(dates, 0, hz_neg, color='#3b82f6', alpha=0.4, label='冷清 (Z<0)')
+ax4.axhline(y=1.5, color='#ef4444', linestyle=':', linewidth=1, label='过热阈值 (1.5σ)')
+ax4.axhline(y=-1.5, color='#3b82f6', linestyle=':', linewidth=1, label='冰点阈值 (-1.5σ)')
+ax4.axhline(y=0, color='gray', linestyle='-', linewidth=0.5, alpha=0.5)
+
+ax4.set_title('资金成交热度 (Z-Score)', fontsize=14)
+ax4.set_ylabel('Z-Score (σ)')
+ax4.legend(loc='upper left', fontsize=9, ncol=4)
+ax4.grid(True, alpha=0.2)
+ax4.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
+ax4.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
+fig4.autofmt_xdate(rotation=30)
+plt.tight_layout()
+st.pyplot(fig4)
+plt.close(fig4)
+
+# ── 图 5：ETF 换手率 ─────────────────────────────────────────────────────────
+fig5, ax5 = plt.subplots(figsize=(16, 4))
+
+ax5.plot(dates, df['etf_turnover'], color='#8b5cf6', linewidth=1.0,
+         label='510500 ETF 换手率 (%)')
+ax5.axhline(y=1.0, color='#22c55e', linestyle='--', linewidth=1,
+            label='流动性下限 (1.0%)')
+ax5.fill_between(dates, 0, df['etf_turnover'],
+                 where=(df['etf_turnover'] < 1.0),
+                 color='#fbbf24', alpha=0.15)
+
+ax5.set_title('510500 ETF 换手率监控', fontsize=14)
+ax5.set_ylabel('换手率 (%)')
+ax5.legend(loc='upper left', fontsize=9)
+ax5.grid(True, alpha=0.2)
+ax5.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
+ax5.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
+fig5.autofmt_xdate(rotation=30)
+plt.tight_layout()
+st.pyplot(fig5)
+plt.close(fig5)
 
 st.divider()
 
