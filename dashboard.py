@@ -103,6 +103,46 @@ st.markdown("""
         font-size: 1.4rem; font-weight: 700; color: #111827;
     }
 
+    /* 参考提示卡片（虚拟仓位/加仓建议） */
+    .ref-tip-card {
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        color: #92400e;
+        padding: 14px 14px;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 1.05rem;
+        font-weight: 600;
+        border: 1px dashed #f59e0b;
+        margin-top: 10px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .ref-tip-exit-card {
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        color: #991b1b;
+        padding: 14px 14px;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 1.05rem;
+        font-weight: 600;
+        border: 1px dashed #ef4444;
+        margin-top: 10px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .ref-tip-desc {
+        text-align: center;
+        color: #78716c;
+        font-size: 0.78rem;
+        margin: 4px 0 0 0;
+        opacity: 0.85;
+    }
+    .ref-tip-disclaimer {
+        text-align: center;
+        color: #b45309;
+        font-size: 0.7rem;
+        margin: 2px 0 10px 0;
+        font-style: italic;
+    }
+
     /* 移动端 */
     @media (max-width: 768px) {
         .block-container { padding: 0.5rem 0.8rem !important; }
@@ -117,6 +157,9 @@ st.markdown("""
         .metric-item { padding: 12px 8px; }
         .metric-item .value { font-size: 1.1rem; }
         .metric-item .label { font-size: 0.75rem; }
+        .ref-tip-card, .ref-tip-exit-card { font-size: 0.9rem; padding: 10px 8px; }
+        .ref-tip-desc { font-size: 0.72rem; }
+        .ref-tip-disclaimer { font-size: 0.65rem; }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -165,6 +208,9 @@ def load_and_compute(end_date):
     entry_idx   = 0
     entry_high  = 0.0
     logic_states = [None] * n   # 记录每日逻辑状态
+    exit_reasons = [None] * n   # 'overheating' | 'trend_break' | 'time_stop'
+    entry_highs  = [np.nan] * n
+    entry_idxs   = [np.nan] * n
 
     for i in range(1, n):
         curr_c  = df['close'].iloc[i]
@@ -198,6 +244,7 @@ def load_and_compute(end_date):
             cond_common = (brd > 79) and (hz < 1.5)
             if cond_common:
                 signals[i] = -1
+                exit_reasons[i] = 'overheating'
                 position = 0
                 logic_state = None
             elif logic_state == 'FirstNeg':
@@ -211,13 +258,20 @@ def load_and_compute(end_date):
                     is_5d = False
                 if is_below_ma and (is_1d or is_5d):
                     signals[i] = -1
+                    exit_reasons[i] = 'trend_break' if is_1d else 'time_stop'
                     position = 0
                     logic_state = None
 
         logic_states[i] = logic_state
+        if position == 1:
+            entry_highs[i] = entry_high
+            entry_idxs[i]  = entry_idx
 
     df['signal'] = signals
     df['logic_state'] = logic_states
+    df['exit_reason'] = exit_reasons
+    df['entry_high_val'] = entry_highs
+    df['entry_idx_val'] = entry_idxs
 
     # ── T+1 执行 ──
     actual_pos = np.zeros(n, dtype=int)
@@ -252,6 +306,122 @@ def load_and_compute(end_date):
 
 df = load_and_compute(END_DATE)
 n = len(df)
+
+
+# ── 虚拟首阴仓位计算（仅供战术指令板参考提示使用）──
+def compute_virtual_firstneg(df):
+    """Composite 持仓期间，追踪虚拟 FirstNeg 仓位的生命周期。"""
+    empty = {'active': False, 'entry_date': None, 'entry_high': None,
+             'held_days': 0, 'exit_signal': None}
+    n = len(df)
+    if n < 2:
+        return empty
+    last_idx = n - 1
+
+    # 仅当前持仓中且为 Composite 逻辑时才有意义
+    if df['actual_pos'].iloc[last_idx] != 1:
+        return empty
+    if df['logic_state'].iloc[last_idx] != 'Composite':
+        return empty
+
+    # 找到当前持仓周期起点
+    scan_start = last_idx
+    while scan_start > 0 and df['actual_pos'].iloc[scan_start - 1] == 1:
+        scan_start -= 1
+
+    # 向前扫描，追踪虚拟仓位
+    v_active = False
+    v_entry_idx = 0
+    v_entry_high = 0.0
+    v_exit_signal = None
+
+    for i in range(max(scan_start, 1), n):
+        curr_c  = df['close'].iloc[i]
+        prev_c  = df['close'].iloc[i - 1]
+        ma_f    = df['ma_30'].iloc[i]
+        ma_t    = df['ma_10'].iloc[i]
+        ma_s    = df['ma_5'].iloc[i]
+        turn    = df['etf_turnover'].iloc[i]
+        prev_cg = int(df['consec_gains'].iloc[i - 1])
+        is_down = curr_c < prev_c
+
+        if df['actual_pos'].iloc[i] != 1:
+            v_active = False
+            v_exit_signal = None
+            continue
+
+        if df['logic_state'].iloc[i] != 'Composite':
+            v_active = False
+            v_exit_signal = None
+            continue
+
+        if v_active:
+            # 检查虚拟退出条件
+            is_below_ma = curr_c < ma_f
+            v_held_days = i - v_entry_idx
+
+            # 短线平仓：close < MA30 + 当日下跌
+            if is_below_ma and is_down:
+                v_exit_signal = 'trend_break'
+                v_active = False
+                continue
+
+            # 时间止损：close < MA30 + 持仓≥5天 + 未回 entry_high
+            if v_held_days >= 5 and is_below_ma:
+                closes_in_period = df['close'].iloc[v_entry_idx:i + 1]
+                if not (closes_in_period > v_entry_high).any():
+                    v_exit_signal = 'time_stop'
+                    v_active = False
+                    continue
+
+            # 安全过渡：持仓>5天无退出触发 → 静默销毁
+            if v_held_days > 5:
+                v_active = False
+                v_exit_signal = None
+                continue
+
+            # 仍存续，清除前次退出信号
+            v_exit_signal = None
+        else:
+            # 检查是否创建虚拟仓位
+            v_exit_signal = None
+            conds_met = (
+                curr_c > ma_t and       # close > MA10
+                prev_cg >= 3 and        # 昨日连涨 >= 3天
+                is_down and             # 今日首阴
+                turn > 1.0 and          # ETF 换手率 > 1%
+                curr_c > ma_s and       # close > MA5
+                curr_c > ma_f           # close > MA30
+            )
+            if conds_met:
+                v_active = True
+                v_entry_idx = i
+                v_entry_high = df['high'].iloc[i]
+                v_exit_signal = None
+
+    # 构造返回值
+    result = empty.copy()
+    if v_active:
+        result.update({
+            'active': True,
+            'entry_date': df['trade_date'].iloc[v_entry_idx],
+            'entry_high': v_entry_high,
+            'held_days': last_idx - v_entry_idx,
+            'exit_signal': None,
+        })
+    elif v_exit_signal is not None:
+        # 虚拟仓位刚在最后一天退出（v_entry_idx 已在创建时赋值，此处必然有效）
+        result.update({
+            'active': False,
+            'entry_date': df['trade_date'].iloc[v_entry_idx],
+            'entry_high': v_entry_high,
+            'held_days': last_idx - v_entry_idx,
+            'exit_signal': v_exit_signal,
+        })
+    return result
+
+
+vfn = compute_virtual_firstneg(df)
 
 # ── 统计指标 ──
 def max_drawdown(nav):
@@ -504,21 +674,7 @@ else:
     mode_text, mode_color = "🦓 震荡整理期", "#ea580c"
     mode_desc = "趋势方向不明确，价格与均线交织"
 
-# ── 操作状态判定（合并操作状态 + 建议为一个卡片）──
-if sig == 1:
-    act_text, act_color = "🚨 执行买入", "#16a34a"
-    act_desc = f"入场逻辑：{last['logic_state'] or 'N/A'}，T+1 次日开盘执行"
-elif sig == -1:
-    act_text, act_color = "🚨 执行卖出", "#dc2626"
-    act_desc = "触发退出条件，T+1 次日开盘卖出"
-elif pos == 1:
-    act_text, act_color = "💎 持股待涨", "#2563eb"
-    act_desc = f"持仓逻辑：{last['logic_state'] or 'N/A'}，未触发退出条件"
-else:
-    act_text, act_color = "🛡️ 空仓等待", "#6b7280"
-    act_desc = "未满足入场条件，耐心等待信号"
-
-# ── FirstNeg 条件扫描（提前计算供建议使用）──
+# ── FirstNeg 条件扫描（提前计算供操作状态和建议使用）──
 cond_items = [
     ("收盘 > MA10 (趋势确认)", close_val > ma10_val,
      f"收盘 {close_val:.2f} vs MA10 {ma10_val:.2f}"),
@@ -536,16 +692,85 @@ cond_items = [
 met_count  = sum(1 for _, met, _ in cond_items if met)
 total_cond = len(cond_items)
 
+# ── 操作状态判定（细粒度信号标签）──
+ref_tip = None  # 参考提示 dict: {text, desc, type}
+
+if sig == 1:
+    ls = last['logic_state']
+    if ls == 'Composite':
+        act_text, act_color = "🔥 抄底买入", "#16a34a"
+        act_desc = "Composite 左侧抄底信号触发，T+1 次日开盘执行"
+    elif ls == 'FirstNeg':
+        act_text, act_color = "⚡ 首阴买入", "#16a34a"
+        act_desc = "FirstNeg 连涨首阴低吸信号触发，T+1 次日开盘执行"
+    else:
+        act_text, act_color = "🚨 执行买入", "#16a34a"
+        act_desc = f"入场逻辑：{ls or 'N/A'}，T+1 次日开盘执行"
+elif sig == -1:
+    er = last['exit_reason']
+    if er == 'overheating':
+        act_text, act_color = "🚨 过热平仓", "#dc2626"
+        act_desc = f"广度 {breadth_val:.1f}% 超过 79% 过热阈值，heat_z {hz_val:.2f}σ 未突破放量阈值 → 量价背离退出，T+1 次日开盘卖出"
+    elif er == 'trend_break':
+        act_text, act_color = "🚨 短线平仓", "#dc2626"
+        act_desc = f"收盘 {close_val:.2f} < MA30 {ma30_val:.2f} 且当日收跌 → 趋势破位退出，T+1 次日开盘卖出"
+    elif er == 'time_stop':
+        act_text, act_color = "⏰ 时间止损", "#dc2626"
+        act_desc = "收盘跌破 MA30 且持仓满5日未收复入场高点 → 时间止损退出，T+1 次日开盘卖出"
+    else:
+        act_text, act_color = "🚨 执行卖出", "#dc2626"
+        act_desc = "触发退出条件，T+1 次日开盘卖出"
+elif pos == 1:
+    act_text, act_color = "💎 持股待涨", "#2563eb"
+    act_desc = f"持仓逻辑：{last['logic_state'] or 'N/A'}，未触发退出条件"
+    # 检查参考提示：Composite 持仓时的虚拟首阴仓位
+    if vfn['active'] and last['logic_state'] == 'Composite':
+        ref_tip = {
+            'text': "⚡ 首阴加仓（参考提示）",
+            'desc': f"Composite 持仓期间 FirstNeg 6项条件全部满足，可考虑加仓 | 虚拟入场高点: {vfn['entry_high']:.2f}",
+            'type': 'entry',
+        }
+    # vfn.exit_signal 仅在当前 Composite 持仓时才可能非 None（函数内部有前置守卫）
+    elif vfn.get('exit_signal') == 'trend_break':
+        ref_tip = {
+            'text': "🚨 首阴短线平仓（参考提示）",
+            'desc': "虚拟首阴仓位触发趋势破位退出：收盘跌破 MA30 且当日收跌",
+            'type': 'exit',
+        }
+    elif vfn.get('exit_signal') == 'time_stop':
+        ref_tip = {
+            'text': "⏰ 首阴时间止损（参考提示）",
+            'desc': f"虚拟首阴仓位触发时间止损：跌破 MA30 且持仓 {vfn['held_days']} 日未收复入场高点",
+            'type': 'exit',
+        }
+    # 检查参考提示：FirstNeg 持仓时首阴条件再次满足（无需虚拟仓位）
+    elif last['logic_state'] == 'FirstNeg' and met_count == total_cond and sig == 0:
+        ref_tip = {
+            'text': "⚡ 首阴加仓（参考提示）",
+            'desc': "FirstNeg 持仓期间首阴6项条件再次满足，可考虑加仓",
+            'type': 'entry',
+        }
+else:
+    act_text, act_color = "🛡️ 空仓观望", "#6b7280"
+    act_desc = "未满足入场条件，耐心等待信号"
+
 # ── 综合理由 & 风险计算 ──
 reasons = []
 risks   = []
 if pos == 1:
     if sig == -1:
-        reasons.append("策略已触发退出信号")
-        if breadth_val > 79 and hz_val < 1.5:
-            reasons.append(f"广度 {breadth_val:.1f}% 过热 + 资金退潮 heat_z={hz_val:.2f}σ → 通用退出")
-        if not above_ma30:
-            reasons.append("价格已跌破 MA30 趋势防线")
+        er = last['exit_reason']
+        if er == 'overheating':
+            reasons.append(f"广度 {breadth_val:.1f}% 超过 79% 过热阈值，同时 heat_z={hz_val:.2f}σ < 1.5σ 表明资金已退潮")
+            reasons.append("通用过热退出条件触发，适用于 Composite 和 FirstNeg 两种持仓逻辑")
+        elif er == 'trend_break':
+            reasons.append(f"收盘 {close_val:.2f} 跌破 MA30 趋势防线 {ma30_val:.2f}")
+            reasons.append(f"当日收跌（收盘 {close_val:.2f} < 昨收 {prev['close']:.2f}），趋势破位确认")
+        elif er == 'time_stop':
+            reasons.append(f"收盘 {close_val:.2f} 跌破 MA30 趋势防线 {ma30_val:.2f}")
+            reasons.append("持仓已满 5 个交易日且期间收盘价从未超过入场当日最高价，时间止损触发")
+        else:
+            reasons.append("策略已触发退出信号")
         risks.append("次日以开盘价执行，如隔夜有大幅波动可能产生滑点")
     else:
         if above_ma30:
@@ -558,14 +783,30 @@ if pos == 1:
             risks.append(f"价格已在 MA30 下方，若继续走弱可能触发 FirstNeg 退出条件")
         if breadth_val > 65:
             risks.append(f"广度 {breadth_val:.1f}% 偏高，关注是否接近过热卖出阈值")
+        # 参考提示上下文
+        if ref_tip is not None:
+            if ref_tip['type'] == 'entry':
+                reasons.append(f"[参考] {last['logic_state'] or ''} 持仓期间 FirstNeg 6项条件全部满足，可参考加仓")
+                risks.append("[参考] 首阴加仓为参考提示，非策略强制动作，请自行判断仓位管理")
+            elif ref_tip['type'] == 'exit':
+                reasons.append("[参考] 虚拟首阴仓位已触发退出条件，主仓位策略暂未触发卖出")
+                risks.append("[参考] 虚拟首阴退出仅供参考，实际仓位应以策略信号为准")
 else:
     if sig == 1:
-        if breadth_val < 16:
-            reasons.append(f"广度 {breadth_val:.1f}% 触及冰点 → Composite 左侧入场信号")
-        if met_count == total_cond:
+        ls = last['logic_state']
+        if ls == 'Composite':
+            reasons.append(f"广度 {breadth_val:.1f}% 触及冰点 (< 16%) → Composite 左侧抄底信号")
+            reasons.append("市场极度恐慌，历史上冰点往往对应阶段性底部区域")
+            risks.append("T+1 执行，次日以开盘价买入")
+            risks.append("底部可能有反复磨底，需做好短期波动准备")
+        elif ls == 'FirstNeg':
             reasons.append("FirstNeg 6 项条件全部满足 → 连涨后首阴低吸机会")
-        risks.append("T+1 执行，次日以开盘价买入")
-        risks.append("如为 Composite 入场，底部可能有反复，需做好短期波动准备")
+            reasons.append(f"趋势向上 (收盘 > MA10/MA5/MA30)，量能充沛 (换手率 {turn_val:.2f}%)")
+            risks.append("T+1 执行，次日以开盘价买入")
+            risks.append("首阴反弹失败概率存在，最长 5 天后可能触发时间止损")
+        else:
+            reasons.append(f"入场逻辑：{ls or 'N/A'}")
+            risks.append("T+1 执行，次日以开盘价买入")
     else:
         reasons.append("当前未产生任何入场信号")
         if breadth_val > 30:
@@ -592,6 +833,16 @@ with s2:
     st.markdown(
         f'<div class="status-card" style="background:{act_color}">{act_text}</div>'
         f'<p class="status-desc">{act_desc}</p>',
+        unsafe_allow_html=True,
+    )
+
+# ── 参考提示卡片（虚拟首阴仓位）──
+if ref_tip is not None:
+    tip_css = 'ref-tip-card' if ref_tip['type'] == 'entry' else 'ref-tip-exit-card'
+    st.markdown(
+        f'<div class="{tip_css}">{ref_tip["text"]}</div>'
+        f'<p class="ref-tip-desc">{ref_tip["desc"]}</p>'
+        f'<p class="ref-tip-disclaimer">* 参考提示仅供辅助决策，非回测策略执行指令</p>',
         unsafe_allow_html=True,
     )
 
@@ -719,10 +970,21 @@ with st.expander("D. 首阴 (FirstNeg) 入场条件扫描", expanded=True):
         st.markdown(f"- {icon} **{label}**　→ {detail}")
 
     if met_count == total_cond:
-        st.success(
-            f"🎯 全部 {total_cond} 项条件满足！若当前空仓，FirstNeg 入场信号已触发。"
-            f"该信号代表连涨后的首次回调（首阴），在多头趋势中属于典型的「强势低吸」机会。"
-        )
+        if pos == 1 and last['logic_state'] == 'Composite':
+            st.success(
+                f"🎯 全部 {total_cond} 项条件满足！当前以 Composite 逻辑持仓，"
+                f"FirstNeg 加仓窗口已打开（参考提示）。"
+            )
+        elif pos == 0:
+            st.success(
+                f"🎯 全部 {total_cond} 项条件满足！若当前空仓，FirstNeg 入场信号已触发。"
+                f"该信号代表连涨后的首次回调（首阴），在多头趋势中属于典型的「强势低吸」机会。"
+            )
+        else:
+            st.success(
+                f"🎯 全部 {total_cond} 项条件满足！"
+                f"当前已持仓（逻辑：{last['logic_state'] or 'N/A'}）。"
+            )
     else:
         missing = [label for label, met, _ in cond_items if not met]
         st.info(
