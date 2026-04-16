@@ -27,6 +27,7 @@ if not TOKEN:
     raise RuntimeError("请设置环境变量 TUSHARE_TOKEN")
 DATA_DIR     = os.path.dirname(os.path.abspath(__file__))
 STOCKS_DIR   = os.path.join(DATA_DIR, 'stocks_data')
+ARCHIVE_DIR  = os.path.join(DATA_DIR, 'stocks_archive')
 COMP_FILE    = os.path.join(DATA_DIR, 'csi500_components_schedule.csv')
 OUTPUT_FILE  = os.path.join(DATA_DIR, 'strategy_data.csv')
 
@@ -38,6 +39,49 @@ END_DATE     = datetime.today().strftime('%Y%m%d')
 
 ts.set_token(TOKEN)
 pro = ts.pro_api()
+
+
+def load_stock_parts(stock_dirs):
+    """
+    读取多个股票目录，并按 ts_code + trade_date 合并。
+
+    当同一只股票同时存在于归档目录和当前目录时：
+    - 保留两边全部历史记录
+    - 若同一 trade_date 重复，优先使用当前目录中的记录
+    """
+    code_to_paths = {}
+    for priority, stock_dir in enumerate(stock_dirs):
+        if not os.path.isdir(stock_dir):
+            continue
+        for fname in os.listdir(stock_dir):
+            if not fname.endswith('.csv'):
+                continue
+            ts_code = fname.replace('.csv', '')
+            code_to_paths.setdefault(ts_code, []).append((priority, os.path.join(stock_dir, fname)))
+
+    stock_parts = []
+    for ts_code in sorted(code_to_paths):
+        frames = []
+        for priority, path in code_to_paths[ts_code]:
+            df_s = pd.read_csv(path)
+            df_s['trade_date'] = df_s['trade_date'].astype(str).str.strip()
+            df_s['close'] = pd.to_numeric(df_s['close'], errors='coerce')
+            df_s['source_priority'] = priority
+            frames.append(df_s[['trade_date', 'close', 'source_priority']])
+
+        merged = pd.concat(frames, ignore_index=True)
+        merged = (
+            merged
+            .sort_values(['trade_date', 'source_priority'])
+            .drop_duplicates('trade_date', keep='last')
+            .sort_values('trade_date')
+            .reset_index(drop=True)
+        )
+        merged['ma20'] = merged['close'].rolling(20).mean()
+        merged['ts_code'] = ts_code
+        stock_parts.append(merged[['ts_code', 'trade_date', 'close', 'ma20']])
+
+    return stock_parts, code_to_paths
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # STEP 1：拉取中证500指数日线数据（无需复权）
@@ -75,18 +119,10 @@ comp['con_code']  = comp['con_code'].str.strip()
 asof_sorted = sorted(comp['asof_date'].unique())
 print(f"    成分股时间表：{len(comp)} 行，{len(asof_sorted)} 个取样日期")
 
-print(f"    加载 stocks_data/ 中的个股...")
-stock_parts = []
-for fname in os.listdir(STOCKS_DIR):
-    if not fname.endswith('.csv'):
-        continue
-    ts_code = fname.replace('.csv', '')
-    df_s = pd.read_csv(os.path.join(STOCKS_DIR, fname))
-    df_s['trade_date'] = df_s['trade_date'].astype(str).str.strip()
-    df_s = df_s.sort_values('trade_date').drop_duplicates('trade_date')
-    df_s['ma20']    = df_s['close'].rolling(20).mean()
-    df_s['ts_code'] = ts_code
-    stock_parts.append(df_s[['ts_code', 'trade_date', 'close', 'ma20']])
+stock_dirs = [d for d in [ARCHIVE_DIR, STOCKS_DIR] if os.path.isdir(d)]
+print(f"    加载股票目录: {', '.join(os.path.basename(d) for d in stock_dirs)}")
+stock_parts, code_to_paths = load_stock_parts(stock_dirs)
+print(f"    唯一个股文件集合: {len(code_to_paths)} 只")
 
 all_stocks = pd.concat(stock_parts, ignore_index=True)
 print(f"    合并后共 {len(all_stocks):,} 条个股日线记录")

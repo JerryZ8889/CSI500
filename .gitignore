@@ -1,5 +1,6 @@
 __pycache__/
 *.pyc
+.venv/
 .claude/
 ~$*
 
@@ -20,6 +21,7 @@ runscan.py
 策略Opus4.6.docx
 工作日志_*.docx
 generate_worklog_doc.py
+DESIGNE.md
 
 # 本地批处理（已改用 GitHub Actions）
 update_daily.bat

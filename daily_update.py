@@ -259,6 +259,33 @@ def fetch_daily_data(today_str, index_daily, status, logger):
                 index_daily = new_idx
 
 
+def is_close_above_ma20(csv_path, trade_date):
+    """
+    使用与 build_strategy_data.py 一致的口径判断某只股票在指定交易日是否收盘站上 MA20。
+
+    返回：
+      True  -> close > MA20
+      False -> close <= MA20
+      None  -> 当天记录缺失，或 MA20 尚未形成
+    """
+    df_stock = pd.read_csv(csv_path, encoding='utf-8-sig')
+    df_stock['trade_date'] = df_stock['trade_date'].astype(str).str.strip()
+    df_stock['close'] = pd.to_numeric(df_stock['close'], errors='coerce')
+    df_stock = df_stock.sort_values('trade_date').drop_duplicates('trade_date')
+    df_stock['ma20'] = df_stock['close'].rolling(20).mean()
+
+    row = df_stock[df_stock['trade_date'] == trade_date]
+    if row.empty:
+        return None
+
+    close_val = row.iloc[0]['close']
+    ma20_val = row.iloc[0]['ma20']
+    if pd.isna(close_val) or pd.isna(ma20_val):
+        return None
+
+    return bool(close_val > ma20_val)
+
+
 def update_stocks_data(today_str, stock_daily, adj_factor_df, adj_base, logger):
     """
     更新 stocks_data/ 中当前 CSI500 成分股的日线数据。
@@ -345,19 +372,13 @@ def update_stocks_data(today_str, stock_daily, adj_factor_df, adj_base, logger):
                 f.write(new_row)
             updated_count += 1
 
-        # 计算 MA20 并判断 close > MA20
+        # 使用与 build_strategy_data.py 一致的 MA20 口径，避免边界股票因浮点误差翻票。
         if os.path.exists(csv_path):
-            df_stock = pd.read_csv(csv_path, nrows=21, encoding='utf-8-sig')
-            df_stock['close'] = pd.to_numeric(df_stock['close'], errors='coerce')
-            closes = df_stock['close'].dropna().values
-
-            if len(closes) >= 20:
-                ma20 = closes[:20].mean()
+            is_above_ma20 = is_close_above_ma20(csv_path, today_str)
+            if is_above_ma20 is not None:
                 valid_count += 1
-                if closes[0] > ma20:
+                if is_above_ma20:
                     above_ma20_count += 1
-            elif len(closes) > 0:
-                valid_count += 1
 
     breadth = (above_ma20_count / valid_count * 100) if valid_count > 0 else np.nan
     logger.info(f"stocks_data 更新 {updated_count} 个文件")
@@ -616,16 +637,17 @@ def run_daily_update(today_str=None):
         # Step 2: 拉取所有 API 数据（含重试）
         data = fetch_daily_data(today_str, index_daily, status, logger)
 
-        # Step 3: 更新 stocks_data/ 并计算 breadth
+        # Step 3: 成分股调整检查
+        # 必须先于 breadth 计算执行，避免 rebalance 日当天仍按旧成分股口径计算。
+        check_component_rebalance(today_str, adj_base, logger)
+
+        # Step 4: 更新 stocks_data/ 并计算 breadth
         breadth = update_stocks_data(
             today_str, data['stock_daily'], data['adj_factor'], adj_base, logger
         )
 
-        # Step 4: 计算指标并追加 strategy_data.csv
+        # Step 5: 计算指标并追加 strategy_data.csv
         calculate_and_append_strategy_row(today_str, data, breadth, logger)
-
-        # Step 5: 成分股调整检查
-        check_component_rebalance(today_str, adj_base, logger)
 
         # 更新状态
         status['last_update_date'] = today_str
