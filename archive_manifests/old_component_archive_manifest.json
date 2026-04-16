@@ -1,0 +1,4029 @@
+{
+  "archive_dir": "stocks_archive",
+  "current_component_count": 500,
+  "generated_at": "2026-04-16T16:15:33",
+  "latest_asof": "20260201",
+  "moves": [
+    {
+      "archive_rel": "stocks_archive/000006.SZ.csv",
+      "bytes": 120932,
+      "code": "000006.SZ",
+      "sha256": "689b2442b832c74268291b2a460d172db95ef979eb013d22b3d34dbdffe4bfad",
+      "source_rel": "stocks_data/000006.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000008.SZ.csv",
+      "bytes": 105435,
+      "code": "000008.SZ",
+      "sha256": "f329b7f9f3cace0940395085de3f3a7e3699905e682215732229f294a9566018",
+      "source_rel": "stocks_data/000008.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000012.SZ.csv",
+      "bytes": 131682,
+      "code": "000012.SZ",
+      "sha256": "ff5a0f2e7b8a8506a5aaaa1121c35eb2311d887c221a9704157aaeed8d01dc39",
+      "source_rel": "stocks_data/000012.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000025.SZ.csv",
+      "bytes": 131457,
+      "code": "000025.SZ",
+      "sha256": "44be0dc7906afa86ed196759deffc7d753ab6143df0c2e9c5dbffafe77e069c0",
+      "source_rel": "stocks_data/000025.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000028.SZ.csv",
+      "bytes": 132001,
+      "code": "000028.SZ",
+      "sha256": "529910388f472a0fe287fff41135c75cf9ceb2635ee2da899f89be1d522b37ae",
+      "source_rel": "stocks_data/000028.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000031.SZ.csv",
+      "bytes": 102939,
+      "code": "000031.SZ",
+      "sha256": "0c9dbde92aea9b567dd9295b3ca180f3c434f001ccb52fa03d9139108b14f75b",
+      "source_rel": "stocks_data/000031.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000046.SZ.csv",
+      "bytes": 92975,
+      "code": "000046.SZ",
+      "sha256": "cd4c494519846982368eaf2a1f0eda7d88e3f17f84c9add18a40f95e3aadaa66",
+      "source_rel": "stocks_data/000046.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000049.SZ.csv",
+      "bytes": 131920,
+      "code": "000049.SZ",
+      "sha256": "c8f3bdf6d76723e7d0b4a32c009b3d9ef5ae1541856d93d2d39d4bc6150dcddc",
+      "source_rel": "stocks_data/000049.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000061.SZ.csv",
+      "bytes": 129507,
+      "code": "000061.SZ",
+      "sha256": "a686c7b3a8c293bc36eab44fc8ca0f2a76bd7356c2931d27fa91903f11cefe7c",
+      "source_rel": "stocks_data/000061.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000066.SZ.csv",
+      "bytes": 124751,
+      "code": "000066.SZ",
+      "sha256": "e174c1a976a0398d725cbf0392e699a2e0bf5d0337a6d6e8276ebe1ceb8ce795",
+      "source_rel": "stocks_data/000066.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000078.SZ.csv",
+      "bytes": 109726,
+      "code": "000078.SZ",
+      "sha256": "0ec6271384a2ae0e224bf4bc163e4f06dbf53e811449efba360e16ab260ca631",
+      "source_rel": "stocks_data/000078.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000089.SZ.csv",
+      "bytes": 130203,
+      "code": "000089.SZ",
+      "sha256": "eff60984103b4b388e9b36bf32c026f6f2d878651333d633a6e3b50bb43d7c5a",
+      "source_rel": "stocks_data/000089.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000090.SZ.csv",
+      "bytes": 133130,
+      "code": "000090.SZ",
+      "sha256": "fc81698ccc410ab1f33be8c517fa4cba50062ee47d037eb0b72af7841db8b01b",
+      "source_rel": "stocks_data/000090.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000156.SZ.csv",
+      "bytes": 130781,
+      "code": "000156.SZ",
+      "sha256": "241e985a75228267a7c56b36eadf23e2b046a4c59569d2c959e84298e14ee8d0",
+      "source_rel": "stocks_data/000156.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000158.SZ.csv",
+      "bytes": 104111,
+      "code": "000158.SZ",
+      "sha256": "b420d875f071ed27787bab3be8b7729458f7a0b1e56b60ecd2a0ea2d9ad599f4",
+      "source_rel": "stocks_data/000158.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000301.SZ.csv",
+      "bytes": 126212,
+      "code": "000301.SZ",
+      "sha256": "ee0a7faf37f3fd5b1397920c55ee9135f3f002a92611cc48c857b38bbd27e13d",
+      "source_rel": "stocks_data/000301.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000401.SZ.csv",
+      "bytes": 131499,
+      "code": "000401.SZ",
+      "sha256": "2a3e11720901fbb4d3dcee26fb5ca37ae3f669b305d41c99ec22b8431921a363",
+      "source_rel": "stocks_data/000401.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000402.SZ.csv",
+      "bytes": 118983,
+      "code": "000402.SZ",
+      "sha256": "93613bbcd88badfbf7cddb71957fad9325e53f1f57b9cae1d2cf071a711530a4",
+      "source_rel": "stocks_data/000402.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000403.SZ.csv",
+      "bytes": 131694,
+      "code": "000403.SZ",
+      "sha256": "d9796600449f750a91516ba80d5cabc154dc43765e81978dfeb75b63f85b731c",
+      "source_rel": "stocks_data/000403.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000418.SZ.csv",
+      "bytes": 58654,
+      "code": "000418.SZ",
+      "sha256": "955c93653dfbfe3c918e04ec3459f84cca518f06fd9675cdcaa784e05746f2e0",
+      "source_rel": "stocks_data/000418.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000488.SZ.csv",
+      "bytes": 110884,
+      "code": "000488.SZ",
+      "sha256": "097acb21cadd21440cf8b242862fe9380d696ccd7e0d850aa46424aa6a5c115d",
+      "source_rel": "stocks_data/000488.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000501.SZ.csv",
+      "bytes": 132725,
+      "code": "000501.SZ",
+      "sha256": "186358b3021f3ac297a90d8e4791bb3d06ba7fea350ae5b551df4fb2ff2b4873",
+      "source_rel": "stocks_data/000501.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000536.SZ.csv",
+      "bytes": 97620,
+      "code": "000536.SZ",
+      "sha256": "9426c5531e64d29f304781ffe4322055466c3dd3eb6a87826beb2a4254b56d79",
+      "source_rel": "stocks_data/000536.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000540.SZ.csv",
+      "bytes": 87959,
+      "code": "000540.SZ",
+      "sha256": "d499172045529d42d5dae685c04032466158d00d5097256f729fdd564ce4aab8",
+      "source_rel": "stocks_data/000540.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000541.SZ.csv",
+      "bytes": 129756,
+      "code": "000541.SZ",
+      "sha256": "dacd89afdce90f421f9eb74a53810ce568797a52893b5901f5881f40f344448a",
+      "source_rel": "stocks_data/000541.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000543.SZ.csv",
+      "bytes": 132268,
+      "code": "000543.SZ",
+      "sha256": "198c5657a2f5c483c935c0e0f7908e0ba5321e49a2708a781cc0b02faec94067",
+      "source_rel": "stocks_data/000543.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000547.SZ.csv",
+      "bytes": 123981,
+      "code": "000547.SZ",
+      "sha256": "50446c89d17b7c501fa40415048a0be9a5962ddf84f1c184779758beff834df2",
+      "source_rel": "stocks_data/000547.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000552.SZ.csv",
+      "bytes": 132460,
+      "code": "000552.SZ",
+      "sha256": "3d30b70f0b79e7c4bd1b03d87db5da87c4403b9c877a24670b0254d30e31c832",
+      "source_rel": "stocks_data/000552.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000553.SZ.csv",
+      "bytes": 116056,
+      "code": "000553.SZ",
+      "sha256": "b02a5aee4f0a6b4c4a2fc092bb34f311d229db185dfad5d37c55a6e39cb3ddf5",
+      "source_rel": "stocks_data/000553.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000564.SZ.csv",
+      "bytes": 113245,
+      "code": "000564.SZ",
+      "sha256": "8a7c0dee780053197951c767c8ffde0c696ffe6dce20168be84a1232fc793c8c",
+      "source_rel": "stocks_data/000564.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000581.SZ.csv",
+      "bytes": 134993,
+      "code": "000581.SZ",
+      "sha256": "af49b9d5dfc6920b76f899963a92351c58f216235e8ae785f119ca9f361e783d",
+      "source_rel": "stocks_data/000581.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000587.SZ.csv",
+      "bytes": 82817,
+      "code": "000587.SZ",
+      "sha256": "7a315adad0768b7b04d838f31c67ef73af08e3485b3c91a4900fa886b9cae977",
+      "source_rel": "stocks_data/000587.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000596.SZ.csv",
+      "bytes": 136295,
+      "code": "000596.SZ",
+      "sha256": "82852964ce4c4730d1ecf13535c5d9c071a59be3c1ffd3ec68b84dfaac2d5b94",
+      "source_rel": "stocks_data/000596.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000600.SZ.csv",
+      "bytes": 133855,
+      "code": "000600.SZ",
+      "sha256": "ec85e65c62bb774a5601d4f8f89a98d84a5c557c4a5939d952580cb995806569",
+      "source_rel": "stocks_data/000600.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000612.SZ.csv",
+      "bytes": 130759,
+      "code": "000612.SZ",
+      "sha256": "7e76229f550ca6d0dab9723a61219b813ff6d0be9aadc4bcce6d44fad75ed9aa",
+      "source_rel": "stocks_data/000612.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000630.SZ.csv",
+      "bytes": 137319,
+      "code": "000630.SZ",
+      "sha256": "241446c48d12f0b6ad3ebe7fc4e4583d09bd28472b105bb438971e56de4c33fd",
+      "source_rel": "stocks_data/000630.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000636.SZ.csv",
+      "bytes": 134994,
+      "code": "000636.SZ",
+      "sha256": "8ab39c8547c696ab260c2d3e1ecf022ba2047fae52d4a0c4cc4cfe4af47a8bbe",
+      "source_rel": "stocks_data/000636.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000656.SZ.csv",
+      "bytes": 108852,
+      "code": "000656.SZ",
+      "sha256": "4ca46c8ed04697f3ca391e91d9e7c28dc5f7996e68b965de81dfef59a1598649",
+      "source_rel": "stocks_data/000656.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000667.SZ.csv",
+      "bytes": 85367,
+      "code": "000667.SZ",
+      "sha256": "4199f38a33a95fc773f8358ba95a79598923af6ca0ec4d62df48873b857272dc",
+      "source_rel": "stocks_data/000667.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000671.SZ.csv",
+      "bytes": 94227,
+      "code": "000671.SZ",
+      "sha256": "04023010ae9a4ddc6d6b0dea7a4598fe91d92ac3d9b18e556359b13ac6fd8305",
+      "source_rel": "stocks_data/000671.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000681.SZ.csv",
+      "bytes": 135990,
+      "code": "000681.SZ",
+      "sha256": "0026abf1e6a8f28fd0b81b56c35028011f19600ca29eed2943127125cf063950",
+      "source_rel": "stocks_data/000681.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000685.SZ.csv",
+      "bytes": 129599,
+      "code": "000685.SZ",
+      "sha256": "6dd4c07ce52f7203471680270139ca0da0297fffb31d8578a431d8995f98f458",
+      "source_rel": "stocks_data/000685.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000686.SZ.csv",
+      "bytes": 133575,
+      "code": "000686.SZ",
+      "sha256": "857610f8d06b35975d69901f6242af6c3f628d63cf3e868b789306807ac41d25",
+      "source_rel": "stocks_data/000686.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000690.SZ.csv",
+      "bytes": 132595,
+      "code": "000690.SZ",
+      "sha256": "c64edc91fc40a7e37f0ddf181d5a29b2631586047bac7728303910513409186c",
+      "source_rel": "stocks_data/000690.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000712.SZ.csv",
+      "bytes": 122820,
+      "code": "000712.SZ",
+      "sha256": "a383a22ab7dfdac5c6d15b0c7fafde139eada64b6f1fc382d89da0d8982c6f04",
+      "source_rel": "stocks_data/000712.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000717.SZ.csv",
+      "bytes": 119378,
+      "code": "000717.SZ",
+      "sha256": "32a488ec7221fee138c30b7d60da98a3391150ac2eb651bc00efefa65e2193fb",
+      "source_rel": "stocks_data/000717.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000718.SZ.csv",
+      "bytes": 134842,
+      "code": "000718.SZ",
+      "sha256": "89910fe98c35aba4f50b881e1281a88487b71bd0fddeb3f75b89f0bcd9312d56",
+      "source_rel": "stocks_data/000718.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000727.SZ.csv",
+      "bytes": 99513,
+      "code": "000727.SZ",
+      "sha256": "aedd3976ea18173e53d1dc15b68f48c7fc060710733c171ff282be448f681fbb",
+      "source_rel": "stocks_data/000727.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000732.SZ.csv",
+      "bytes": 86672,
+      "code": "000732.SZ",
+      "sha256": "7e6cf1bfae3f0771119617e3af1f2b9f9a10e0cd620c8a41339384ce19fe3796",
+      "source_rel": "stocks_data/000732.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000758.SZ.csv",
+      "bytes": 131457,
+      "code": "000758.SZ",
+      "sha256": "cad4619f2906ad27e56a6da6405ac4349564eab1e8d9ed09ecd43bc80ec94783",
+      "source_rel": "stocks_data/000758.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000761.SZ.csv",
+      "bytes": 116102,
+      "code": "000761.SZ",
+      "sha256": "916419d41601c7dccdfaab223f3287a95ec4031be5e0c7810748423d4905337e",
+      "source_rel": "stocks_data/000761.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000766.SZ.csv",
+      "bytes": 94938,
+      "code": "000766.SZ",
+      "sha256": "a160d5d02fd42c4b052fe7c33076300d2211b07abae8666c5a45d4e1813ddb75",
+      "source_rel": "stocks_data/000766.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000778.SZ.csv",
+      "bytes": 132776,
+      "code": "000778.SZ",
+      "sha256": "4d719d07a58c72d42834cb98b6946c5d91dd580b58665932716ec1dc427846cb",
+      "source_rel": "stocks_data/000778.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000799.SZ.csv",
+      "bytes": 133886,
+      "code": "000799.SZ",
+      "sha256": "b34a092fd6688c8c1721ec813ae2957adaade28d3e9fb40fcb40217a2f96c825",
+      "source_rel": "stocks_data/000799.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000800.SZ.csv",
+      "bytes": 131264,
+      "code": "000800.SZ",
+      "sha256": "08b2fce3149ddc4d517e9ffc2cd78e238393b0cbf86e888929d208b4ddd138e4",
+      "source_rel": "stocks_data/000800.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000807.SZ.csv",
+      "bytes": 136599,
+      "code": "000807.SZ",
+      "sha256": "73c0b6c50d3551832149856c53648ce87bf49d361679876b5f85dfd08c45366b",
+      "source_rel": "stocks_data/000807.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000813.SZ.csv",
+      "bytes": 105116,
+      "code": "000813.SZ",
+      "sha256": "9ba6b5ea2ac9dfd11e80dca9d68355be829f6df87e3fcd743998fc7afa630bb5",
+      "source_rel": "stocks_data/000813.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000818.SZ.csv",
+      "bytes": 126502,
+      "code": "000818.SZ",
+      "sha256": "38eb490aa77f1f44bf51d487a8a3a00a302a0cbe8841bd3604ab3e1aa7d5151a",
+      "source_rel": "stocks_data/000818.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000826.SZ.csv",
+      "bytes": 94233,
+      "code": "000826.SZ",
+      "sha256": "db1a17bbd1a05ea0a9367fce799508589dd248d128d35dff960cf2d365452d8c",
+      "source_rel": "stocks_data/000826.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000829.SZ.csv",
+      "bytes": 132026,
+      "code": "000829.SZ",
+      "sha256": "092aac26a123c4968e38df67f0ae9521dc4153116dda8dba2f767fc51959beae",
+      "source_rel": "stocks_data/000829.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000848.SZ.csv",
+      "bytes": 129785,
+      "code": "000848.SZ",
+      "sha256": "70efb7c5918ab1086992fd28bd09be8108968078771fb2278b779469f1c59d68",
+      "source_rel": "stocks_data/000848.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000860.SZ.csv",
+      "bytes": 131525,
+      "code": "000860.SZ",
+      "sha256": "e3d01b3b1b862104cdf47a168c069e510e99e0d865128776ad81189612a133c5",
+      "source_rel": "stocks_data/000860.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000869.SZ.csv",
+      "bytes": 130324,
+      "code": "000869.SZ",
+      "sha256": "42c2068f7050dfa98676455b12166a108d90b86bf48fb054838979502441e150",
+      "source_rel": "stocks_data/000869.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000877.SZ.csv",
+      "bytes": 125999,
+      "code": "000877.SZ",
+      "sha256": "e4d928acfbb69cef53e42a6bcbb5309f5d541bee6eb61a0e9ccc03868bb19722",
+      "source_rel": "stocks_data/000877.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000926.SZ.csv",
+      "bytes": 124821,
+      "code": "000926.SZ",
+      "sha256": "b4b8710792ee435f1797ab4bb02100ee4459300deb3d039772cd40b723107885",
+      "source_rel": "stocks_data/000926.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000930.SZ.csv",
+      "bytes": 121467,
+      "code": "000930.SZ",
+      "sha256": "4742e06ccb1f8e1a81d61bfd24bd517ae08d9b3a00296cd62b824e29ebb84eef",
+      "source_rel": "stocks_data/000930.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000961.SZ.csv",
+      "bytes": 99685,
+      "code": "000961.SZ",
+      "sha256": "c108d8952fb0c2a6773fe827b48bd4cd083aa1f37d37aff2f4e16b160c05f83a",
+      "source_rel": "stocks_data/000961.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000969.SZ.csv",
+      "bytes": 131779,
+      "code": "000969.SZ",
+      "sha256": "9f4abed61ae1079d582013c0c180cb7c3417bcfc3c88744bc7f45289c33bffc1",
+      "source_rel": "stocks_data/000969.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000970.SZ.csv",
+      "bytes": 132411,
+      "code": "000970.SZ",
+      "sha256": "7babc423cd5cb579c16234adad8074c0c3847802650dacafda7a57b460da5010",
+      "source_rel": "stocks_data/000970.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000975.SZ.csv",
+      "bytes": 132721,
+      "code": "000975.SZ",
+      "sha256": "680f60ac0b8b654887306ae96eb72e76ae4c898991efee0a16e24a7843050508",
+      "source_rel": "stocks_data/000975.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000980.SZ.csv",
+      "bytes": 97161,
+      "code": "000980.SZ",
+      "sha256": "cc6153edbff543ec75fe25307b8d8f9578d3638e56bba49b0053ba83db51c6f9",
+      "source_rel": "stocks_data/000980.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000983.SZ.csv",
+      "bytes": 135071,
+      "code": "000983.SZ",
+      "sha256": "08e2e7e0ae6d83116ffcfa978f16de084a58bb5c78b4e29d8ef3c341c2db4dfe",
+      "source_rel": "stocks_data/000983.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000988.SZ.csv",
+      "bytes": 134614,
+      "code": "000988.SZ",
+      "sha256": "1e29e313528e89bcc9a3b827d69a752ca7f865e497575860e814c7e76e0b26df",
+      "source_rel": "stocks_data/000988.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000990.SZ.csv",
+      "bytes": 131132,
+      "code": "000990.SZ",
+      "sha256": "f30c8c4593f4e38a350a31beef6b565ecfd9244f4c0b5ed3a287852f85bed4d5",
+      "source_rel": "stocks_data/000990.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000998.SZ.csv",
+      "bytes": 134038,
+      "code": "000998.SZ",
+      "sha256": "67a24ee7752422fa2d0e283067578d49cd2f46e9a32484d46172b27058e35cc2",
+      "source_rel": "stocks_data/000998.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/000999.SZ.csv",
+      "bytes": 134607,
+      "code": "000999.SZ",
+      "sha256": "88fe6a527965501757788e840edfac74b5d278f731750feb205989f48b79fce5",
+      "source_rel": "stocks_data/000999.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/001203.SZ.csv",
+      "bytes": 123780,
+      "code": "001203.SZ",
+      "sha256": "3565682d8e58b6830ffa33195a683c3ffab78f7982cb3cd975c4dc2a16cba536",
+      "source_rel": "stocks_data/001203.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/001227.SZ.csv",
+      "bytes": 128091,
+      "code": "001227.SZ",
+      "sha256": "b7b918dee6b4d71f88d26c746391ad73197bcfa95abd267284d02c2392382ee5",
+      "source_rel": "stocks_data/001227.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/001872.SZ.csv",
+      "bytes": 130950,
+      "code": "001872.SZ",
+      "sha256": "17de3075cf8497cd550a2f9fdd3c01b2d7985b0f2969227bec812fa6ade271cb",
+      "source_rel": "stocks_data/001872.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/001914.SZ.csv",
+      "bytes": 132321,
+      "code": "001914.SZ",
+      "sha256": "ce855044b2f355983b5e69c3b9226d6a2c41e6f8e2637231bde9f5c651027960",
+      "source_rel": "stocks_data/001914.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/001965.SZ.csv",
+      "bytes": 130596,
+      "code": "001965.SZ",
+      "sha256": "6f37bc2e6d5333de35a2c7a31723299599ca07a76d3ffc9e4fa72a298347327d",
+      "source_rel": "stocks_data/001965.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002002.SZ.csv",
+      "bytes": 98871,
+      "code": "002002.SZ",
+      "sha256": "e2c90edfbd03b0bdae613455327d7e7c85e2ae0fe5710565e36a3ade58dd78c5",
+      "source_rel": "stocks_data/002002.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002004.SZ.csv",
+      "bytes": 132329,
+      "code": "002004.SZ",
+      "sha256": "ad84af726d0652a410cc9f58b833b652e19ce320dade13bfade83b39f6d78cad",
+      "source_rel": "stocks_data/002004.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002010.SZ.csv",
+      "bytes": 132797,
+      "code": "002010.SZ",
+      "sha256": "e5c148368adce0a235b15c7684fda16419e2ab490cae5df6860d9724dc9a7be1",
+      "source_rel": "stocks_data/002010.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002013.SZ.csv",
+      "bytes": 98096,
+      "code": "002013.SZ",
+      "sha256": "0c00a066cccacd1e782b7d0df07e866b2b52f96fd83b8f414e817b7b4ed9d02e",
+      "source_rel": "stocks_data/002013.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002019.SZ.csv",
+      "bytes": 132782,
+      "code": "002019.SZ",
+      "sha256": "620f2f2f5265f1364e1eb5e879639f3922b47080cd2a43ec34aaebfa268b07ec",
+      "source_rel": "stocks_data/002019.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002028.SZ.csv",
+      "bytes": 132490,
+      "code": "002028.SZ",
+      "sha256": "d2cfaf6877c59d05c5978fd3d712564eb85fe6b13da88ee9d373660f26e83828",
+      "source_rel": "stocks_data/002028.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002030.SZ.csv",
+      "bytes": 126560,
+      "code": "002030.SZ",
+      "sha256": "f0cc42ffb16cbf4c3a88564d2ca3adfad5e11d44ab31e17883de3a744bce4139",
+      "source_rel": "stocks_data/002030.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002038.SZ.csv",
+      "bytes": 131966,
+      "code": "002038.SZ",
+      "sha256": "2ed94cf9e41467057e222a1f50713bc5d94b4807ee0e9dc5059b983150cc7d40",
+      "source_rel": "stocks_data/002038.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002041.SZ.csv",
+      "bytes": 132030,
+      "code": "002041.SZ",
+      "sha256": "587739814c9016d121c46016ee7fa90bf2283dc3e26c8a566396f49183aee355",
+      "source_rel": "stocks_data/002041.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002048.SZ.csv",
+      "bytes": 133198,
+      "code": "002048.SZ",
+      "sha256": "c6be051a5e6fc374f57dbc5dd4018c220ac072fa38835f3cb7592a2b108d773a",
+      "source_rel": "stocks_data/002048.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002049.SZ.csv",
+      "bytes": 133559,
+      "code": "002049.SZ",
+      "sha256": "5def84c0d31b4940aa069143a62174628af1179d62726860b78df8733f4e8493",
+      "source_rel": "stocks_data/002049.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002051.SZ.csv",
+      "bytes": 130411,
+      "code": "002051.SZ",
+      "sha256": "f4da120a1109cb91e79042414e19681363a1fc5e531a2eec555858ed6443e96f",
+      "source_rel": "stocks_data/002051.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002074.SZ.csv",
+      "bytes": 135030,
+      "code": "002074.SZ",
+      "sha256": "e1e14014c50354060d02f57846d3d407b0b7b385457b5eca871ff7ce2f25109d",
+      "source_rel": "stocks_data/002074.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002075.SZ.csv",
+      "bytes": 134454,
+      "code": "002075.SZ",
+      "sha256": "f18a7b4f26e15cf239755bc591ed03cb9bc7662b3a8f4646458010b00d34306b",
+      "source_rel": "stocks_data/002075.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002081.SZ.csv",
+      "bytes": 130316,
+      "code": "002081.SZ",
+      "sha256": "84e04476e7a8b4cf6a4336bfa3e1926225c44f54dc8f4ecfbd07471f2ee9c645",
+      "source_rel": "stocks_data/002081.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002092.SZ.csv",
+      "bytes": 120402,
+      "code": "002092.SZ",
+      "sha256": "7978d42a8e554a3d1c3e379bc8cbb5cda68396e69873006ee45fa3445c9dc6be",
+      "source_rel": "stocks_data/002092.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002093.SZ.csv",
+      "bytes": 132912,
+      "code": "002093.SZ",
+      "sha256": "184811804a72ba5e5715e4134486f496420cba202b45ce599022c3e345d84dff",
+      "source_rel": "stocks_data/002093.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002110.SZ.csv",
+      "bytes": 119953,
+      "code": "002110.SZ",
+      "sha256": "2e50a36ad599001a23bef3ffb6b6b442c2a4f67a9219fbe9285c5d36b668f59c",
+      "source_rel": "stocks_data/002110.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002118.SZ.csv",
+      "bytes": 85632,
+      "code": "002118.SZ",
+      "sha256": "7869789d509e6efc36a99eb7e47bdb6e4ee93c2d00c08b9afc5caf804b3ac943",
+      "source_rel": "stocks_data/002118.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002124.SZ.csv",
+      "bytes": 106080,
+      "code": "002124.SZ",
+      "sha256": "c563a53bb1ed2504256bbf73358fec511c7e71fae35bb0efb24ae5b273e6390d",
+      "source_rel": "stocks_data/002124.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002127.SZ.csv",
+      "bytes": 133404,
+      "code": "002127.SZ",
+      "sha256": "63978b736f769a90f18a465cb4f05f8634a2606933f8af4f172435440ecdeb95",
+      "source_rel": "stocks_data/002127.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002129.SZ.csv",
+      "bytes": 129110,
+      "code": "002129.SZ",
+      "sha256": "e5fdfe4dd8c0156c3fbbc5a76bc000a3ba28c4522d3442ab321b58fb9c09e4ef",
+      "source_rel": "stocks_data/002129.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002146.SZ.csv",
+      "bytes": 112465,
+      "code": "002146.SZ",
+      "sha256": "bb8384a91f3377ea2418cc74eab3030aeeb9eadc1625c011b974ed5a9762ca6a",
+      "source_rel": "stocks_data/002146.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002147.SZ.csv",
+      "bytes": 78369,
+      "code": "002147.SZ",
+      "sha256": "2bb8be57228eb546a2002a4b10877e8d55b7a99e97cd1212e261af378e3fa56a",
+      "source_rel": "stocks_data/002147.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002174.SZ.csv",
+      "bytes": 129223,
+      "code": "002174.SZ",
+      "sha256": "bc06913ce5b0b8071848af133aee1a7d6bcaedf1ad30e5bb4547a0a6bbe855b0",
+      "source_rel": "stocks_data/002174.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002176.SZ.csv",
+      "bytes": 97550,
+      "code": "002176.SZ",
+      "sha256": "21ab14b0d659f66a2a43ba56d1a20c69e5f5f4cd9cd093d711856077a9b72aaa",
+      "source_rel": "stocks_data/002176.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002180.SZ.csv",
+      "bytes": 122548,
+      "code": "002180.SZ",
+      "sha256": "c35cedfc8286ca733b632e369c912c89be05bb04cc103a7e01e013eb986b6925",
+      "source_rel": "stocks_data/002180.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002183.SZ.csv",
+      "bytes": 131868,
+      "code": "002183.SZ",
+      "sha256": "a3f98898931911f33d610b89c309abb2c43b55b5c9e6ff24f38358a7237d2b1e",
+      "source_rel": "stocks_data/002183.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002191.SZ.csv",
+      "bytes": 125851,
+      "code": "002191.SZ",
+      "sha256": "11c8e107b044430855573c3dec1abc6df0283e2a3e992386b87383c781dc1eac",
+      "source_rel": "stocks_data/002191.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002192.SZ.csv",
+      "bytes": 132884,
+      "code": "002192.SZ",
+      "sha256": "15dc9b5738f31ac3152e2b869b97fd8f7a20a5c226e0563e26b6bdd49fe43cd0",
+      "source_rel": "stocks_data/002192.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002212.SZ.csv",
+      "bytes": 132652,
+      "code": "002212.SZ",
+      "sha256": "6869bd255207645d1778e6394c414327295a425a0a8b6b0edc90d389dd13622d",
+      "source_rel": "stocks_data/002212.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002217.SZ.csv",
+      "bytes": 109224,
+      "code": "002217.SZ",
+      "sha256": "8e58820e8d3c9518a16e97b93ef2de8d50f8fa83cd6e4a79162eeeaf1f2af059",
+      "source_rel": "stocks_data/002217.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002221.SZ.csv",
+      "bytes": 117915,
+      "code": "002221.SZ",
+      "sha256": "e0f431f14940428d67eae9b4d42a069a76a6d7112a8871d8b813296725ebae09",
+      "source_rel": "stocks_data/002221.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002233.SZ.csv",
+      "bytes": 129466,
+      "code": "002233.SZ",
+      "sha256": "e112f60df41be33ff7d4824379b6d1b9d6b9778ef89c4b261d5bbb4904d6f281",
+      "source_rel": "stocks_data/002233.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002240.SZ.csv",
+      "bytes": 128112,
+      "code": "002240.SZ",
+      "sha256": "fa20b93d0fa459b983a13d5e8f7be4fc2a5e1b7c41935094eeb1b1a1f607b81c",
+      "source_rel": "stocks_data/002240.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002242.SZ.csv",
+      "bytes": 130528,
+      "code": "002242.SZ",
+      "sha256": "8486965270c3d4c67c3200ae72224f9b4533ff28e65c9f8bb877ce7d54bcba74",
+      "source_rel": "stocks_data/002242.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002249.SZ.csv",
+      "bytes": 134461,
+      "code": "002249.SZ",
+      "sha256": "d3510bb62c2a8e37b066c0cdaed3863e57054fd066157ab914bffca62142fb8f",
+      "source_rel": "stocks_data/002249.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002250.SZ.csv",
+      "bytes": 132702,
+      "code": "002250.SZ",
+      "sha256": "63ba3c3ef462b6a247d4752d42e0b837646d52cb78df34531311008596135857",
+      "source_rel": "stocks_data/002250.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002251.SZ.csv",
+      "bytes": 119195,
+      "code": "002251.SZ",
+      "sha256": "22230fbde32a4a343f466f14c404273d8779f4be4516fb6e09fd302ce62a9993",
+      "source_rel": "stocks_data/002251.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002254.SZ.csv",
+      "bytes": 131463,
+      "code": "002254.SZ",
+      "sha256": "3ffe74d04d9eba8e84f2419783eb7e16594b081bf6defdde6d827c6da14ce60c",
+      "source_rel": "stocks_data/002254.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002268.SZ.csv",
+      "bytes": 133535,
+      "code": "002268.SZ",
+      "sha256": "876f97b42adffe3ff96fc7de2f7f295c3f2d507a7eac5955e5b7f6546042c9da",
+      "source_rel": "stocks_data/002268.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002276.SZ.csv",
+      "bytes": 131007,
+      "code": "002276.SZ",
+      "sha256": "d6a3d47739fb3491114594f1f524a574076e2324c16288602b14281bd2a0e723",
+      "source_rel": "stocks_data/002276.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002277.SZ.csv",
+      "bytes": 126373,
+      "code": "002277.SZ",
+      "sha256": "6365b971b4351d05bb006fec9858189c293adda94b19ab6d487bd49ab0ce6dd4",
+      "source_rel": "stocks_data/002277.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002280.SZ.csv",
+      "bytes": 92138,
+      "code": "002280.SZ",
+      "sha256": "71dc9b4dbf18426f6ba6284925256b7a3184ae1a458eac3d0874383a0e24dcb1",
+      "source_rel": "stocks_data/002280.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002285.SZ.csv",
+      "bytes": 107429,
+      "code": "002285.SZ",
+      "sha256": "e29140bc91691047228abdb2d8b4260735c599cc1942a2f23ab3300af98b6865",
+      "source_rel": "stocks_data/002285.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002302.SZ.csv",
+      "bytes": 130406,
+      "code": "002302.SZ",
+      "sha256": "82081bb6cd3173a491fcb04cf3521db4da18815841e40a19188b8512b45c66cc",
+      "source_rel": "stocks_data/002302.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002308.SZ.csv",
+      "bytes": 89639,
+      "code": "002308.SZ",
+      "sha256": "a8d6a6ff21f8b275e2915b843549d0da413cc1fded49fd7941a31b01ec3a0457",
+      "source_rel": "stocks_data/002308.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002317.SZ.csv",
+      "bytes": 133229,
+      "code": "002317.SZ",
+      "sha256": "1b88db08acfc615d78ab9515f24bb19c4449f700fc131a5dcefe34bd3b5fa92a",
+      "source_rel": "stocks_data/002317.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002326.SZ.csv",
+      "bytes": 122481,
+      "code": "002326.SZ",
+      "sha256": "76e3d1a57ab81c8adcad2e9b45efd1fd5a699f184e7e8c0580471015e13809ee",
+      "source_rel": "stocks_data/002326.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002332.SZ.csv",
+      "bytes": 133864,
+      "code": "002332.SZ",
+      "sha256": "6a965a62797b64277b38beacfb81572b957cc1de4679ce0ba8e4435ed48c92ff",
+      "source_rel": "stocks_data/002332.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002344.SZ.csv",
+      "bytes": 130286,
+      "code": "002344.SZ",
+      "sha256": "9a867e603aec4e966ef924f8e1f2fbad4b3994b17dae00e3d40619ad2cbd966b",
+      "source_rel": "stocks_data/002344.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002345.SZ.csv",
+      "bytes": 132554,
+      "code": "002345.SZ",
+      "sha256": "c2f44d6e5ea9cf99829469c1b5bc462e0bc3d17bce1b175596eb41fdb7d95cf7",
+      "source_rel": "stocks_data/002345.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002354.SZ.csv",
+      "bytes": 102437,
+      "code": "002354.SZ",
+      "sha256": "0bc6c938087a42bc8d4e328ce9db1f1c526e8187cf46768f51f5775ee2c0463e",
+      "source_rel": "stocks_data/002354.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002358.SZ.csv",
+      "bytes": 130402,
+      "code": "002358.SZ",
+      "sha256": "3d41e972cc469449efff78f093093b7887e40f2a7263bd302acd5055b6fd13dd",
+      "source_rel": "stocks_data/002358.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002359.SZ.csv",
+      "bytes": 64309,
+      "code": "002359.SZ",
+      "sha256": "f1cd8b65bb2bd03938681ec35f7d87a84d226d99a37efbf183b1a0142e7ba6a9",
+      "source_rel": "stocks_data/002359.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002366.SZ.csv",
+      "bytes": 102545,
+      "code": "002366.SZ",
+      "sha256": "48b595f12027e6a4348baaa92eea840ebb024263cfb0a4aeff20ac7e3e5250fa",
+      "source_rel": "stocks_data/002366.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002368.SZ.csv",
+      "bytes": 134505,
+      "code": "002368.SZ",
+      "sha256": "6a6daeb13cf0c6bd5a56b8b376eb3dc56214a6d8081d6ebbf75e05c6856f4c0e",
+      "source_rel": "stocks_data/002368.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002371.SZ.csv",
+      "bytes": 134843,
+      "code": "002371.SZ",
+      "sha256": "00e6b48684b158b999d2b5d1c2d6c5e8bd5ae3ff2881abef035ec2cc2c86dca6",
+      "source_rel": "stocks_data/002371.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002373.SZ.csv",
+      "bytes": 136825,
+      "code": "002373.SZ",
+      "sha256": "0ec008d0da3ce9566a53adc0e1a110f09441d43e5eaca1f0a514e6b4a43a8447",
+      "source_rel": "stocks_data/002373.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002375.SZ.csv",
+      "bytes": 130119,
+      "code": "002375.SZ",
+      "sha256": "a03f8c949a1943bf13efd10df3eb36030624c6f08e49322a91d3c6720d1747c6",
+      "source_rel": "stocks_data/002375.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002382.SZ.csv",
+      "bytes": 119081,
+      "code": "002382.SZ",
+      "sha256": "6de1dbab505901ae39f4393bb84e60075010fb117d994f3370200f36b7d37056",
+      "source_rel": "stocks_data/002382.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002384.SZ.csv",
+      "bytes": 134649,
+      "code": "002384.SZ",
+      "sha256": "e2ecf450faaea61f6d39d70ed3c63dd4d852a0ce87bd1dbfbb397e0efed73e1f",
+      "source_rel": "stocks_data/002384.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002387.SZ.csv",
+      "bytes": 99503,
+      "code": "002387.SZ",
+      "sha256": "7ab922084056236ccaff40de1a605e3f12b4c7dd2c6dba68f7a9c0b2b8a50968",
+      "source_rel": "stocks_data/002387.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002390.SZ.csv",
+      "bytes": 133238,
+      "code": "002390.SZ",
+      "sha256": "62653d22b8ba419c71da623831f2526ee32807589bdada21fb53c191f3c66153",
+      "source_rel": "stocks_data/002390.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002396.SZ.csv",
+      "bytes": 133124,
+      "code": "002396.SZ",
+      "sha256": "09026677dc882f6a53959deb16b641da3376671a3fcf849310fb5f625a0a6a11",
+      "source_rel": "stocks_data/002396.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002399.SZ.csv",
+      "bytes": 131290,
+      "code": "002399.SZ",
+      "sha256": "7c9aac6ae99b26364ded6d8dd9e506962285325f49b318ea516c6b5a47cadbc6",
+      "source_rel": "stocks_data/002399.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002400.SZ.csv",
+      "bytes": 136080,
+      "code": "002400.SZ",
+      "sha256": "69c53725cf82bb6dfa93cbb535ce9fd156dfe68254ef4374521baf628ef1c45f",
+      "source_rel": "stocks_data/002400.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002405.SZ.csv",
+      "bytes": 121412,
+      "code": "002405.SZ",
+      "sha256": "519225e9ffacf61c02f66c312237461483c0afb0ad7645c13f0936eca6b2d2d7",
+      "source_rel": "stocks_data/002405.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002407.SZ.csv",
+      "bytes": 134156,
+      "code": "002407.SZ",
+      "sha256": "3c57a0d8d52d131d92a91bf709606cd9d2a0a0673b714ff3d92a9e88e74ab93e",
+      "source_rel": "stocks_data/002407.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002408.SZ.csv",
+      "bytes": 130087,
+      "code": "002408.SZ",
+      "sha256": "328204adba163888c7ea94138d26eb3d39af788ed6ce48a6665a654632fa3443",
+      "source_rel": "stocks_data/002408.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002416.SZ.csv",
+      "bytes": 130833,
+      "code": "002416.SZ",
+      "sha256": "ed4910bd70c0fd2457cc2c4e6c756c91f2f8ca146b8cffa9448d10cde72ebed9",
+      "source_rel": "stocks_data/002416.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002419.SZ.csv",
+      "bytes": 129240,
+      "code": "002419.SZ",
+      "sha256": "e029af62f423d25148f964498f0c883308dfe582820008d234bc585ee4a4db46",
+      "source_rel": "stocks_data/002419.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002422.SZ.csv",
+      "bytes": 135437,
+      "code": "002422.SZ",
+      "sha256": "d88f86edf91be3212796cf9ea43ed0dd81f7e79f49b510ccd6cbe8df34a96c26",
+      "source_rel": "stocks_data/002422.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002424.SZ.csv",
+      "bytes": 109201,
+      "code": "002424.SZ",
+      "sha256": "493ddeeaa3c0a5a793c36dfd9a8f36a16ee7a5756052688ecdc07ad08d26e13e",
+      "source_rel": "stocks_data/002424.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002426.SZ.csv",
+      "bytes": 101649,
+      "code": "002426.SZ",
+      "sha256": "af58009e2c2af45cebbb6682e21a8fdad4ec73ad6647d8a9cd0baa22b805b762",
+      "source_rel": "stocks_data/002426.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002431.SZ.csv",
+      "bytes": 98787,
+      "code": "002431.SZ",
+      "sha256": "534376300c638f46fb31547cd95bb3d5eabf18c92f88b3a657c353f622ad39de",
+      "source_rel": "stocks_data/002431.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002434.SZ.csv",
+      "bytes": 130247,
+      "code": "002434.SZ",
+      "sha256": "be437a3cf1ff8fb14656aea4077602effc8148cecb3b438543b25f95f30fca6a",
+      "source_rel": "stocks_data/002434.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002437.SZ.csv",
+      "bytes": 99866,
+      "code": "002437.SZ",
+      "sha256": "7050064703713001f0686fc019c825220a482b3d98ebe2ade6658bc98191ce1c",
+      "source_rel": "stocks_data/002437.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002440.SZ.csv",
+      "bytes": 129997,
+      "code": "002440.SZ",
+      "sha256": "85982812f524365924bedfc48718287f7927119c9a2f22cd53a2f985d06e78ff",
+      "source_rel": "stocks_data/002440.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002458.SZ.csv",
+      "bytes": 133093,
+      "code": "002458.SZ",
+      "sha256": "0f1914f8778ba5ab2dcb19bfc3f74a2a54c569b1681f3405c3b17e3813405b26",
+      "source_rel": "stocks_data/002458.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002463.SZ.csv",
+      "bytes": 134361,
+      "code": "002463.SZ",
+      "sha256": "103772af6d948841bfa152da59e6c8bec70d1860c06d5095a133066880f3a3cc",
+      "source_rel": "stocks_data/002463.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002468.SZ.csv",
+      "bytes": 132548,
+      "code": "002468.SZ",
+      "sha256": "0da9431fd88b2736c7c58b66694e06ed7a5aa77af1fd47d926f6f91559c83960",
+      "source_rel": "stocks_data/002468.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002470.SZ.csv",
+      "bytes": 96305,
+      "code": "002470.SZ",
+      "sha256": "a9cc1e143ecb8b4c5a72ee6db0d1b8fee85518cb91e3661cf0ed69d6853f93ee",
+      "source_rel": "stocks_data/002470.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002477.SZ.csv",
+      "bytes": 58474,
+      "code": "002477.SZ",
+      "sha256": "3e03131e070a337436bc838f2261bcd9c6626a448c8402fb4356ed81d2867c1c",
+      "source_rel": "stocks_data/002477.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002482.SZ.csv",
+      "bytes": 104277,
+      "code": "002482.SZ",
+      "sha256": "4dc4aa4a7e8069eed16fdfd8f0aac969b1609e07f0bd693c6ed2e5494c5b7775",
+      "source_rel": "stocks_data/002482.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002487.SZ.csv",
+      "bytes": 134125,
+      "code": "002487.SZ",
+      "sha256": "830b26d3c19b96b4e2583b5f294b65286886699fe36e93109b892041bec14f3e",
+      "source_rel": "stocks_data/002487.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002489.SZ.csv",
+      "bytes": 132906,
+      "code": "002489.SZ",
+      "sha256": "119b270fc97c775a897816da3c14dd01afa7cad275fc2bb1baf55d210414178d",
+      "source_rel": "stocks_data/002489.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002491.SZ.csv",
+      "bytes": 100154,
+      "code": "002491.SZ",
+      "sha256": "2e980da9485524e85ac62edf58fc60bb0e9a57149fb7f519b18b1e34030e3e6e",
+      "source_rel": "stocks_data/002491.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002497.SZ.csv",
+      "bytes": 133867,
+      "code": "002497.SZ",
+      "sha256": "f218091e3936488e9d6cafab60fbc8da826b8c2535cfabd4198fca217adfaf0d",
+      "source_rel": "stocks_data/002497.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002503.SZ.csv",
+      "bytes": 83212,
+      "code": "002503.SZ",
+      "sha256": "d5ff10760c1014b06f95a1fbb3e540dc4ad6daab12c86f2765ba1d5aab76ee79",
+      "source_rel": "stocks_data/002503.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002505.SZ.csv",
+      "bytes": 89232,
+      "code": "002505.SZ",
+      "sha256": "232ddb27c3c2d4529ed4f00e5404188e72b8b087e7c023c5484d900c2118c407",
+      "source_rel": "stocks_data/002505.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002506.SZ.csv",
+      "bytes": 102022,
+      "code": "002506.SZ",
+      "sha256": "deb83db9b4b4e55528c1757d7e7f01ad7e6c3f3be558ef9af4f7572f1c6e98ea",
+      "source_rel": "stocks_data/002506.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002507.SZ.csv",
+      "bytes": 136829,
+      "code": "002507.SZ",
+      "sha256": "c497c93a53dbbb9ffd70f46346fe7ac5209c79a816ef738b0de0c33c70f59531",
+      "source_rel": "stocks_data/002507.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002509.SZ.csv",
+      "bytes": 69029,
+      "code": "002509.SZ",
+      "sha256": "5eafdc93e51fa19b4e49339f61050e1e4a4254e33caac502a4ca877a220a497b",
+      "source_rel": "stocks_data/002509.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002511.SZ.csv",
+      "bytes": 133820,
+      "code": "002511.SZ",
+      "sha256": "990921a62c243a16c348a196d1be947d5b9060351daef89ccfe7dd64bef5a238",
+      "source_rel": "stocks_data/002511.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002512.SZ.csv",
+      "bytes": 99444,
+      "code": "002512.SZ",
+      "sha256": "63b0b8a520a0a3c27bb67dec1a44e5e311d6e725485bae7d6a26e5e76a799467",
+      "source_rel": "stocks_data/002512.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002518.SZ.csv",
+      "bytes": 133010,
+      "code": "002518.SZ",
+      "sha256": "257a7d71f05fbcb3f0df96e6d7bd2c1cccf475bfcbc9d7dd0c16bb7806eb1b39",
+      "source_rel": "stocks_data/002518.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002531.SZ.csv",
+      "bytes": 131958,
+      "code": "002531.SZ",
+      "sha256": "3363f8f03bdda3a2f27b46f4cdd9f416299d0100f20096b6534bfcfaec267ec8",
+      "source_rel": "stocks_data/002531.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002544.SZ.csv",
+      "bytes": 133563,
+      "code": "002544.SZ",
+      "sha256": "111c21e90c7c5bf80ce6db3715ee0507fd4284dfa4c744615ee61d59e1771d66",
+      "source_rel": "stocks_data/002544.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002557.SZ.csv",
+      "bytes": 131649,
+      "code": "002557.SZ",
+      "sha256": "7e996312d127f8ab466ae2eb8ace2b3109065759f8115e8174fcec8d4c786280",
+      "source_rel": "stocks_data/002557.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002563.SZ.csv",
+      "bytes": 131929,
+      "code": "002563.SZ",
+      "sha256": "5a35d6b73a50f0bb7f548195f5bc74939c81f47aa64383166f02f06c0172ca2a",
+      "source_rel": "stocks_data/002563.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002572.SZ.csv",
+      "bytes": 134347,
+      "code": "002572.SZ",
+      "sha256": "1a3220eafae9a339f24d86f367b160ff34bbcba190810341507180d9bbe3d196",
+      "source_rel": "stocks_data/002572.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002573.SZ.csv",
+      "bytes": 124931,
+      "code": "002573.SZ",
+      "sha256": "4dcede7b60c7260b35d094895a3377beaeeae69e38f36d8b3f959a38ae378d86",
+      "source_rel": "stocks_data/002573.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002588.SZ.csv",
+      "bytes": 131664,
+      "code": "002588.SZ",
+      "sha256": "c9d74140147318e68748cc0ae14ec07d55e5bf52564440971b3ce33c2fb94585",
+      "source_rel": "stocks_data/002588.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002589.SZ.csv",
+      "bytes": 127746,
+      "code": "002589.SZ",
+      "sha256": "0c91df0e8ab160e21bec27fe79defd6606dfbcc25e0c123792c58d9708446bb4",
+      "source_rel": "stocks_data/002589.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002600.SZ.csv",
+      "bytes": 136671,
+      "code": "002600.SZ",
+      "sha256": "b7fca4a79adc6d71f9557cb55c49d29d5db283efa22cc02abf6c29b18107d6ee",
+      "source_rel": "stocks_data/002600.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002625.SZ.csv",
+      "bytes": 130657,
+      "code": "002625.SZ",
+      "sha256": "55bee8cc55370f089f2e23da0e6f5a168d0fa16148ac8dcca7e14f41032e9454",
+      "source_rel": "stocks_data/002625.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002635.SZ.csv",
+      "bytes": 134214,
+      "code": "002635.SZ",
+      "sha256": "8ae9f4324b20406a80a62107dac33a1e9f1f59d9e2b36d0f149bb0ed17ed2762",
+      "source_rel": "stocks_data/002635.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002640.SZ.csv",
+      "bytes": 105308,
+      "code": "002640.SZ",
+      "sha256": "6294e8c57b38431fbacbc94db0bff170e4caab3f4dce915be02bf09a7d97ac17",
+      "source_rel": "stocks_data/002640.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002642.SZ.csv",
+      "bytes": 94519,
+      "code": "002642.SZ",
+      "sha256": "be0f6db3c2f94be39ef94eb4db4fbd926862ada038cd70b2009ba6536d472179",
+      "source_rel": "stocks_data/002642.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002648.SZ.csv",
+      "bytes": 133241,
+      "code": "002648.SZ",
+      "sha256": "241940b2f05ff3723e4479be0443554b1c01e668fae01ec9e86c5ebf2b9b8381",
+      "source_rel": "stocks_data/002648.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002653.SZ.csv",
+      "bytes": 130919,
+      "code": "002653.SZ",
+      "sha256": "23f0fd68cd31e85c85b91e347eee95a92c23172ca984c142d842526b0dccb579",
+      "source_rel": "stocks_data/002653.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002663.SZ.csv",
+      "bytes": 95385,
+      "code": "002663.SZ",
+      "sha256": "5f8e40de54d90bbba3461e575847b390f3971561a69f36345c19b1b368caf385",
+      "source_rel": "stocks_data/002663.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002665.SZ.csv",
+      "bytes": 91671,
+      "code": "002665.SZ",
+      "sha256": "71f5e0f06d0f9a5fa40060a2ecd6d4d49b788172aa208382e180b778e090560b",
+      "source_rel": "stocks_data/002665.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002672.SZ.csv",
+      "bytes": 116923,
+      "code": "002672.SZ",
+      "sha256": "99ba0dfc84fedea02947117e264dcfdb31d5f4347740c6149769244b6d671eae",
+      "source_rel": "stocks_data/002672.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002681.SZ.csv",
+      "bytes": 102147,
+      "code": "002681.SZ",
+      "sha256": "58fa2702d81119375966d1567dd3c7d1ec51fead035bb8237729434177b13e20",
+      "source_rel": "stocks_data/002681.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002690.SZ.csv",
+      "bytes": 130635,
+      "code": "002690.SZ",
+      "sha256": "eef52f8970f0925a8d8f2cf05f37901ad1f04df525926c0600b804cb7cd62e7a",
+      "source_rel": "stocks_data/002690.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002699.SZ.csv",
+      "bytes": 85952,
+      "code": "002699.SZ",
+      "sha256": "53bb75c2cd862cf9f9212bf75a98e1af1328c761bae4a411a2712a2cbbf2e3bd",
+      "source_rel": "stocks_data/002699.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002701.SZ.csv",
+      "bytes": 131108,
+      "code": "002701.SZ",
+      "sha256": "b82a52aaa275b378399d7fc5f36dfea6fc0732ca911b77cc4e688d8f1171f6d6",
+      "source_rel": "stocks_data/002701.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002705.SZ.csv",
+      "bytes": 134150,
+      "code": "002705.SZ",
+      "sha256": "e1c5f01707c88b738d8d13a4f789761775b94d3b6059f6f69f9a532cb081e6b0",
+      "source_rel": "stocks_data/002705.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002707.SZ.csv",
+      "bytes": 105845,
+      "code": "002707.SZ",
+      "sha256": "3d7199385df0a486ce2b64c1e229750cd12c67ed10b661275276c596478845d3",
+      "source_rel": "stocks_data/002707.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002709.SZ.csv",
+      "bytes": 136916,
+      "code": "002709.SZ",
+      "sha256": "9b4c21d6e1d62a1dab0150ddfc168c54d6afed06947648b175d71908c18c3049",
+      "source_rel": "stocks_data/002709.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002745.SZ.csv",
+      "bytes": 132237,
+      "code": "002745.SZ",
+      "sha256": "e7b82b43456927b11bd21b72130dab2ab367d976f96e1b9bba7ab9d2bc43ac91",
+      "source_rel": "stocks_data/002745.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002761.SZ.csv",
+      "bytes": 130960,
+      "code": "002761.SZ",
+      "sha256": "2f2870dbb55339b08a0df08724b0011f33b8dbd400a72e23f03b05467d666a69",
+      "source_rel": "stocks_data/002761.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002791.SZ.csv",
+      "bytes": 131535,
+      "code": "002791.SZ",
+      "sha256": "b260de3756272f4076c58ae974693c975f26beedaecb81df15db6db870e038b7",
+      "source_rel": "stocks_data/002791.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002807.SZ.csv",
+      "bytes": 134683,
+      "code": "002807.SZ",
+      "sha256": "217ebdb7fa4301cdbe5db7d79a5435dd931a7299ab73ce96549421a653e08085",
+      "source_rel": "stocks_data/002807.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002812.SZ.csv",
+      "bytes": 127272,
+      "code": "002812.SZ",
+      "sha256": "e312bc09114faa342a9ac86021fe18d4c5ecc1d316501533dd15f6e490976b78",
+      "source_rel": "stocks_data/002812.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002815.SZ.csv",
+      "bytes": 132471,
+      "code": "002815.SZ",
+      "sha256": "2071c364abc1219b759b38d837cffdc9fc2a2fccc0457e8ab9b826f56eaf1762",
+      "source_rel": "stocks_data/002815.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002818.SZ.csv",
+      "bytes": 130912,
+      "code": "002818.SZ",
+      "sha256": "376c24f93298b60f72984ca86ca6d683db93548fd285afe2c8b6e63ea75478b4",
+      "source_rel": "stocks_data/002818.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002839.SZ.csv",
+      "bytes": 133902,
+      "code": "002839.SZ",
+      "sha256": "7a7f24c431a7f54327d9a3d675cd44fa250b32ede5f675c3db052a6f81460dd2",
+      "source_rel": "stocks_data/002839.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002865.SZ.csv",
+      "bytes": 126799,
+      "code": "002865.SZ",
+      "sha256": "125c4742ae0d89d3fcbb62f3e6325e7f123eda5f265d71bf50d52af5df0d809f",
+      "source_rel": "stocks_data/002865.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002867.SZ.csv",
+      "bytes": 134700,
+      "code": "002867.SZ",
+      "sha256": "3d804582fb2c8208529b5382c7cd87505c2963ec5d74333b4e3b08558cae8b3b",
+      "source_rel": "stocks_data/002867.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002901.SZ.csv",
+      "bytes": 129057,
+      "code": "002901.SZ",
+      "sha256": "5e066bdaad48df64bfc7393d885732fdb3501dc7b61e56b6e8958d98d9400c0f",
+      "source_rel": "stocks_data/002901.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002916.SZ.csv",
+      "bytes": 131390,
+      "code": "002916.SZ",
+      "sha256": "40eb68806d0e1228af77f1ca6ba4b56159fbf8df24dbf03c35988963fd7a82b4",
+      "source_rel": "stocks_data/002916.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002920.SZ.csv",
+      "bytes": 131567,
+      "code": "002920.SZ",
+      "sha256": "8ca9893c11b27b862d12843d0298c7a80e35880a6bcff3f6305a6f12eee77c73",
+      "source_rel": "stocks_data/002920.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002925.SZ.csv",
+      "bytes": 131722,
+      "code": "002925.SZ",
+      "sha256": "fb096de4ea4e32db3d0ad55282167e4bfafc1be4bfad04ab5e7970edb1588236",
+      "source_rel": "stocks_data/002925.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002936.SZ.csv",
+      "bytes": 133041,
+      "code": "002936.SZ",
+      "sha256": "d6e5000f0d11e328a1a48eeeb591197faab96d7ddd907a535f72ec0541faa8af",
+      "source_rel": "stocks_data/002936.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002941.SZ.csv",
+      "bytes": 132877,
+      "code": "002941.SZ",
+      "sha256": "58d4eccb0a02264e9b647eedd4404f87158ff7e9c7ccbdeeea31159b8a4d7086",
+      "source_rel": "stocks_data/002941.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002946.SZ.csv",
+      "bytes": 134207,
+      "code": "002946.SZ",
+      "sha256": "ca0094bf76729d1d6ad92d51e4d2b7e42d2e216260635ac890d3ddc941c6fb51",
+      "source_rel": "stocks_data/002946.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002948.SZ.csv",
+      "bytes": 130542,
+      "code": "002948.SZ",
+      "sha256": "e9ed33e31f0b6b0b6b41884039030bfead0324761295e5339ec00f37c416c98d",
+      "source_rel": "stocks_data/002948.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002957.SZ.csv",
+      "bytes": 129627,
+      "code": "002957.SZ",
+      "sha256": "be9eef6cda92128cff196b994a6f8b19ffd8374e43db3d2c83481c19457a6281",
+      "source_rel": "stocks_data/002957.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/002985.SZ.csv",
+      "bytes": 128002,
+      "code": "002985.SZ",
+      "sha256": "7e236ecdd690cb067ff4835d23bf6a033cbc38eee0401899784855002e22f3dd",
+      "source_rel": "stocks_data/002985.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300009.SZ.csv",
+      "bytes": 131017,
+      "code": "300009.SZ",
+      "sha256": "9e54e7e0f531a0843fc523ffaf35973dd63c5693f93c5c3ac2dd4c4d455496e8",
+      "source_rel": "stocks_data/300009.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300010.SZ.csv",
+      "bytes": 127841,
+      "code": "300010.SZ",
+      "sha256": "64e2afb872c342aab977f9fca4b0380acb3f08104a01b2f71eec445434ecbb71",
+      "source_rel": "stocks_data/300010.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300014.SZ.csv",
+      "bytes": 135599,
+      "code": "300014.SZ",
+      "sha256": "531746bb678aab404d85ee9e2c34fa6525699a8c8045b300ec3e87c9a0bbc0fb",
+      "source_rel": "stocks_data/300014.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300026.SZ.csv",
+      "bytes": 132873,
+      "code": "300026.SZ",
+      "sha256": "8a0d9e0606e72eb0fb3656f5a2e7e1652219a501f05b45322cb9e7597e13bf61",
+      "source_rel": "stocks_data/300026.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300027.SZ.csv",
+      "bytes": 97771,
+      "code": "300027.SZ",
+      "sha256": "7f35c939345426a676d5c263121b7a6cecea4ab7b008b0fa8d59e927d2dc197f",
+      "source_rel": "stocks_data/300027.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300055.SZ.csv",
+      "bytes": 129712,
+      "code": "300055.SZ",
+      "sha256": "7963def050fbd13f878a4de33f299f34203f921125e8df3806cc3a3b40fde3d9",
+      "source_rel": "stocks_data/300055.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300072.SZ.csv",
+      "bytes": 108288,
+      "code": "300072.SZ",
+      "sha256": "edfb97014b225d087fb2ab4cc8f627f58308a0675c0aa98d263f197aa35302ac",
+      "source_rel": "stocks_data/300072.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300088.SZ.csv",
+      "bytes": 132382,
+      "code": "300088.SZ",
+      "sha256": "5c859c3a794d633d17d88848cdd17db918f298cd2a1863ff1a56c4d10dce769b",
+      "source_rel": "stocks_data/300088.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300113.SZ.csv",
+      "bytes": 134385,
+      "code": "300113.SZ",
+      "sha256": "06bc574d0141f87461cbf2e2349235cb9e967f49d19d8fa820ecc39cd0e95bc5",
+      "source_rel": "stocks_data/300113.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300114.SZ.csv",
+      "bytes": 115188,
+      "code": "300114.SZ",
+      "sha256": "fe6c207da018beea317538ff26d886bf36932528ddbe8303225c3220da68aa00",
+      "source_rel": "stocks_data/300114.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300118.SZ.csv",
+      "bytes": 129370,
+      "code": "300118.SZ",
+      "sha256": "a4e7593787a65f1829e9f83b6b78f3e503797876753183c914d1577c155a8773",
+      "source_rel": "stocks_data/300118.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300133.SZ.csv",
+      "bytes": 131715,
+      "code": "300133.SZ",
+      "sha256": "fc3a62886de7e11dd1a4fd7ea29d1b7677acb0abc74f3717026456ce8e02101b",
+      "source_rel": "stocks_data/300133.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300134.SZ.csv",
+      "bytes": 98592,
+      "code": "300134.SZ",
+      "sha256": "b47a42d2c4da843bbf1326c8f2178c7ca78137a4008f062a607b9129a6b67eb2",
+      "source_rel": "stocks_data/300134.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300156.SZ.csv",
+      "bytes": 69350,
+      "code": "300156.SZ",
+      "sha256": "0c834f34b575d9f5f55d2a52b01ec649c66653cb80c8ea387a8973b0d510d016",
+      "source_rel": "stocks_data/300156.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300159.SZ.csv",
+      "bytes": 102198,
+      "code": "300159.SZ",
+      "sha256": "701dbf984e1d7db68a71a6ceda72ff4c9703ddcc665dcb5a102217d4316f7620",
+      "source_rel": "stocks_data/300159.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300166.SZ.csv",
+      "bytes": 106649,
+      "code": "300166.SZ",
+      "sha256": "eeaad6f953039747f24073c7abe45bb8704695e2e42e474c7e44a9015dd2cf49",
+      "source_rel": "stocks_data/300166.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300168.SZ.csv",
+      "bytes": 101809,
+      "code": "300168.SZ",
+      "sha256": "4dcc4b67b1057febc5e0ca65980da0b9052dfb1f9ef0558f8f9089c2f3948d0f",
+      "source_rel": "stocks_data/300168.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300180.SZ.csv",
+      "bytes": 102536,
+      "code": "300180.SZ",
+      "sha256": "d2ee567eefa96f68b62285564f21b2b7521cf95eb7ab5b4e13f49b12773c82f2",
+      "source_rel": "stocks_data/300180.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300182.SZ.csv",
+      "bytes": 93289,
+      "code": "300182.SZ",
+      "sha256": "aa858eb1e7859fc8175ae650857032eaf6aa496b54183e42fec6cde1684f3692",
+      "source_rel": "stocks_data/300182.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300197.SZ.csv",
+      "bytes": 104937,
+      "code": "300197.SZ",
+      "sha256": "4a715b09f72dbb6a4091356dec6cf4572deddd04db6728a83f551f6435d19f49",
+      "source_rel": "stocks_data/300197.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300199.SZ.csv",
+      "bytes": 97824,
+      "code": "300199.SZ",
+      "sha256": "519720bbc9ca80fde118c5c507e675fc5b751acd65aac02b6c34a9cb229442dc",
+      "source_rel": "stocks_data/300199.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300202.SZ.csv",
+      "bytes": 85514,
+      "code": "300202.SZ",
+      "sha256": "dc991830d5ed78163c142a5d4127a1ec8b8ce3bddd6c12fbf2cf4792bfc83edd",
+      "source_rel": "stocks_data/300202.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300212.SZ.csv",
+      "bytes": 113145,
+      "code": "300212.SZ",
+      "sha256": "40aa8202a72722f0a022b4475215660504047eaac3f94ec87ab405706d241527",
+      "source_rel": "stocks_data/300212.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300244.SZ.csv",
+      "bytes": 132764,
+      "code": "300244.SZ",
+      "sha256": "6a4813f4d7e55e825eda0b1e8df5bcc9a0018236f2ce7b840243d66426ee4d9e",
+      "source_rel": "stocks_data/300244.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300251.SZ.csv",
+      "bytes": 132746,
+      "code": "300251.SZ",
+      "sha256": "b72b0b31fdc482cedc8275252560fcdc41a7f7d1df16f8d9cc2cca49a9172562",
+      "source_rel": "stocks_data/300251.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300253.SZ.csv",
+      "bytes": 132966,
+      "code": "300253.SZ",
+      "sha256": "0933e60d17659539bd7fd807feafac3a4481856a29284fc2bbf597322c6e3c88",
+      "source_rel": "stocks_data/300253.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300257.SZ.csv",
+      "bytes": 131422,
+      "code": "300257.SZ",
+      "sha256": "b1138dc05c5eb2579c1cdf252b9a310f8488bb8a6ff007c80639a2118d96cca0",
+      "source_rel": "stocks_data/300257.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300266.SZ.csv",
+      "bytes": 100742,
+      "code": "300266.SZ",
+      "sha256": "cc0f20447bc7bb18dffd7198decd88d159542cfbcdce2354ff70cbcc9f7ae2f5",
+      "source_rel": "stocks_data/300266.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300271.SZ.csv",
+      "bytes": 107687,
+      "code": "300271.SZ",
+      "sha256": "bf889c36002d66ed026d7bb11702b5510d27be243e474eadf1ab850ba6d7f06c",
+      "source_rel": "stocks_data/300271.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300274.SZ.csv",
+      "bytes": 135670,
+      "code": "300274.SZ",
+      "sha256": "d75666983d6d3cfe3fcfa589a111885b0e9b5a19b24398fed8331ccc1f329fdb",
+      "source_rel": "stocks_data/300274.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300287.SZ.csv",
+      "bytes": 102812,
+      "code": "300287.SZ",
+      "sha256": "6748e493c9b8d7998bd748f5c016f97b5805ae499e586d3bbebd57b7f942fb97",
+      "source_rel": "stocks_data/300287.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300291.SZ.csv",
+      "bytes": 93683,
+      "code": "300291.SZ",
+      "sha256": "f8d65b35af52d6e74e3e3b2a52ef848e9653fbdb87c32bbc955f19dc10abfc1b",
+      "source_rel": "stocks_data/300291.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300296.SZ.csv",
+      "bytes": 132386,
+      "code": "300296.SZ",
+      "sha256": "30b1cc9fe62853bac9f4811584c88b489bd352b762484976affc4dad037903a4",
+      "source_rel": "stocks_data/300296.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300297.SZ.csv",
+      "bytes": 90028,
+      "code": "300297.SZ",
+      "sha256": "c923b287d34fb53917845812c9b6045c970f14caffcef47eaa7ddf22f4918be2",
+      "source_rel": "stocks_data/300297.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300308.SZ.csv",
+      "bytes": 135897,
+      "code": "300308.SZ",
+      "sha256": "611a09c309196ebf5dc7fdd34cea87cbb3f780157074a37e0493d30294f83e0b",
+      "source_rel": "stocks_data/300308.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300315.SZ.csv",
+      "bytes": 102869,
+      "code": "300315.SZ",
+      "sha256": "a8e9003cc682626813234050627f729889468460221bab4b7088f3d6e50b68de",
+      "source_rel": "stocks_data/300315.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300316.SZ.csv",
+      "bytes": 133100,
+      "code": "300316.SZ",
+      "sha256": "8fce9418125483e39b14aef4f48e09a881f8ad1fe045b08f62f0350ddb34f6c0",
+      "source_rel": "stocks_data/300316.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300324.SZ.csv",
+      "bytes": 108871,
+      "code": "300324.SZ",
+      "sha256": "578fddf6624d4c9898096ea43ab7cbd6b8213e34137e2cf01db78c3789327f3e",
+      "source_rel": "stocks_data/300324.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300347.SZ.csv",
+      "bytes": 132832,
+      "code": "300347.SZ",
+      "sha256": "c66e1839dd4e4852d01e48650dec50942255912207a3929e5cb5586a3ea6f35b",
+      "source_rel": "stocks_data/300347.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300357.SZ.csv",
+      "bytes": 134605,
+      "code": "300357.SZ",
+      "sha256": "44a7584acb57a25a4741112c72b587e7beb63a938dcb0a9d87444e9f145359ae",
+      "source_rel": "stocks_data/300357.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300363.SZ.csv",
+      "bytes": 125703,
+      "code": "300363.SZ",
+      "sha256": "e0510e1fd6d9dfe194fb277b647fa0cc13f0c1325d1b62bbda3197e085b013c5",
+      "source_rel": "stocks_data/300363.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300376.SZ.csv",
+      "bytes": 131817,
+      "code": "300376.SZ",
+      "sha256": "a732395477dc04ec32279aab9bcbf1f6ba70d61fa178c60c9dd5545b29fa6726",
+      "source_rel": "stocks_data/300376.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300394.SZ.csv",
+      "bytes": 134668,
+      "code": "300394.SZ",
+      "sha256": "b9ef744e26072fedd87e652039dac52f13c9eb00e3612008c65fc8d2b112a166",
+      "source_rel": "stocks_data/300394.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300413.SZ.csv",
+      "bytes": 133670,
+      "code": "300413.SZ",
+      "sha256": "ba8eceae2c6c19c4d05e4e7981b455e427256337ae3216957a2c0b9a836c5ad9",
+      "source_rel": "stocks_data/300413.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300418.SZ.csv",
+      "bytes": 128798,
+      "code": "300418.SZ",
+      "sha256": "d628369d04c0e41fe3d94cec6b039de0fac8ef3b8c2da86134531701999cc624",
+      "source_rel": "stocks_data/300418.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300438.SZ.csv",
+      "bytes": 127817,
+      "code": "300438.SZ",
+      "sha256": "4b6ed5b3c360b573848e4f859984671e0e8a7374458e58e7687c475754369197",
+      "source_rel": "stocks_data/300438.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300442.SZ.csv",
+      "bytes": 131541,
+      "code": "300442.SZ",
+      "sha256": "8ca694853ae208ec6f9998eaaccdeeaa37306f17d1ae2564dd9c7b82a8387e29",
+      "source_rel": "stocks_data/300442.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300459.SZ.csv",
+      "bytes": 105594,
+      "code": "300459.SZ",
+      "sha256": "b39db56c220196287968b5486d1535342d93bf13889c145ee8da846caebca938",
+      "source_rel": "stocks_data/300459.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300463.SZ.csv",
+      "bytes": 131933,
+      "code": "300463.SZ",
+      "sha256": "b51a444fb1b6bbe70c58e6a0e6481907d29224acc64dec9fb5ec96f8a00e6ac9",
+      "source_rel": "stocks_data/300463.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300476.SZ.csv",
+      "bytes": 133475,
+      "code": "300476.SZ",
+      "sha256": "cb689518f8eb32d0a96be0620b861534b705d0dbe4e7dd3ca1a75f7d3173e183",
+      "source_rel": "stocks_data/300476.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300482.SZ.csv",
+      "bytes": 130609,
+      "code": "300482.SZ",
+      "sha256": "7750da67a212d81f3ac688d6945114f0245e53b809ea581c98f137d56f1cacdd",
+      "source_rel": "stocks_data/300482.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300502.SZ.csv",
+      "bytes": 134343,
+      "code": "300502.SZ",
+      "sha256": "f948a5e06bf3bdb1c662884176048b16f40b84e946e2ecbdb3989e1522890a24",
+      "source_rel": "stocks_data/300502.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300568.SZ.csv",
+      "bytes": 133586,
+      "code": "300568.SZ",
+      "sha256": "5f0720c20396d7fdff1743caaced4c60ab095e8c87cb8189e8c95a4bfb95ce3b",
+      "source_rel": "stocks_data/300568.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300573.SZ.csv",
+      "bytes": 132338,
+      "code": "300573.SZ",
+      "sha256": "e8d0534aa6579550ff45f3895654c0972ff9456b7f38cb9a725d550a97aff54e",
+      "source_rel": "stocks_data/300573.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300595.SZ.csv",
+      "bytes": 134466,
+      "code": "300595.SZ",
+      "sha256": "549ef1f790bbd180ccda459a3d3d18a18e7a3c20980b9aeaf475a36c05012cb7",
+      "source_rel": "stocks_data/300595.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300618.SZ.csv",
+      "bytes": 131233,
+      "code": "300618.SZ",
+      "sha256": "6dc8671a9e42dbe49967ec8bf1cea8eab3b162c2fde56a1f65f0c0832edd758b",
+      "source_rel": "stocks_data/300618.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300630.SZ.csv",
+      "bytes": 115474,
+      "code": "300630.SZ",
+      "sha256": "8afb6d3ab693ef9660ae6035f35895bc852f61365d19672e2c974420265a59bd",
+      "source_rel": "stocks_data/300630.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300682.SZ.csv",
+      "bytes": 132345,
+      "code": "300682.SZ",
+      "sha256": "f2e5067ba19e9e0aa95b212afd697d46f021a9652caab5dca0a8c69542393d13",
+      "source_rel": "stocks_data/300682.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300741.SZ.csv",
+      "bytes": 132536,
+      "code": "300741.SZ",
+      "sha256": "a56123fbfb7bbe1236088e3bd132f6c63b4611d56ae365e959bacc9d7ef5294d",
+      "source_rel": "stocks_data/300741.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300765.SZ.csv",
+      "bytes": 129542,
+      "code": "300765.SZ",
+      "sha256": "9b673185b32860dec4c495fd5e2b36e9c6fea46d1df979dc919b12f3d490a00e",
+      "source_rel": "stocks_data/300765.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300769.SZ.csv",
+      "bytes": 120101,
+      "code": "300769.SZ",
+      "sha256": "efc65ea3f4595d0f6b405bd3d6bf39692115272bdcc38a7afe5647e03b22481a",
+      "source_rel": "stocks_data/300769.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300776.SZ.csv",
+      "bytes": 128802,
+      "code": "300776.SZ",
+      "sha256": "b458714cf375c627689d963ff64ca677e7202862c36b2a7e2b568212ebd4c785",
+      "source_rel": "stocks_data/300776.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300803.SZ.csv",
+      "bytes": 128742,
+      "code": "300803.SZ",
+      "sha256": "c061018302ef709c4fd1c824d3887d547ab775b2330505fd5deb465066fb9a85",
+      "source_rel": "stocks_data/300803.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300832.SZ.csv",
+      "bytes": 126347,
+      "code": "300832.SZ",
+      "sha256": "1fbdc2f10cd9188dd095f77c1b905adf0fa155813463c8561c88ae3d2d5f543e",
+      "source_rel": "stocks_data/300832.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300850.SZ.csv",
+      "bytes": 126372,
+      "code": "300850.SZ",
+      "sha256": "4e76930ee3d1c1a2be59a26898e5978487c6876db15fac8909d40b91ad54543a",
+      "source_rel": "stocks_data/300850.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300861.SZ.csv",
+      "bytes": 126032,
+      "code": "300861.SZ",
+      "sha256": "9ac2d73f2b718a4d38e3c882d19499ac069a0dd16098f941b98515fc5bd4865e",
+      "source_rel": "stocks_data/300861.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300866.SZ.csv",
+      "bytes": 128593,
+      "code": "300866.SZ",
+      "sha256": "b90e49f9e543918ef018062e9041da473f198f876d5b35b70e7d10f4e2ef8626",
+      "source_rel": "stocks_data/300866.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/300869.SZ.csv",
+      "bytes": 126867,
+      "code": "300869.SZ",
+      "sha256": "54bdb6fd2380333b81f34c35d20ea493e16fdede17dc34210b2e4f0ef294fe3c",
+      "source_rel": "stocks_data/300869.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/301029.SZ.csv",
+      "bytes": 124568,
+      "code": "301029.SZ",
+      "sha256": "ed20a11b3ae2e0860e7aff09453a578fbcdd658bf42af77b98b6a06965876395",
+      "source_rel": "stocks_data/301029.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/301165.SZ.csv",
+      "bytes": 121358,
+      "code": "301165.SZ",
+      "sha256": "28ed3d94ff3cc93af77ac3ab38d8f8dcad64383299f54f40651dbdaa7af69e90",
+      "source_rel": "stocks_data/301165.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/301236.SZ.csv",
+      "bytes": 120975,
+      "code": "301236.SZ",
+      "sha256": "63f7231c525e586bc579960e230eaac7505d8651e70f0dcb16564d5514a5c16e",
+      "source_rel": "stocks_data/301236.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/301267.SZ.csv",
+      "bytes": 124116,
+      "code": "301267.SZ",
+      "sha256": "76e28d0b7ad0601c9e89f72f808253cf9e408b1fa0c5a1ea5ddcdfa78a1acb26",
+      "source_rel": "stocks_data/301267.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/302132.SZ.csv",
+      "bytes": 132162,
+      "code": "302132.SZ",
+      "sha256": "90276684d687b339939075c1e269393b4fc0282f35c581b7e34b9f7db1bc7506",
+      "source_rel": "stocks_data/302132.SZ.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600006.SH.csv",
+      "bytes": 125711,
+      "code": "600006.SH",
+      "sha256": "cd30e90b86280f7d89af0ddb252d8a9922f5a8cd70da13adc4df18a90ac7ac0b",
+      "source_rel": "stocks_data/600006.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600017.SH.csv",
+      "bytes": 134213,
+      "code": "600017.SH",
+      "sha256": "a4fa8a53ab6d4df67b0ff01b7e18f32699e4ceb8ff359cf68eacaa21eb506567",
+      "source_rel": "stocks_data/600017.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600022.SH.csv",
+      "bytes": 120157,
+      "code": "600022.SH",
+      "sha256": "354da732a38f034b409eef3d6387846a72380e104c1826d67d02468f531a8282",
+      "source_rel": "stocks_data/600022.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600026.SH.csv",
+      "bytes": 133529,
+      "code": "600026.SH",
+      "sha256": "a3e6a7e9346420ef042049d4649236655db12395f619be42a6597122990aa72d",
+      "source_rel": "stocks_data/600026.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600027.SH.csv",
+      "bytes": 134984,
+      "code": "600027.SH",
+      "sha256": "fcd8de2c3919dd9eeca3666592608d3fdb071c9747a499ffda39fc4791af94b7",
+      "source_rel": "stocks_data/600027.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600037.SH.csv",
+      "bytes": 130814,
+      "code": "600037.SH",
+      "sha256": "2a9f906b480edaa3b41996c8aa8a184406bc8dd9e9001899faa0bc4091b77596",
+      "source_rel": "stocks_data/600037.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600039.SH.csv",
+      "bytes": 134227,
+      "code": "600039.SH",
+      "sha256": "1dd3d642388152c99d13e38bfd5fce2d8532e1c6036a7b4f04e5c46082cc7319",
+      "source_rel": "stocks_data/600039.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600053.SH.csv",
+      "bytes": 120975,
+      "code": "600053.SH",
+      "sha256": "7d9f90b22a6b362faffaa3e2c306c4b834f5e2db8eebe43057beaae3d116c10d",
+      "source_rel": "stocks_data/600053.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600056.SH.csv",
+      "bytes": 133924,
+      "code": "600056.SH",
+      "sha256": "163457f36fbcc728411c9781933a53ddf85964864e8c15a71eb166ecf775b4e8",
+      "source_rel": "stocks_data/600056.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600058.SH.csv",
+      "bytes": 98364,
+      "code": "600058.SH",
+      "sha256": "61a2aaabbfe211ca09b2a9b6b37ed8e1956b5f4fb0f5308ef12a2fed620a0721",
+      "source_rel": "stocks_data/600058.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600064.SH.csv",
+      "bytes": 130755,
+      "code": "600064.SH",
+      "sha256": "560b44f5a8a6e79878a1b070445565b742482902d812bf50fc2efe2e0841e434",
+      "source_rel": "stocks_data/600064.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600066.SH.csv",
+      "bytes": 134173,
+      "code": "600066.SH",
+      "sha256": "c0cae30036fd6e8a10998adad02a05a411099116436ec3a661399313be67e909",
+      "source_rel": "stocks_data/600066.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600068.SH.csv",
+      "bytes": 83718,
+      "code": "600068.SH",
+      "sha256": "b8b3e6e3f0e39c621a237cea67a470e3163f5d5277d4a7a93412642727fae875",
+      "source_rel": "stocks_data/600068.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600073.SH.csv",
+      "bytes": 131015,
+      "code": "600073.SH",
+      "sha256": "fa85518225ce9597d40ab69b1081628e0ab00e5bf8790ee620c284bbd71e5e55",
+      "source_rel": "stocks_data/600073.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600079.SH.csv",
+      "bytes": 134927,
+      "code": "600079.SH",
+      "sha256": "80d11101aa091fcb72a06ce623047f682e9b96985125439451ce4ef788785f17",
+      "source_rel": "stocks_data/600079.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600086.SH.csv",
+      "bytes": 71341,
+      "code": "600086.SH",
+      "sha256": "3f63752fa45f0574e16113327761a878549839ff6426fbf7795ef4f44f25d89b",
+      "source_rel": "stocks_data/600086.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600089.SH.csv",
+      "bytes": 135002,
+      "code": "600089.SH",
+      "sha256": "7c00bc9bbfa25b054f3797082f2309bcf2279133633cc5d5ad03e2200f2ec42e",
+      "source_rel": "stocks_data/600089.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600094.SH.csv",
+      "bytes": 128558,
+      "code": "600094.SH",
+      "sha256": "6a6e89642363336d09d90f8ce19f46c3a951994b8cc6c88b712e04aeaa422022",
+      "source_rel": "stocks_data/600094.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600120.SH.csv",
+      "bytes": 135265,
+      "code": "600120.SH",
+      "sha256": "ace340cca2ca52c5c07981e816d669684c1882a9f7cbf5cc7f9831fe3beb01a0",
+      "source_rel": "stocks_data/600120.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600122.SH.csv",
+      "bytes": 86778,
+      "code": "600122.SH",
+      "sha256": "cdf6a701b89390924e0bac221ed0d22a90f1fe94b81bef366f6e11904a4bb3d1",
+      "source_rel": "stocks_data/600122.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600125.SH.csv",
+      "bytes": 132729,
+      "code": "600125.SH",
+      "sha256": "d9db659c0386edcc03f26999ee18f0601bbcc9e21f5f34c5e2549de82deb40c9",
+      "source_rel": "stocks_data/600125.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600129.SH.csv",
+      "bytes": 124207,
+      "code": "600129.SH",
+      "sha256": "10d3d786740e602b4875a267c6ac31b5a62f03f384d8e16fda925ebca888556a",
+      "source_rel": "stocks_data/600129.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600138.SH.csv",
+      "bytes": 132202,
+      "code": "600138.SH",
+      "sha256": "401e171ac32675717b5005f03cfb953d5ff7ea55097919d8c3ace05b6d614edc",
+      "source_rel": "stocks_data/600138.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600150.SH.csv",
+      "bytes": 134218,
+      "code": "600150.SH",
+      "sha256": "9c6883e421cb106ca6f68be498820d5f11fb330cb246f680a80649871ecf667b",
+      "source_rel": "stocks_data/600150.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600151.SH.csv",
+      "bytes": 92496,
+      "code": "600151.SH",
+      "sha256": "75cedeea2220e8540c1974f374f4e16a5711be5c59f9f841d6e7f3d8a21eb953",
+      "source_rel": "stocks_data/600151.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600155.SH.csv",
+      "bytes": 105272,
+      "code": "600155.SH",
+      "sha256": "3a36f385d6d9cb731e5aee12b916d43c3608214249cc6684cf54365e5ee4d62e",
+      "source_rel": "stocks_data/600155.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600158.SH.csv",
+      "bytes": 131322,
+      "code": "600158.SH",
+      "sha256": "f33920a5b74ed7aef85acaa9cd60c71f3bbc1ce872518a934bc008b220c70cfd",
+      "source_rel": "stocks_data/600158.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600160.SH.csv",
+      "bytes": 136978,
+      "code": "600160.SH",
+      "sha256": "c7eb6f72a829779fddda7cab49d5b1fc4e1588621cb9fffb66e842005b4ee86a",
+      "source_rel": "stocks_data/600160.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600161.SH.csv",
+      "bytes": 134725,
+      "code": "600161.SH",
+      "sha256": "265a4329145c70131bf27ec0a78194a5646aa0b7906a18e64a48cd8465025b64",
+      "source_rel": "stocks_data/600161.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600167.SH.csv",
+      "bytes": 128938,
+      "code": "600167.SH",
+      "sha256": "d519ea3afe79a643e768183d5bf629c77a66fc120298076894932798310c7484",
+      "source_rel": "stocks_data/600167.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600169.SH.csv",
+      "bytes": 95105,
+      "code": "600169.SH",
+      "sha256": "39e7d96d2dd6a22c60948b13bcb1b3200c38c95092100b979e02e81f8a4ceac8",
+      "source_rel": "stocks_data/600169.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600179.SH.csv",
+      "bytes": 105533,
+      "code": "600179.SH",
+      "sha256": "51c72115830975181c532b617fdd9abe9e3324ae84a13a7b504b9b95093c0b60",
+      "source_rel": "stocks_data/600179.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600183.SH.csv",
+      "bytes": 136142,
+      "code": "600183.SH",
+      "sha256": "42c28181d507fc8feb72e18a30e2749aa1b5d70f3601b8577e0f242dc556809f",
+      "source_rel": "stocks_data/600183.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600184.SH.csv",
+      "bytes": 125855,
+      "code": "600184.SH",
+      "sha256": "bdaced89ff866dc88ed7a0284deb0ec4f14263237d544e2c4dbd86814a96275d",
+      "source_rel": "stocks_data/600184.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600188.SH.csv",
+      "bytes": 136541,
+      "code": "600188.SH",
+      "sha256": "3b6f7058693d176ad3aca0b4d09370cee755c66cf70434f9ac9aa9920559dea3",
+      "source_rel": "stocks_data/600188.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600195.SH.csv",
+      "bytes": 132546,
+      "code": "600195.SH",
+      "sha256": "8a7a241eacf2cc47588ef98dd3d9373f53a2be9212470388cf9c31ad90ef9bee",
+      "source_rel": "stocks_data/600195.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600201.SH.csv",
+      "bytes": 132542,
+      "code": "600201.SH",
+      "sha256": "54cf0cf0fb4801889e7c96a4e23e7e62268c0d9b89caf0b9e7da8701fe88a799",
+      "source_rel": "stocks_data/600201.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600216.SH.csv",
+      "bytes": 134367,
+      "code": "600216.SH",
+      "sha256": "bcc98451e07e03cc8cd04b35a115ae8f0203854ad94efdb6ffe7ce1d63fba309",
+      "source_rel": "stocks_data/600216.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600219.SH.csv",
+      "bytes": 137443,
+      "code": "600219.SH",
+      "sha256": "58942e09fa4e6624ac0c53ef5b99f05a7a2d85e3bb514d45ab3900089d2265d1",
+      "source_rel": "stocks_data/600219.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600233.SH.csv",
+      "bytes": 133369,
+      "code": "600233.SH",
+      "sha256": "9ee5a5d3987e8f225e0ff2cc833e29f013b8639b3cd8a9c3606a985cbe6d0f5c",
+      "source_rel": "stocks_data/600233.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600236.SH.csv",
+      "bytes": 131908,
+      "code": "600236.SH",
+      "sha256": "d88e0e8d28f9bbdd835e1b927ca6ee0e062e93cfa95c8beff03af3a1bdb3a992",
+      "source_rel": "stocks_data/600236.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600240.SH.csv",
+      "bytes": 66754,
+      "code": "600240.SH",
+      "sha256": "d787494e9de724a4c5b5ed13ed00b99c619591c2423af5215cf8add883db160b",
+      "source_rel": "stocks_data/600240.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600256.SH.csv",
+      "bytes": 133679,
+      "code": "600256.SH",
+      "sha256": "69c1199e7676c7142d19952cc6ccf705af922e08a9f4e10e7d092e2b478382b2",
+      "source_rel": "stocks_data/600256.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600258.SH.csv",
+      "bytes": 134721,
+      "code": "600258.SH",
+      "sha256": "15d817ca3f937a11d0f2bce0fd6c6ba397860e1a50b4e8de7fe98c59f7d9afc7",
+      "source_rel": "stocks_data/600258.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600259.SH.csv",
+      "bytes": 99020,
+      "code": "600259.SH",
+      "sha256": "d76aab279fc168a3c1a54127c222f3aace513d9895a09c4c9f2f6ea7d5f2dee7",
+      "source_rel": "stocks_data/600259.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600260.SH.csv",
+      "bytes": 88371,
+      "code": "600260.SH",
+      "sha256": "2c62b66d000ff4a4ecd1581512869423fcbd446d63528e6d33b57377f01d201a",
+      "source_rel": "stocks_data/600260.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600266.SH.csv",
+      "bytes": 132345,
+      "code": "600266.SH",
+      "sha256": "000c37b09b3447b5aad9c625281b660420deb87191a30c1946d51599b3235d91",
+      "source_rel": "stocks_data/600266.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600267.SH.csv",
+      "bytes": 132110,
+      "code": "600267.SH",
+      "sha256": "919a8c7b3226217b0c05c53be14ee917587c4259ef1aec67c6ba008a6f5799ff",
+      "source_rel": "stocks_data/600267.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600271.SH.csv",
+      "bytes": 126617,
+      "code": "600271.SH",
+      "sha256": "e38e23692b5148c5ac3dd10ad99e647396ab0bd4ce8b0fe1ec40f2b864aff309",
+      "source_rel": "stocks_data/600271.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600273.SH.csv",
+      "bytes": 132185,
+      "code": "600273.SH",
+      "sha256": "d079a8c45da0ec9c2e924d2fff894f8f743eccf1168b3dd4174bf4352a7c1f17",
+      "source_rel": "stocks_data/600273.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600277.SH.csv",
+      "bytes": 112389,
+      "code": "600277.SH",
+      "sha256": "d01e7f52c085832efd22f6f595270e0a3754af7ef7883bae774a87d6dcfc2523",
+      "source_rel": "stocks_data/600277.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600280.SH.csv",
+      "bytes": 100123,
+      "code": "600280.SH",
+      "sha256": "19d37103c1a9da282a72de41a15a0f5c59a2f3b095a36b16ed8fa9629dfc1331",
+      "source_rel": "stocks_data/600280.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600291.SH.csv",
+      "bytes": 82946,
+      "code": "600291.SH",
+      "sha256": "d87d9921b7aa4dccef8d57bcbfc452b46da105a311d610ceca0eef27fe9af597",
+      "source_rel": "stocks_data/600291.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600297.SH.csv",
+      "bytes": 93193,
+      "code": "600297.SH",
+      "sha256": "acce093ca40464c77a6a4a083588a5dd58fedf0ae1567a3abcf623c9851bd799",
+      "source_rel": "stocks_data/600297.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600307.SH.csv",
+      "bytes": 96949,
+      "code": "600307.SH",
+      "sha256": "48496043561d682f4564a5185662380c50b72f12c4b3aae6ba16f345ec1ce7a7",
+      "source_rel": "stocks_data/600307.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600315.SH.csv",
+      "bytes": 134094,
+      "code": "600315.SH",
+      "sha256": "70c3c551f58ea9b3480b04f12d5e8533870d1b588c2a201bf0e264e189245955",
+      "source_rel": "stocks_data/600315.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600317.SH.csv",
+      "bytes": 77667,
+      "code": "600317.SH",
+      "sha256": "1cd2ee16ee077ddd8165e781f062ca9ff82c999773cf669b43ed6704f5063c30",
+      "source_rel": "stocks_data/600317.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600325.SH.csv",
+      "bytes": 133084,
+      "code": "600325.SH",
+      "sha256": "7d7005fb994d4bd0de7e5e9fcdbe72779c05147e073cd2ab47a3b37eadd6dbf6",
+      "source_rel": "stocks_data/600325.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600335.SH.csv",
+      "bytes": 132811,
+      "code": "600335.SH",
+      "sha256": "439b641e68c3d6161e4aed2972b6616110d921dc3940b810acb61016f93bb268",
+      "source_rel": "stocks_data/600335.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600338.SH.csv",
+      "bytes": 133903,
+      "code": "600338.SH",
+      "sha256": "df55300a00272617b2e9e584f242ebb7995b1442b0b8053f02b09289ea5efe38",
+      "source_rel": "stocks_data/600338.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600350.SH.csv",
+      "bytes": 130391,
+      "code": "600350.SH",
+      "sha256": "f689f23a63d9772f675d371490dfcbb9742eb9ddf45f08a3cc633cfe59d7eaf6",
+      "source_rel": "stocks_data/600350.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600361.SH.csv",
+      "bytes": 129485,
+      "code": "600361.SH",
+      "sha256": "bfa71340ce167db0ecb2d44894fcb501f682baa359446c86a52d9942cbca1034",
+      "source_rel": "stocks_data/600361.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600366.SH.csv",
+      "bytes": 133049,
+      "code": "600366.SH",
+      "sha256": "03afaf8bcfbb1ab8799a31adb12cf9682823a96df3976ffd2ab85cecf2bf0cff",
+      "source_rel": "stocks_data/600366.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600372.SH.csv",
+      "bytes": 136736,
+      "code": "600372.SH",
+      "sha256": "7febe838635183716c5a4ab44dd1345596200c74707ac41490c5c9eccca573ab",
+      "source_rel": "stocks_data/600372.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600373.SH.csv",
+      "bytes": 131082,
+      "code": "600373.SH",
+      "sha256": "f6806533cf591b458ade607fddb382c8fe47c72cfd2cb08b617a584b19364fa4",
+      "source_rel": "stocks_data/600373.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600376.SH.csv",
+      "bytes": 118646,
+      "code": "600376.SH",
+      "sha256": "659b7270cb39c01f841c8dda540d5367272ca50e452b13ecae752732b3e1fefa",
+      "source_rel": "stocks_data/600376.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600377.SH.csv",
+      "bytes": 130930,
+      "code": "600377.SH",
+      "sha256": "e5975e223c756e27640582ad0212286eb639378a1eb871365f85842f1267b92d",
+      "source_rel": "stocks_data/600377.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600388.SH.csv",
+      "bytes": 130846,
+      "code": "600388.SH",
+      "sha256": "1171496d17572843fb39e68d8787ab6c71a685f31de027c42c491e31d579acd1",
+      "source_rel": "stocks_data/600388.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600393.SH.csv",
+      "bytes": 83437,
+      "code": "600393.SH",
+      "sha256": "0c40fd11caf6330752fdd4ad856f6a376fe0e82f2459fa1f1f7414286d45f635",
+      "source_rel": "stocks_data/600393.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600399.SH.csv",
+      "bytes": 131822,
+      "code": "600399.SH",
+      "sha256": "66763f158e892652368e66ab534863c262d254870ec98661e97b14ec5ff2bafa",
+      "source_rel": "stocks_data/600399.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600409.SH.csv",
+      "bytes": 131506,
+      "code": "600409.SH",
+      "sha256": "874db63074868ccf153bd23e4a58cdf51274a4aff3106ad871d8ed62f3e38901",
+      "source_rel": "stocks_data/600409.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600410.SH.csv",
+      "bytes": 133274,
+      "code": "600410.SH",
+      "sha256": "fc702225cc7be0d44595e8aad80095cd4d014f2bf41afb45cdb4c9fe5342beb6",
+      "source_rel": "stocks_data/600410.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600415.SH.csv",
+      "bytes": 132294,
+      "code": "600415.SH",
+      "sha256": "9532e83f51045b46bafa65406fceef0b280546178bc8e1b14f2606b6693128b2",
+      "source_rel": "stocks_data/600415.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600416.SH.csv",
+      "bytes": 101751,
+      "code": "600416.SH",
+      "sha256": "2788ffd691a31fcfe94d926f8177f72f5d8a2e9b70f9aaa0cea12dcb55f02b83",
+      "source_rel": "stocks_data/600416.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600418.SH.csv",
+      "bytes": 129880,
+      "code": "600418.SH",
+      "sha256": "91b2f36e6461448f05da9672a3c0061bce82c17498fc3cc11080146380460268",
+      "source_rel": "stocks_data/600418.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600426.SH.csv",
+      "bytes": 136139,
+      "code": "600426.SH",
+      "sha256": "3f4958256eef2ca1efebac503e5a17c85b9298a9af8dd47e61a5dd69980c7507",
+      "source_rel": "stocks_data/600426.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600428.SH.csv",
+      "bytes": 132944,
+      "code": "600428.SH",
+      "sha256": "1515ea12578050811a1c19d7490e0fd074e8281a7ab98c6b60a6942b5e8af702",
+      "source_rel": "stocks_data/600428.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600446.SH.csv",
+      "bytes": 128033,
+      "code": "600446.SH",
+      "sha256": "e9a5007f06f836a9daa6b6aaf3a80a1f37e3fce734e1799101044df2bfaee3a0",
+      "source_rel": "stocks_data/600446.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600458.SH.csv",
+      "bytes": 132727,
+      "code": "600458.SH",
+      "sha256": "024a77baa4256da3303f38cb790f0f70449fa458e1e72944521592a3ff2d5b34",
+      "source_rel": "stocks_data/600458.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600460.SH.csv",
+      "bytes": 134636,
+      "code": "600460.SH",
+      "sha256": "28d0c2d8bec76c4466a26f2ea18b8d78d53a83d00c14db9a6c4525d422ff6642",
+      "source_rel": "stocks_data/600460.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600466.SH.csv",
+      "bytes": 90734,
+      "code": "600466.SH",
+      "sha256": "79e5a0e86961201af80a95f20f8e2a65806dfdb8ea2e8a2ce67c72e052687bb9",
+      "source_rel": "stocks_data/600466.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600478.SH.csv",
+      "bytes": 127032,
+      "code": "600478.SH",
+      "sha256": "a2cd421c33e7f9d81bf776b07284266af94015b664cba0570cb42e825c9e6ab0",
+      "source_rel": "stocks_data/600478.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600481.SH.csv",
+      "bytes": 126784,
+      "code": "600481.SH",
+      "sha256": "34b47a797f21ada8f05791fcdc0e191c46a9c685e59cf2a5b42fab950c07cb60",
+      "source_rel": "stocks_data/600481.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600482.SH.csv",
+      "bytes": 134991,
+      "code": "600482.SH",
+      "sha256": "04ca2643564533e885911116d72289e475057f86a90bfe95b824494328e1dc97",
+      "source_rel": "stocks_data/600482.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600489.SH.csv",
+      "bytes": 133762,
+      "code": "600489.SH",
+      "sha256": "7ff5327c3f9ad88ee9118f3baeb54eb9f3f774ccbe991f538dc6517c41b44af5",
+      "source_rel": "stocks_data/600489.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600500.SH.csv",
+      "bytes": 120658,
+      "code": "600500.SH",
+      "sha256": "da10d37dfaf6baf9ca56a0027ea16446a411687dfa00334eca3271e2e245dc84",
+      "source_rel": "stocks_data/600500.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600503.SH.csv",
+      "bytes": 109355,
+      "code": "600503.SH",
+      "sha256": "fe0fb6de90139b6e19887ed47bbcc141319bda90ee11782b42237216a6d8c3cd",
+      "source_rel": "stocks_data/600503.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600507.SH.csv",
+      "bytes": 131514,
+      "code": "600507.SH",
+      "sha256": "65b64575ff9a5970b043bd7c2f059dd96efb3bb008845948dd57d1aeec3949ee",
+      "source_rel": "stocks_data/600507.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600515.SH.csv",
+      "bytes": 112416,
+      "code": "600515.SH",
+      "sha256": "5963ff42a9106379d8a4004ce031db11ba2970783e1123ef4251aae576dc3daa",
+      "source_rel": "stocks_data/600515.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600522.SH.csv",
+      "bytes": 135578,
+      "code": "600522.SH",
+      "sha256": "0ac93adb83b75b90f27be035fdbddc9547144ec958abb11344597f6d7987747c",
+      "source_rel": "stocks_data/600522.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600525.SH.csv",
+      "bytes": 99923,
+      "code": "600525.SH",
+      "sha256": "6c3e5c9c5beb23bd1c0366084f62046aa76f2a9476487c50fccc6464444eb095",
+      "source_rel": "stocks_data/600525.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600529.SH.csv",
+      "bytes": 134157,
+      "code": "600529.SH",
+      "sha256": "ae03c8383dfc309cf5fd71ca6f35032d978c979b577d9654fcbf45648ab07637",
+      "source_rel": "stocks_data/600529.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600545.SH.csv",
+      "bytes": 99092,
+      "code": "600545.SH",
+      "sha256": "1973db00ffac059d9f43f4f055ce4fba431ca6f81e7075d007e5c06badeb317d",
+      "source_rel": "stocks_data/600545.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600556.SH.csv",
+      "bytes": 131560,
+      "code": "600556.SH",
+      "sha256": "1b68755809f14c96286e08828bef10f2c5a2c602672b48cdd742ee734d19f7aa",
+      "source_rel": "stocks_data/600556.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600557.SH.csv",
+      "bytes": 128736,
+      "code": "600557.SH",
+      "sha256": "f8f648e1f1adea3224629a3d03b8cdb46f4124b5ce58970853a7e96b25cb7bc9",
+      "source_rel": "stocks_data/600557.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600565.SH.csv",
+      "bytes": 98663,
+      "code": "600565.SH",
+      "sha256": "f7008b5e79413bfd0558caf3bf74279e6f3c8ce87be9c711c35e69bec00d937b",
+      "source_rel": "stocks_data/600565.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600567.SH.csv",
+      "bytes": 127579,
+      "code": "600567.SH",
+      "sha256": "aadf030d77a4b6bead674ba6eb2c880e5e7b23193e7daabf22d04c2afc4f469a",
+      "source_rel": "stocks_data/600567.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600572.SH.csv",
+      "bytes": 131807,
+      "code": "600572.SH",
+      "sha256": "bcc1a3fe2e95caa3678d6a587415976aaac7fde7bdb67fc1fa19270d3d498abe",
+      "source_rel": "stocks_data/600572.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600575.SH.csv",
+      "bytes": 128593,
+      "code": "600575.SH",
+      "sha256": "1a036fbe593152ab4d26da3d3fb0fc8f3870af1177b0ed706b7cb577bea3347a",
+      "source_rel": "stocks_data/600575.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600584.SH.csv",
+      "bytes": 136251,
+      "code": "600584.SH",
+      "sha256": "72168e01fdaddc8938f7c7773cb90edf9359724a54e34d54ea2ea7d7a0215eb7",
+      "source_rel": "stocks_data/600584.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600594.SH.csv",
+      "bytes": 123783,
+      "code": "600594.SH",
+      "sha256": "4b96c327020c4304c047291e4eb1918bbc5214a0df43b3319ea2802fdc18f9fb",
+      "source_rel": "stocks_data/600594.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600597.SH.csv",
+      "bytes": 132063,
+      "code": "600597.SH",
+      "sha256": "ec9c69d22ad1fc6ef07784fb3d42a7cee5a2222ad7722d7fe0f269c0388ff640",
+      "source_rel": "stocks_data/600597.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600600.SH.csv",
+      "bytes": 130706,
+      "code": "600600.SH",
+      "sha256": "547c0367ec74e512637db3ed7580733e59e63318c8dd94d91d2bebfe1a03a500",
+      "source_rel": "stocks_data/600600.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600611.SH.csv",
+      "bytes": 132993,
+      "code": "600611.SH",
+      "sha256": "03f08ef389b0f1b353eb897a7ed1cf50707d9d38ea447b89cf5aa40320096703",
+      "source_rel": "stocks_data/600611.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600612.SH.csv",
+      "bytes": 131055,
+      "code": "600612.SH",
+      "sha256": "f44491d3f83a1ba33e2a0e58768ec061702782d4f2d5dc8436fd7d9c77bfa927",
+      "source_rel": "stocks_data/600612.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600614.SH.csv",
+      "bytes": 67515,
+      "code": "600614.SH",
+      "sha256": "dd5ee9b34f1f3f1a1f5d120877b66938b1dba3a9f0adaf165160e9f041c802d3",
+      "source_rel": "stocks_data/600614.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600618.SH.csv",
+      "bytes": 130898,
+      "code": "600618.SH",
+      "sha256": "da39a9528a351553fbaa6f4c4903bbc5824d969d755c8f1b8179f83cca1ce3f0",
+      "source_rel": "stocks_data/600618.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600623.SH.csv",
+      "bytes": 130326,
+      "code": "600623.SH",
+      "sha256": "312d9f7f90aa339999da0327ca651bc1f9df534c1b9829483545b39f4eda9a76",
+      "source_rel": "stocks_data/600623.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600633.SH.csv",
+      "bytes": 133300,
+      "code": "600633.SH",
+      "sha256": "4d1d5599e036cb909e3bba6f6d812fffcd015354e4d20accdcf1520ad770c519",
+      "source_rel": "stocks_data/600633.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600639.SH.csv",
+      "bytes": 132160,
+      "code": "600639.SH",
+      "sha256": "d2c6e88a9d39b42e1fc70a58fe5264e486066da140c861e2119e74022f12adca",
+      "source_rel": "stocks_data/600639.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600640.SH.csv",
+      "bytes": 132775,
+      "code": "600640.SH",
+      "sha256": "d046fb891fd54aced7274ef4071cd09b783d22d442ec6a9008598f949fc8c0d9",
+      "source_rel": "stocks_data/600640.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600643.SH.csv",
+      "bytes": 124165,
+      "code": "600643.SH",
+      "sha256": "24ad5937d14cc310530202f2110b1e02c588fc9b2edc291941218c0193baf54a",
+      "source_rel": "stocks_data/600643.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600645.SH.csv",
+      "bytes": 97854,
+      "code": "600645.SH",
+      "sha256": "2f556055b2008ce23917db989bb999c808de94c809dae13d56ef3981788e1bb7",
+      "source_rel": "stocks_data/600645.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600648.SH.csv",
+      "bytes": 130810,
+      "code": "600648.SH",
+      "sha256": "c6eb444b128ee11b9fd6fd1abd0a81f7c268895c96645f0aff27cc0edc52a830",
+      "source_rel": "stocks_data/600648.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600649.SH.csv",
+      "bytes": 131180,
+      "code": "600649.SH",
+      "sha256": "1cfad176f15d4971c3a21d8b6fa70ec0d772a5f10438e4462a819c1d38bd2e41",
+      "source_rel": "stocks_data/600649.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600657.SH.csv",
+      "bytes": 119090,
+      "code": "600657.SH",
+      "sha256": "2c09d9d687f742a0d5460c1737e514bd9c2cdfd246050db0d67af5c0561d7e81",
+      "source_rel": "stocks_data/600657.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600664.SH.csv",
+      "bytes": 103306,
+      "code": "600664.SH",
+      "sha256": "b602f75bf0ad0e88e331031ad61de28637597adb96de90d4ed75ee26a98bb6e8",
+      "source_rel": "stocks_data/600664.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600667.SH.csv",
+      "bytes": 132445,
+      "code": "600667.SH",
+      "sha256": "633247b850a6b834120450438f4de37acd8c6a6f86722a21b41172ff5e9d0cfb",
+      "source_rel": "stocks_data/600667.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600675.SH.csv",
+      "bytes": 126045,
+      "code": "600675.SH",
+      "sha256": "fdc6e29e94ab61fbc8fe8a9f582f0f86ba125a50fa925d9dcb29529c082dd2e2",
+      "source_rel": "stocks_data/600675.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600687.SH.csv",
+      "bytes": 65123,
+      "code": "600687.SH",
+      "sha256": "10356398b67fb3f2a1543f81ef1c13717ea0445fe102f8a0978551bed4a5485d",
+      "source_rel": "stocks_data/600687.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600694.SH.csv",
+      "bytes": 131001,
+      "code": "600694.SH",
+      "sha256": "8fd98fb65470592e8b38cff2a4c9446dbceb4a894fdf94533b0bf5e264a756da",
+      "source_rel": "stocks_data/600694.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600705.SH.csv",
+      "bytes": 123410,
+      "code": "600705.SH",
+      "sha256": "52b5e50ea06cd5b188d12dc60c9881542abeade0ff957b75ad4f0c845539bf40",
+      "source_rel": "stocks_data/600705.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600717.SH.csv",
+      "bytes": 130625,
+      "code": "600717.SH",
+      "sha256": "55bc5041c0a543bfb7b91bed6fedda26e81536dad59819446671a1a1f2507f8b",
+      "source_rel": "stocks_data/600717.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600718.SH.csv",
+      "bytes": 132359,
+      "code": "600718.SH",
+      "sha256": "1dd2672c60860300a19d24460377f50ba60f23471bf523f9378499fe7e1d1701",
+      "source_rel": "stocks_data/600718.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600728.SH.csv",
+      "bytes": 127041,
+      "code": "600728.SH",
+      "sha256": "e77ccca38a1ff050032c8027ec9441eccf252d1e489c50d831b784292fa7286c",
+      "source_rel": "stocks_data/600728.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600729.SH.csv",
+      "bytes": 134581,
+      "code": "600729.SH",
+      "sha256": "57beb335436d5e0f74b7db4f683df682295d5c6cad30cad49cacb8cc66897985",
+      "source_rel": "stocks_data/600729.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600732.SH.csv",
+      "bytes": 121669,
+      "code": "600732.SH",
+      "sha256": "69e7065375a424b8ef61f36bc8be84c2c054da2a631327d34c51ad0b213350e6",
+      "source_rel": "stocks_data/600732.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600733.SH.csv",
+      "bytes": 101837,
+      "code": "600733.SH",
+      "sha256": "0614b607cfeafef6907dce1da864c3b7707cc7fb7a7400ae5e25646069b270b4",
+      "source_rel": "stocks_data/600733.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600743.SH.csv",
+      "bytes": 107282,
+      "code": "600743.SH",
+      "sha256": "1d9871b478917e1e14e87c79901a924cc11dd7dc25d64ef855e68b0f777fa003",
+      "source_rel": "stocks_data/600743.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600745.SH.csv",
+      "bytes": 128423,
+      "code": "600745.SH",
+      "sha256": "aa0ab1fb6eeb98134f84ef7d7063422be1b580ed43ea18c8b39b3cd0a1f6121b",
+      "source_rel": "stocks_data/600745.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600748.SH.csv",
+      "bytes": 125580,
+      "code": "600748.SH",
+      "sha256": "3e00268099a728d1af727eecee0be6c3703b280bacc66a7cdfd3e5520e3ea885",
+      "source_rel": "stocks_data/600748.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600750.SH.csv",
+      "bytes": 133110,
+      "code": "600750.SH",
+      "sha256": "302a4c9e6e539bd9d449db3db5a18b3d7540d8e1785ef294574f3d6df237414a",
+      "source_rel": "stocks_data/600750.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600751.SH.csv",
+      "bytes": 96284,
+      "code": "600751.SH",
+      "sha256": "eb54dc45aa4fa81943162f73b8926e5d5544a15754e65b49825a067e8cf52f45",
+      "source_rel": "stocks_data/600751.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600755.SH.csv",
+      "bytes": 134996,
+      "code": "600755.SH",
+      "sha256": "dc6772142b4b65b7299d7875e2baf4ff0c5768f8775afd7fc832ea382640d11e",
+      "source_rel": "stocks_data/600755.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600757.SH.csv",
+      "bytes": 129378,
+      "code": "600757.SH",
+      "sha256": "6ce01e9fb3a0986a518fe10b47ad98f21a0735e0516c7e5492c38b53dae6f6c2",
+      "source_rel": "stocks_data/600757.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600759.SH.csv",
+      "bytes": 96375,
+      "code": "600759.SH",
+      "sha256": "f0b0dd6e9c3d9008c037cc7b66b73f312de2216c4f1cf598368b2cca4d2b1831",
+      "source_rel": "stocks_data/600759.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600770.SH.csv",
+      "bytes": 99194,
+      "code": "600770.SH",
+      "sha256": "b56f768565821b705e763804f840eb3a334bb72869501e392ccdcc039f1b9830",
+      "source_rel": "stocks_data/600770.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600773.SH.csv",
+      "bytes": 132438,
+      "code": "600773.SH",
+      "sha256": "4a7df025440a6fe7835adb40200e5debc99d028eea4692ba88c88b18eb2b9ac3",
+      "source_rel": "stocks_data/600773.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600776.SH.csv",
+      "bytes": 133598,
+      "code": "600776.SH",
+      "sha256": "27083974f15d6662a58ebd34acafc25c27c48f05047c04c5dfd7fbffcdd0e0b9",
+      "source_rel": "stocks_data/600776.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600777.SH.csv",
+      "bytes": 99308,
+      "code": "600777.SH",
+      "sha256": "db3d97dc5f0e0d6dc04d9496982e9de6abc341fb8c76a15c5b4e5a7c6ddf50e0",
+      "source_rel": "stocks_data/600777.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600779.SH.csv",
+      "bytes": 132336,
+      "code": "600779.SH",
+      "sha256": "4603bf755ec989c040f2238f5dd313e796a403e7b76c4f6963446950eb0dd102",
+      "source_rel": "stocks_data/600779.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600782.SH.csv",
+      "bytes": 133165,
+      "code": "600782.SH",
+      "sha256": "e12162f1367ce4c98db062acf99d7f0bd68164fac28867da02c7c32c697522a0",
+      "source_rel": "stocks_data/600782.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600787.SH.csv",
+      "bytes": 129986,
+      "code": "600787.SH",
+      "sha256": "c4dc98d5e21b4bdfaab0722aae550211cdb6b2a7a086a490f04ad431b90bcebd",
+      "source_rel": "stocks_data/600787.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600803.SH.csv",
+      "bytes": 133996,
+      "code": "600803.SH",
+      "sha256": "22f459c77d211d2acdc769f291239b800f9b8b2d036384bc236abc3dd72ec97b",
+      "source_rel": "stocks_data/600803.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600804.SH.csv",
+      "bytes": 91904,
+      "code": "600804.SH",
+      "sha256": "10422b217466f7766cc20ca664c38a05720218e4fddcc5c63d1820c85a3a7ef5",
+      "source_rel": "stocks_data/600804.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600811.SH.csv",
+      "bytes": 91670,
+      "code": "600811.SH",
+      "sha256": "12a99f2221e5e593073b8a8a8b760fd9a6519ae34951ce724984b16955763c3b",
+      "source_rel": "stocks_data/600811.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600823.SH.csv",
+      "bytes": 97865,
+      "code": "600823.SH",
+      "sha256": "ef76ac5b09b6d4e50d15c5f4480aeb7a33fc3b8667fc21e6019c1d1917f94e4b",
+      "source_rel": "stocks_data/600823.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600827.SH.csv",
+      "bytes": 131908,
+      "code": "600827.SH",
+      "sha256": "896a7a4dbe33ae3a3c67b0b3c3a6b8274b22a6b202687e1ac92422058815b406",
+      "source_rel": "stocks_data/600827.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600835.SH.csv",
+      "bytes": 134355,
+      "code": "600835.SH",
+      "sha256": "3dee298659577151f29ea52354adc6156395981f14d4e9ac3936fd0beab94aca",
+      "source_rel": "stocks_data/600835.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600839.SH.csv",
+      "bytes": 134731,
+      "code": "600839.SH",
+      "sha256": "b6d2e636067989bcaa5dc5115290d9fd3917e718a0e93bff390827a7dc0cfac1",
+      "source_rel": "stocks_data/600839.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600845.SH.csv",
+      "bytes": 132103,
+      "code": "600845.SH",
+      "sha256": "94b20fe51f22ec7a0f1278dbb19ba98a0db2784310871a96aa0bc90a37e51f31",
+      "source_rel": "stocks_data/600845.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600859.SH.csv",
+      "bytes": 134920,
+      "code": "600859.SH",
+      "sha256": "dead5355943a89acda7a65aabdc376735e0979db93d630cdf905c35a955938f8",
+      "source_rel": "stocks_data/600859.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600867.SH.csv",
+      "bytes": 132490,
+      "code": "600867.SH",
+      "sha256": "23ff4b9f7a7e0f80baef6e8df91b2a91c12da66ec3f73fecea8043b8df2a7dc6",
+      "source_rel": "stocks_data/600867.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600869.SH.csv",
+      "bytes": 126681,
+      "code": "600869.SH",
+      "sha256": "709bd5977e55c23c33f2c1350bfb5d3b2d2f52ee24962b0920c27ca6e2858817",
+      "source_rel": "stocks_data/600869.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600872.SH.csv",
+      "bytes": 132530,
+      "code": "600872.SH",
+      "sha256": "2713c03ab60c0170e78870eada468a477381efe3a9b94886d4a3d0a2fdda5330",
+      "source_rel": "stocks_data/600872.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600874.SH.csv",
+      "bytes": 129632,
+      "code": "600874.SH",
+      "sha256": "aabddeefe2437f9a15364d10beedbaff0d4021533973b942ca11231b0ef6de24",
+      "source_rel": "stocks_data/600874.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600875.SH.csv",
+      "bytes": 135159,
+      "code": "600875.SH",
+      "sha256": "1444f9fafb29815debaf8d07601c7ad5bb8dbfbfc6ebcbe392a57136a3db79ea",
+      "source_rel": "stocks_data/600875.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600881.SH.csv",
+      "bytes": 113013,
+      "code": "600881.SH",
+      "sha256": "cf296bf8a58d54b97d8e0311a0d36942f89bc116018f9833cc375048f42e2888",
+      "source_rel": "stocks_data/600881.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600895.SH.csv",
+      "bytes": 135711,
+      "code": "600895.SH",
+      "sha256": "9468a5cd0da6600242f53fdd35efd6dd11984f32a97bc3d000645916546ababa",
+      "source_rel": "stocks_data/600895.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600903.SH.csv",
+      "bytes": 132239,
+      "code": "600903.SH",
+      "sha256": "deb95092eca0400c2c9717f6a128d6280142f461d46e8aa19a1d0c588267ca97",
+      "source_rel": "stocks_data/600903.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600908.SH.csv",
+      "bytes": 133038,
+      "code": "600908.SH",
+      "sha256": "62a7ea7f48b2cad62f5aba0facb48307af9fcf2d3e2f1d13b952d6bab4b9e337",
+      "source_rel": "stocks_data/600908.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600917.SH.csv",
+      "bytes": 130034,
+      "code": "600917.SH",
+      "sha256": "6a23eabdb8745bcb823916ade035ea1fd7c4f36c89bba9b2da753b80b9ac8ae5",
+      "source_rel": "stocks_data/600917.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600925.SH.csv",
+      "bytes": 117174,
+      "code": "600925.SH",
+      "sha256": "1b30d506a52ffaed7e4e7bde88b76d599c6db6fb94a546bc013d550bc2bf1e2d",
+      "source_rel": "stocks_data/600925.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600928.SH.csv",
+      "bytes": 131376,
+      "code": "600928.SH",
+      "sha256": "29f5e1d8fb43a500928e67e3c003f7fb09c9206291f6ecaf34247e581850ffc6",
+      "source_rel": "stocks_data/600928.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600939.SH.csv",
+      "bytes": 124252,
+      "code": "600939.SH",
+      "sha256": "5a3bb18652180f0254dbfc21f68b294a1f3f1ea6b81be817e224048d5f80329d",
+      "source_rel": "stocks_data/600939.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600956.SH.csv",
+      "bytes": 127672,
+      "code": "600956.SH",
+      "sha256": "4ffbef0299529ce8101370a454cc769857b9bff00436af24264ebe0bfbe34c85",
+      "source_rel": "stocks_data/600956.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600971.SH.csv",
+      "bytes": 130732,
+      "code": "600971.SH",
+      "sha256": "2723ddb5e0a0345b5829d621e4855cf96bee4717ff8b0245a06fa6c96f751b0d",
+      "source_rel": "stocks_data/600971.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600978.SH.csv",
+      "bytes": 76572,
+      "code": "600978.SH",
+      "sha256": "28b3ccc073416e8c4c7470f708c743b99bc3f2e7c0edc13e8d7639a0059123c2",
+      "source_rel": "stocks_data/600978.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600993.SH.csv",
+      "bytes": 133419,
+      "code": "600993.SH",
+      "sha256": "dde0a2601f6f106623a38889f175a3b9e5973adcd3fa2c71d83e56c4b0e6ffb3",
+      "source_rel": "stocks_data/600993.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/600996.SH.csv",
+      "bytes": 102937,
+      "code": "600996.SH",
+      "sha256": "a2fa83fa50198e3c34fa1b4e16e100107d99179bb8393e614a4bad5f63a54d15",
+      "source_rel": "stocks_data/600996.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601003.SH.csv",
+      "bytes": 119916,
+      "code": "601003.SH",
+      "sha256": "dbc49953f4e4ebfe041c79aa16bad693ebef91514973a6f7b5823132fba17f8e",
+      "source_rel": "stocks_data/601003.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601005.SH.csv",
+      "bytes": 95585,
+      "code": "601005.SH",
+      "sha256": "7564b1159291470802409f30559945341a6ed29a7c4947e53b4172f79dfa8ad6",
+      "source_rel": "stocks_data/601005.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601020.SH.csv",
+      "bytes": 131830,
+      "code": "601020.SH",
+      "sha256": "ad46c4a726560774926d6c3dd60a1729f65e416efc353f25001a7e90457b522d",
+      "source_rel": "stocks_data/601020.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601058.SH.csv",
+      "bytes": 135422,
+      "code": "601058.SH",
+      "sha256": "8f7c3e9be9f0754abb20b421df7d0f74d6572b3952785470b893c6f6a9e12f2b",
+      "source_rel": "stocks_data/601058.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601068.SH.csv",
+      "bytes": 98293,
+      "code": "601068.SH",
+      "sha256": "4488d45f3d53e8210d700587056dc116323814d0b06379eb64962bf93220711a",
+      "source_rel": "stocks_data/601068.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601077.SH.csv",
+      "bytes": 133404,
+      "code": "601077.SH",
+      "sha256": "04215e53c78cf242e6aefb23c7dbdc88d250196da70c3a08d40cff398da70221",
+      "source_rel": "stocks_data/601077.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601100.SH.csv",
+      "bytes": 134136,
+      "code": "601100.SH",
+      "sha256": "c9f16ef1111dea18146fef67411fd47d05dcd4f8380d4269c3d256cc15b78be3",
+      "source_rel": "stocks_data/601100.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601117.SH.csv",
+      "bytes": 135778,
+      "code": "601117.SH",
+      "sha256": "f1da695c835bd6a5c93a536c6c0e7baa9213055d46318742246816b9ef673cb9",
+      "source_rel": "stocks_data/601117.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601127.SH.csv",
+      "bytes": 135492,
+      "code": "601127.SH",
+      "sha256": "1beb09a14577fc219a5a8930148204fc8494d5ae4b078dd621d0291b17c166ea",
+      "source_rel": "stocks_data/601127.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601136.SH.csv",
+      "bytes": 121305,
+      "code": "601136.SH",
+      "sha256": "7a6df29966fe9a4cb66e77aef7863f1c598e1ac8de4846178b9f1189036e7c1d",
+      "source_rel": "stocks_data/601136.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601158.SH.csv",
+      "bytes": 130927,
+      "code": "601158.SH",
+      "sha256": "51b1c578b0129e6a067e74ce728b1114273b614613d5caed3e4ae52a34e6c387",
+      "source_rel": "stocks_data/601158.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601187.SH.csv",
+      "bytes": 127737,
+      "code": "601187.SH",
+      "sha256": "fd79f685e100d1793f78af965be8eb5de66e1cfe15434dbe7c28329d2864e26a",
+      "source_rel": "stocks_data/601187.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601200.SH.csv",
+      "bytes": 128786,
+      "code": "601200.SH",
+      "sha256": "d6036d1b1ca01bd3c6c86b4b47ae645452d79f2fdf6ee3372604c98f71731b0f",
+      "source_rel": "stocks_data/601200.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601298.SH.csv",
+      "bytes": 132252,
+      "code": "601298.SH",
+      "sha256": "ce30d92edd09f6a27834bb3fa1dfe271b6ca981c94c29c4f41b886a8803c1c46",
+      "source_rel": "stocks_data/601298.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601311.SH.csv",
+      "bytes": 131071,
+      "code": "601311.SH",
+      "sha256": "7ccf943522a34557a4c5a616780138e63cd20c70d1f1c142f457fc84724ebf42",
+      "source_rel": "stocks_data/601311.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601326.SH.csv",
+      "bytes": 132361,
+      "code": "601326.SH",
+      "sha256": "cea24cc80fbc4d2910601accda79a758d997873c7bf9ef628a89ed0919e3d4a3",
+      "source_rel": "stocks_data/601326.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601456.SH.csv",
+      "bytes": 128712,
+      "code": "601456.SH",
+      "sha256": "4d4cdb5bb14cfc683661190604d4047803e09ee9d2e55d0ec4b66060fc1e1955",
+      "source_rel": "stocks_data/601456.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601512.SH.csv",
+      "bytes": 125926,
+      "code": "601512.SH",
+      "sha256": "44888f77e75b1dfdc56bd4d9cc0ca33489a25836acc0436698506979a673249b",
+      "source_rel": "stocks_data/601512.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601568.SH.csv",
+      "bytes": 125290,
+      "code": "601568.SH",
+      "sha256": "28f6c041941a83d090ffef4d0b41e7bef1bd198a42cca1212a40c9861ce94e10",
+      "source_rel": "stocks_data/601568.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601607.SH.csv",
+      "bytes": 136755,
+      "code": "601607.SH",
+      "sha256": "122e5501d47e14809ddff9974b8c2aa3e39ff0bd1d879997352532c35b46d9ff",
+      "source_rel": "stocks_data/601607.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601636.SH.csv",
+      "bytes": 132783,
+      "code": "601636.SH",
+      "sha256": "e4f3117fc05b90f0f4d9e3612548d8126146dcb4759cf8a12af59acb51e12d50",
+      "source_rel": "stocks_data/601636.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601678.SH.csv",
+      "bytes": 132844,
+      "code": "601678.SH",
+      "sha256": "cd0bf9a5047f7387e3296eb573229f369f8d6f5b714ffbeb6629185d12522be2",
+      "source_rel": "stocks_data/601678.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601689.SH.csv",
+      "bytes": 132626,
+      "code": "601689.SH",
+      "sha256": "afd48a797ee60e395c9ba7e57282aa172e260196bf7df9b8b158b673a5cd53af",
+      "source_rel": "stocks_data/601689.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601718.SH.csv",
+      "bytes": 127221,
+      "code": "601718.SH",
+      "sha256": "fd00cbad2e85f5dd7ab976a35848e00f2f53c07ade280037836c2392e1a69116",
+      "source_rel": "stocks_data/601718.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601777.SH.csv",
+      "bytes": 99856,
+      "code": "601777.SH",
+      "sha256": "b6b2d64dee3fb08610d9d27c4e62cd7208749511d3ab23607a832eee1418a3cd",
+      "source_rel": "stocks_data/601777.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601778.SH.csv",
+      "bytes": 127311,
+      "code": "601778.SH",
+      "sha256": "b7b3e193cea198667ee443eaf1d3e25f47d03b232925112713ab0ac735095a70",
+      "source_rel": "stocks_data/601778.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601801.SH.csv",
+      "bytes": 133224,
+      "code": "601801.SH",
+      "sha256": "7be8ff7b007cfe6e39dddb9e9fbdae1036c89148c7776c329e897d36104bc3e1",
+      "source_rel": "stocks_data/601801.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601811.SH.csv",
+      "bytes": 132175,
+      "code": "601811.SH",
+      "sha256": "263d739ae562512cdcb50703eb8884fbee45eb21bc5f8ca8fd77c353e36be30c",
+      "source_rel": "stocks_data/601811.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601828.SH.csv",
+      "bytes": 117553,
+      "code": "601828.SH",
+      "sha256": "e9b62563b3c6cf2fedda615b51edbaf2a3ed7f2666c265f870a83da110731673",
+      "source_rel": "stocks_data/601828.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601858.SH.csv",
+      "bytes": 130753,
+      "code": "601858.SH",
+      "sha256": "bd7a5bbeb3d209587860a4a548ac8354ba4c3866337fbb4308dcf4953e6bcd5e",
+      "source_rel": "stocks_data/601858.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601860.SH.csv",
+      "bytes": 135876,
+      "code": "601860.SH",
+      "sha256": "961d8035fd2021be2322dd4b1366a70c526e41d6bd350176af9e02ab6833a63a",
+      "source_rel": "stocks_data/601860.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601868.SH.csv",
+      "bytes": 127240,
+      "code": "601868.SH",
+      "sha256": "a56cf7e5bace60bb7ef0bc10c4026f160fa36bb69af36427256fd98a314c0db1",
+      "source_rel": "stocks_data/601868.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601869.SH.csv",
+      "bytes": 132343,
+      "code": "601869.SH",
+      "sha256": "1e508ff112e9d73a5520b1b7e76def7db86b1cfc6417f8cc6abea1a446e257a1",
+      "source_rel": "stocks_data/601869.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601872.SH.csv",
+      "bytes": 134765,
+      "code": "601872.SH",
+      "sha256": "f20e2bfc68348e1d5d7a41b0eaa9a169e4c0586a3a55098427ce04305aeebdd6",
+      "source_rel": "stocks_data/601872.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601933.SH.csv",
+      "bytes": 119700,
+      "code": "601933.SH",
+      "sha256": "eca925615008cacc44d0b0d7ac9355360e3b576efcc7f975a17f46aa6d55399a",
+      "source_rel": "stocks_data/601933.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601969.SH.csv",
+      "bytes": 131643,
+      "code": "601969.SH",
+      "sha256": "b8fa4212b2c6e0aa3160254aae8eda9274801e2249ea972a7deed49580382558",
+      "source_rel": "stocks_data/601969.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601975.SH.csv",
+      "bytes": 89390,
+      "code": "601975.SH",
+      "sha256": "a9cce3c12e59600c69c3906a76896b0aaed1e6c628ba20d0d69d20460e4ca0dd",
+      "source_rel": "stocks_data/601975.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/601992.SH.csv",
+      "bytes": 133393,
+      "code": "601992.SH",
+      "sha256": "cf653070c26bc577656e368aa8a04b024735372a97bc9bd7c9461ed9bc3b1850",
+      "source_rel": "stocks_data/601992.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603025.SH.csv",
+      "bytes": 130821,
+      "code": "603025.SH",
+      "sha256": "930a749a7453f55c3595243eb7e847dc79897b74fda0edd1d079c43c2b446eef",
+      "source_rel": "stocks_data/603025.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603026.SH.csv",
+      "bytes": 125850,
+      "code": "603026.SH",
+      "sha256": "d24d529a7fd7b7eb9da0f77b1abdca21d7b85800eae5a9f519459da2eb12c99b",
+      "source_rel": "stocks_data/603026.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603056.SH.csv",
+      "bytes": 131324,
+      "code": "603056.SH",
+      "sha256": "0a16c0916fce2d20bc033b82eade2505404df7f7e71e827d2b0177c6e82072cf",
+      "source_rel": "stocks_data/603056.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603127.SH.csv",
+      "bytes": 132782,
+      "code": "603127.SH",
+      "sha256": "75b891e1ee5b564334c1856299ff7cff6431380f54039bbe6a5bfc48930ef21d",
+      "source_rel": "stocks_data/603127.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603169.SH.csv",
+      "bytes": 100758,
+      "code": "603169.SH",
+      "sha256": "7c7a36151cc1d0bd50409de7ac978ea506a83559b5266aa5f75de29397326f25",
+      "source_rel": "stocks_data/603169.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603185.SH.csv",
+      "bytes": 125684,
+      "code": "603185.SH",
+      "sha256": "2f1b3c8c3354e98a71c2e44bbe653d5948e4ba1dc4202e7e650fab3b0ac7eec2",
+      "source_rel": "stocks_data/603185.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603198.SH.csv",
+      "bytes": 131524,
+      "code": "603198.SH",
+      "sha256": "f7a457e954e72cb5549948a7165e2a82ec6d6b8d9f2175acf6d1194c9a2e451a",
+      "source_rel": "stocks_data/603198.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603218.SH.csv",
+      "bytes": 132676,
+      "code": "603218.SH",
+      "sha256": "f10027d3f99c4404aa821086c90fa2c861f8706a5044246fda29d872c52c56ec",
+      "source_rel": "stocks_data/603218.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603256.SH.csv",
+      "bytes": 114626,
+      "code": "603256.SH",
+      "sha256": "8abb3774e65259a6bd67087c51ce10528952a96936e3b454c0f6b1ddea87a854",
+      "source_rel": "stocks_data/603256.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603260.SH.csv",
+      "bytes": 133022,
+      "code": "603260.SH",
+      "sha256": "78ec5f7abf90704c0b25b11a73b2bedbc82050d2d73e817384e6244b8e3e9600",
+      "source_rel": "stocks_data/603260.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603267.SH.csv",
+      "bytes": 132554,
+      "code": "603267.SH",
+      "sha256": "c621dfad334c32ec70e7314849cdc798ebc668606a08b8d4466b615f92027fda",
+      "source_rel": "stocks_data/603267.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603305.SH.csv",
+      "bytes": 132698,
+      "code": "603305.SH",
+      "sha256": "d62946aaf3cc4f01f38b58e65e490c1e07d38a49c1e1d74cfc61b8edada5d199",
+      "source_rel": "stocks_data/603305.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603317.SH.csv",
+      "bytes": 130424,
+      "code": "603317.SH",
+      "sha256": "db35233a9b977f84f1fa39199d50e116510222f67a6132ebdc69da7d1ffe7328",
+      "source_rel": "stocks_data/603317.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603328.SH.csv",
+      "bytes": 130868,
+      "code": "603328.SH",
+      "sha256": "ac48d1cead9bf156be653c7b7efc93c727cc4c69d9b1ea2f56f1cd65106c2536",
+      "source_rel": "stocks_data/603328.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603355.SH.csv",
+      "bytes": 126951,
+      "code": "603355.SH",
+      "sha256": "d1cdea0f0c0e999e0c80ecebf22192d628fda447e7f2e4b87f511fc43586a8e6",
+      "source_rel": "stocks_data/603355.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603369.SH.csv",
+      "bytes": 131604,
+      "code": "603369.SH",
+      "sha256": "7140bfa172279c1e4d5af86a72ebb1d7f3f4f5cec580bef5177d0c01b9c311ac",
+      "source_rel": "stocks_data/603369.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603377.SH.csv",
+      "bytes": 106042,
+      "code": "603377.SH",
+      "sha256": "5c2870af9d1bab3658003d89ad738cbda272dd317301ba2419905bb323f19237",
+      "source_rel": "stocks_data/603377.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603456.SH.csv",
+      "bytes": 133368,
+      "code": "603456.SH",
+      "sha256": "50aefc40cff49f598484e92108c791870366383ff0ba4633627198bd1e164fdc",
+      "source_rel": "stocks_data/603456.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603501.SH.csv",
+      "bytes": 136569,
+      "code": "603501.SH",
+      "sha256": "5af637a1065425711af0d390b31c7c5a1cdae695fb3d2b84c9f49a0f40cd5663",
+      "source_rel": "stocks_data/603501.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603515.SH.csv",
+      "bytes": 130478,
+      "code": "603515.SH",
+      "sha256": "3320315e8452027c882b9362e6edcfcf3704a94d1e0e74b60001f662c8aae5d8",
+      "source_rel": "stocks_data/603515.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603517.SH.csv",
+      "bytes": 132202,
+      "code": "603517.SH",
+      "sha256": "dd068f21d40a65250d1e179763e4a61646566a87f4dd59217adcceea22191843",
+      "source_rel": "stocks_data/603517.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603556.SH.csv",
+      "bytes": 131454,
+      "code": "603556.SH",
+      "sha256": "e4499bb3e84de1bd456847efbd4d1091f46e6a10d8034e59484a6fdf6af3f0a5",
+      "source_rel": "stocks_data/603556.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603569.SH.csv",
+      "bytes": 130695,
+      "code": "603569.SH",
+      "sha256": "1b70f269859d9712f0a9647cebb504022e8e784dbf557e030d833d8f55c933a0",
+      "source_rel": "stocks_data/603569.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603613.SH.csv",
+      "bytes": 130887,
+      "code": "603613.SH",
+      "sha256": "47fdf5ac68f54368b13c6bd97ee066a50fabdacb4b24e9c3ef78f99ca433e261",
+      "source_rel": "stocks_data/603613.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603638.SH.csv",
+      "bytes": 133109,
+      "code": "603638.SH",
+      "sha256": "95096c8af43935e5aff30121789a81b0dcdda1b65b4650912b538da0336a9b53",
+      "source_rel": "stocks_data/603638.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603708.SH.csv",
+      "bytes": 132900,
+      "code": "603708.SH",
+      "sha256": "eac8dd8a06b499d4d780500f00b87e5d03af285dd9fe6d05c05991f11914eaeb",
+      "source_rel": "stocks_data/603708.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603712.SH.csv",
+      "bytes": 125261,
+      "code": "603712.SH",
+      "sha256": "b8d971f6e1c51454003f7075ccf4c3b6d9bf05a912a695d906f9a77e33370586",
+      "source_rel": "stocks_data/603712.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603719.SH.csv",
+      "bytes": 127051,
+      "code": "603719.SH",
+      "sha256": "e4cce3aa63ddd44367fe35886306b872e64f078fc439bbf70179fc55a422ac8a",
+      "source_rel": "stocks_data/603719.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603826.SH.csv",
+      "bytes": 124686,
+      "code": "603826.SH",
+      "sha256": "0c9cc266471136ce1a729f08cc2ef176f0214734c689d9a62897cc5ae217f16a",
+      "source_rel": "stocks_data/603826.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603866.SH.csv",
+      "bytes": 129923,
+      "code": "603866.SH",
+      "sha256": "36cfbc6805a678dcc764399f94f6a219bb332b01869e843b8a4aa671e03573e7",
+      "source_rel": "stocks_data/603866.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603868.SH.csv",
+      "bytes": 127818,
+      "code": "603868.SH",
+      "sha256": "19c97197b76aab6e0ed8302c63165bf4ae6a61a0a90c623c04746894735195de",
+      "source_rel": "stocks_data/603868.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603877.SH.csv",
+      "bytes": 131015,
+      "code": "603877.SH",
+      "sha256": "deda2be766cd571e3ddeafba6db118d23d06a369fff58d08b66b113929433fd4",
+      "source_rel": "stocks_data/603877.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603882.SH.csv",
+      "bytes": 134912,
+      "code": "603882.SH",
+      "sha256": "728a7ae2b2ad63b9fa6f55d3ff5fe14c16590c51b8936b5ff2a7a1f264472e53",
+      "source_rel": "stocks_data/603882.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603883.SH.csv",
+      "bytes": 134848,
+      "code": "603883.SH",
+      "sha256": "4f8480a2acbbbc7a1ae0582ab15b33ad1224e7fe09e6c20b76a67364dc7e37e4",
+      "source_rel": "stocks_data/603883.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603888.SH.csv",
+      "bytes": 133516,
+      "code": "603888.SH",
+      "sha256": "a42cfc2e50aa128e5ba9abcfe1c89af73685e4a1ce11bb55f98b5cf9c9b82326",
+      "source_rel": "stocks_data/603888.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603893.SH.csv",
+      "bytes": 131350,
+      "code": "603893.SH",
+      "sha256": "fc7b815fc21f07f52f8944af73eb577a2c0981d259000570be7875bad79dcda7",
+      "source_rel": "stocks_data/603893.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/603983.SH.csv",
+      "bytes": 130512,
+      "code": "603983.SH",
+      "sha256": "4702b727f4b04c793c750752bc275c89374cb9f3f5d4f18825fdced62551e292",
+      "source_rel": "stocks_data/603983.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/605117.SH.csv",
+      "bytes": 126388,
+      "code": "605117.SH",
+      "sha256": "245773eb0d99abdb3a6d78a7d02f6220ae5c3472d36ee7c3f3bb924bbf183b2d",
+      "source_rel": "stocks_data/605117.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688005.SH.csv",
+      "bytes": 130095,
+      "code": "688005.SH",
+      "sha256": "3cbc437ec070289271626c29fddfa1bed734a93f3f04653732895a1c655a7b1d",
+      "source_rel": "stocks_data/688005.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688006.SH.csv",
+      "bytes": 131087,
+      "code": "688006.SH",
+      "sha256": "4292e5efe3a8dc16617d43ce811daded2da1f6ae470d1ef208d10976e99ebcec",
+      "source_rel": "stocks_data/688006.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688009.SH.csv",
+      "bytes": 130131,
+      "code": "688009.SH",
+      "sha256": "9ca2fcf0320ede66bf4a8d05041aa57908a39a4ed05427bace9d642225a1b1be",
+      "source_rel": "stocks_data/688009.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688029.SH.csv",
+      "bytes": 129769,
+      "code": "688029.SH",
+      "sha256": "52b5951495c9b8b5a50bf36106702f0ac68474440c5d2190b93a6d8f9eaf4654",
+      "source_rel": "stocks_data/688029.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688032.SH.csv",
+      "bytes": 123946,
+      "code": "688032.SH",
+      "sha256": "f9951537323c0560a17a3ed5a15d2254b041c43b91be78db43f3dd710ea21f44",
+      "source_rel": "stocks_data/688032.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688047.SH.csv",
+      "bytes": 81992,
+      "code": "688047.SH",
+      "sha256": "f7fbc3ba52ca0434db8ac938bce86ef13e0853e28d1b6c07fd64c302bea44f90",
+      "source_rel": "stocks_data/688047.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688063.SH.csv",
+      "bytes": 126824,
+      "code": "688063.SH",
+      "sha256": "a09822cfea13cf4fd0d441a2bee1eee3c528f3f64bae5914c9cf18efc3b317ff",
+      "source_rel": "stocks_data/688063.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688072.SH.csv",
+      "bytes": 121796,
+      "code": "688072.SH",
+      "sha256": "6dcd6165f9cc613906ccdbd91fe73a0f44249ef6226674254bcffd23060c40fb",
+      "source_rel": "stocks_data/688072.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688082.SH.csv",
+      "bytes": 124285,
+      "code": "688082.SH",
+      "sha256": "808cc7e9d0ff8894f182165b7e85aff0c5ca3d537bfa336f06cfb2776149263e",
+      "source_rel": "stocks_data/688082.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688088.SH.csv",
+      "bytes": 130530,
+      "code": "688088.SH",
+      "sha256": "53b0beab539f9916551400015cdc12fc98f0dada4c2aebf60d5f0918ac6f5cec",
+      "source_rel": "stocks_data/688088.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688105.SH.csv",
+      "bytes": 121070,
+      "code": "688105.SH",
+      "sha256": "f7d8ad563d470c690bf0fb31aeb7839d7b6cf3a02b8d7de7c1abd49e867cf6df",
+      "source_rel": "stocks_data/688105.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688107.SH.csv",
+      "bytes": 82150,
+      "code": "688107.SH",
+      "sha256": "d92ea5a3c238d5fc26b2c1dbec1884ec54d1922bc66dfe4e84d8b425e14e7b7c",
+      "source_rel": "stocks_data/688107.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688116.SH.csv",
+      "bytes": 130042,
+      "code": "688116.SH",
+      "sha256": "1342b7377918458cfb0abc4e69a87811f5d116747519b8b509e84ec786e3a22f",
+      "source_rel": "stocks_data/688116.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688153.SH.csv",
+      "bytes": 114399,
+      "code": "688153.SH",
+      "sha256": "f2e1026391e88cb24538b1456d771393daa285c260b406be0909736d3aee45d9",
+      "source_rel": "stocks_data/688153.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688169.SH.csv",
+      "bytes": 128344,
+      "code": "688169.SH",
+      "sha256": "3b07afeca012ab25a0d23835733e9fab06aba494a39a5b567c8f3b1311b490ec",
+      "source_rel": "stocks_data/688169.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688185.SH.csv",
+      "bytes": 114264,
+      "code": "688185.SH",
+      "sha256": "b720ea47d94c9d6da4b0297c9a05c66bf7daef23c93bda5a8bb1d31ea98df1b3",
+      "source_rel": "stocks_data/688185.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688200.SH.csv",
+      "bytes": 127340,
+      "code": "688200.SH",
+      "sha256": "044b99046d1ed9e0ded01088e87b04eaa8045eb6e6616881886e40b14da1d965",
+      "source_rel": "stocks_data/688200.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688208.SH.csv",
+      "bytes": 129601,
+      "code": "688208.SH",
+      "sha256": "89f2f680523e62875e48ac6becfdeaf41e40b1628ce231292ddecb1e0ad7ef1d",
+      "source_rel": "stocks_data/688208.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688249.SH.csv",
+      "bytes": 120601,
+      "code": "688249.SH",
+      "sha256": "9bf60a8b892085bce4f6fb0ec04ead77a13a162d46ac382240caa5c5a6d67e85",
+      "source_rel": "stocks_data/688249.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688256.SH.csv",
+      "bytes": 88879,
+      "code": "688256.SH",
+      "sha256": "71206ffb0905ff5e3a2ba4c0054827943ccf2186a165180b13f66818ab7bc8bd",
+      "source_rel": "stocks_data/688256.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688276.SH.csv",
+      "bytes": 123415,
+      "code": "688276.SH",
+      "sha256": "6b56b623fee080966a8583731f58a72bc6996a600b9a68f09c4f75034f08ae14",
+      "source_rel": "stocks_data/688276.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688289.SH.csv",
+      "bytes": 127502,
+      "code": "688289.SH",
+      "sha256": "db008358445d52840caf76fa93849b509fcdc086bfcfe9669329e208dca4fac8",
+      "source_rel": "stocks_data/688289.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688321.SH.csv",
+      "bytes": 88218,
+      "code": "688321.SH",
+      "sha256": "04b911d86877a2b0d207a9a20e5eeb9d3fef1fbee52cddf912328153f89a1087",
+      "source_rel": "stocks_data/688321.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688331.SH.csv",
+      "bytes": 81205,
+      "code": "688331.SH",
+      "sha256": "ca928d944d938f6202ba231b4ff1ce7f8ab764f0559fc0d736da474cca9eba7f",
+      "source_rel": "stocks_data/688331.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688348.SH.csv",
+      "bytes": 122078,
+      "code": "688348.SH",
+      "sha256": "c5f0c890d518f1226f545497fd03592831bdffd6eeb99fb58ef523462f5ad83a",
+      "source_rel": "stocks_data/688348.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688390.SH.csv",
+      "bytes": 121350,
+      "code": "688390.SH",
+      "sha256": "9d052389f55f3d17fc1c696604439b9b2883ed12b73b1d92a2df595f71b2c375",
+      "source_rel": "stocks_data/688390.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688516.SH.csv",
+      "bytes": 127956,
+      "code": "688516.SH",
+      "sha256": "0c45a806bbe6add5509b2672c8186e4a4da1341b29072a0a77ccda2e470628ab",
+      "source_rel": "stocks_data/688516.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688521.SH.csv",
+      "bytes": 86540,
+      "code": "688521.SH",
+      "sha256": "55a4b9e5da21ca836d5d42d023bf560c371c2eeb24a26186c170fc3882754916",
+      "source_rel": "stocks_data/688521.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688536.SH.csv",
+      "bytes": 116254,
+      "code": "688536.SH",
+      "sha256": "654628a234a32a9b422de98cd04dc33c53d87713087d85e722cba25d7c2fc0ea",
+      "source_rel": "stocks_data/688536.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688567.SH.csv",
+      "bytes": 86413,
+      "code": "688567.SH",
+      "sha256": "e851a8805ec31582ef656c485d6bbc756d73cae09b57ecae0df06b4053750ea3",
+      "source_rel": "stocks_data/688567.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688690.SH.csv",
+      "bytes": 123858,
+      "code": "688690.SH",
+      "sha256": "e62f2468299efbfb9f1444b35f997371e39353d15d563c3515e995cf01dec85e",
+      "source_rel": "stocks_data/688690.SH.csv"
+    },
+    {
+      "archive_rel": "stocks_archive/688779.SH.csv",
+      "bytes": 111937,
+      "code": "688779.SH",
+      "sha256": "974c641c7603d4e5248f1d4f2c1e9d7e2d36298f9d8316db24f16dc1e0ccdc9a",
+      "source_rel": "stocks_data/688779.SH.csv"
+    }
+  ],
+  "old_component_file_count": 574,
+  "stocks_dir": "stocks_data",
+  "stocks_file_count": 1074
+}
