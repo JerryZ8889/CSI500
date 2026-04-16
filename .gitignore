@@ -7,6 +7,8 @@ __pycache__/
 # 日志文件
 daily_update.log
 daily_update_console.log
+.streamlit_*.out.log
+.streamlit_*.err.log
 
 # 临时/测试文件
 verify_adj.py
