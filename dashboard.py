@@ -11,12 +11,18 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import os
 import json
+import html
 
 from strategy_engine import (
     compute_strategy_frame,
     compute_trade_summary,
     compute_virtual_firstneg,
     max_drawdown,
+)
+from tools.strategy_meta_switch_research import BASE_HYBRID
+from tools.strategy_research_advanced import (
+    merge_base_with_features,
+    simulate as simulate_advanced,
 )
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -187,18 +193,94 @@ DATA_FILE  = os.path.join(DATA_DIR, 'strategy_data.csv')
 START_DATE = '20240101'
 END_DATE   = str(pd.read_csv(DATA_FILE, usecols=['trade_date'])['trade_date'].iloc[-1])
 COST       = 0.001
+QUANT_REQUIRED_COLS = ['breadth_ma20', 'breadth_ma60']
+
+
+def summarize_display(frame):
+    total_pct = (frame['strat_nav'].iloc[-1] - 1) * 100
+    bench_total_pct = (frame['bench_nav'].iloc[-1] - 1) * 100
+    mdd_pct = max_drawdown(frame['strat_nav']) * 100
+    bench_mdd_pct = max_drawdown(frame['bench_nav']) * 100
+    trade_summary = compute_trade_summary(frame)
+    return {
+        'total_pct': total_pct,
+        'bench_total_pct': bench_total_pct,
+        'mdd_pct': mdd_pct,
+        'bench_mdd_pct': bench_mdd_pct,
+        'excess_pct': total_pct - bench_total_pct,
+        'n_trades': trade_summary['n_trades'],
+        'win_rate': trade_summary['win_rate'],
+        'hold_pct': frame['actual_pos'].mean() * 100,
+    }
+
+
+def render_metric_grid(items):
+    cards = []
+    for label, value, color in items:
+        cards.append(
+            f'<div class="metric-item"><div class="label">{label}</div>'
+            f'<div class="value" style="color:{color}">{value}</div></div>'
+        )
+    return '<div class="metric-grid">' + ''.join(cards) + '</div>'
+
+
+def render_reason_block(title, reasons, risks):
+    parts = [f'<div class="reason-block">']
+    if title:
+        parts.append(f'<div style="font-weight:700; margin-bottom:10px;">{html.escape(title)}</div>')
+    if reasons:
+        parts.append('<div style="font-weight:600; margin-bottom:6px;">判断依据：</div><ul style="margin:0 0 12px 1.1rem; padding:0;">')
+        for reason in reasons:
+            parts.append(f'<li style="margin:0 0 4px 0;">{html.escape(reason)}</li>')
+        parts.append('</ul>')
+    if risks:
+        parts.append('<div style="font-weight:600; margin-bottom:6px;">风险提示：</div><ul style="margin:0 0 0 1.1rem; padding:0;">')
+        for risk in risks:
+            parts.append(f'<li style="margin:0 0 4px 0;">{html.escape(risk)}</li>')
+        parts.append('</ul>')
+    parts.append('</div>')
+    return ''.join(parts)
+
+
+def load_quant_source(end_date, rebuild_features=False):
+    src = merge_base_with_features(rebuild=rebuild_features)
+    src['trade_date'] = src['trade_date'].astype(str)
+    src = src[(src['trade_date'] >= START_DATE) & (src['trade_date'] <= end_date)].copy()
+    src = src.sort_values('trade_date').reset_index(drop=True)
+    return src
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # 数据加载 & 策略引擎
 # ═══════════════════════════════════════════════════════════════════════════════
 @st.cache_data(ttl=3600)
 def load_and_compute(end_date):
-    df = pd.read_csv(DATA_FILE)
-    df['trade_date'] = df['trade_date'].astype(str)
-    df = df[(df['trade_date'] >= START_DATE) & (df['trade_date'] <= end_date)].copy()
-    return compute_strategy_frame(df, cost=COST)
+    base = pd.read_csv(DATA_FILE)
+    base['trade_date'] = base['trade_date'].astype(str)
+    base = base[(base['trade_date'] >= START_DATE) & (base['trade_date'] <= end_date)].copy()
+    base = base.sort_values('trade_date').reset_index(drop=True)
 
-df = load_and_compute(END_DATE)
+    subjective = compute_strategy_frame(base.copy(), cost=COST)
+
+    quant_source = load_quant_source(end_date, rebuild_features=False)
+    need_rebuild = (
+        quant_source.empty
+        or any(col not in quant_source.columns for col in QUANT_REQUIRED_COLS)
+        or len(quant_source) != len(base)
+        or quant_source[QUANT_REQUIRED_COLS].tail(min(len(quant_source), 5)).isna().any().any()
+    )
+    if need_rebuild:
+        quant_source = load_quant_source(end_date, rebuild_features=True)
+
+    quantitative = simulate_advanced(quant_source.copy(), BASE_HYBRID)
+    quantitative['trade_date'] = quantitative['trade_date'].astype(str)
+    quantitative['date'] = pd.to_datetime(quantitative['trade_date'], format='%Y%m%d')
+    # Keep the source context fields that the dashboard explanation layer needs.
+    for col in ['open', 'ma_30', 'breadth_ma20', 'breadth_ma60']:
+        quantitative[col] = quant_source[col].to_numpy()
+    return subjective, quantitative
+
+
+df, quant_df = load_and_compute(END_DATE)
 n = len(df)
 
 
@@ -206,15 +288,10 @@ n = len(df)
 vfn = compute_virtual_firstneg(df)
 
 # ── 统计指标 ──
-strat_total = (df['strat_nav'].iloc[-1] - 1) * 100
-bench_total = (df['bench_nav'].iloc[-1] - 1) * 100
-strat_mdd   = max_drawdown(df['strat_nav']) * 100
-bench_mdd   = max_drawdown(df['bench_nav']) * 100
-excess      = strat_total - bench_total
-
-trade_summary = compute_trade_summary(df)
-n_trades = trade_summary['n_trades']
-win_rate = trade_summary['win_rate']
+subjective_summary = summarize_display(df)
+quant_summary = summarize_display(quant_df)
+bench_total = subjective_summary['bench_total_pct']
+bench_mdd = subjective_summary['bench_mdd_pct']
 
 # 最新一行数据
 last = df.iloc[-1]
@@ -230,7 +307,8 @@ st.markdown(
     f'<h1>🛡️ 中证500量化实战决策中心</h1>'
     f'<p>数据起始：{start_date_fmt}　|　'
     f'最后同步：{last_date_fmt}　|　'
-    f'累计交易：{n_trades} 次　|　胜率：{win_rate:.1f}%</p>'
+    f'主观策略：{subjective_summary["n_trades"]} 次 / 胜率 {subjective_summary["win_rate"]:.1f}%　|　'
+    f'量化策略：{quant_summary["n_trades"]} 次 / 胜率 {quant_summary["win_rate"]:.1f}%</p>'
     f'</div>',
     unsafe_allow_html=True,
 )
@@ -261,12 +339,42 @@ if os.path.exists(_status_file):
 # ═══════════════════════════════════════════════════════════════════════════════
 st.markdown('<div class="section-head">📊 核心绩效看板</div>', unsafe_allow_html=True)
 
-st.markdown(f'''<div class="metric-grid">
-  <div class="metric-item"><div class="label">🚀 策略累计收益</div><div class="value" style="color:{'#16a34a' if strat_total>=0 else '#dc2626'}">{strat_total:+.2f}%</div></div>
-  <div class="metric-item"><div class="label">📉 策略最大回撤</div><div class="value" style="color:#dc2626">{strat_mdd:.2f}%</div></div>
-  <div class="metric-item"><div class="label">🏛️ 基准累计收益</div><div class="value" style="color:{'#16a34a' if bench_total>=0 else '#dc2626'}">{bench_total:+.2f}%</div></div>
-  <div class="metric-item"><div class="label">📊 相对超额收益</div><div class="value" style="color:{'#16a34a' if excess>=0 else '#dc2626'}">{excess:+.2f}%</div></div>
-</div>''', unsafe_allow_html=True)
+perf_col_1, perf_col_2 = st.columns(2)
+with perf_col_1:
+    st.markdown("**主观策略**")
+    st.markdown(
+        render_metric_grid(
+            [
+                ("🚀 累计收益", f"{subjective_summary['total_pct']:+.2f}%", '#16a34a' if subjective_summary['total_pct'] >= 0 else '#dc2626'),
+                ("📉 最大回撤", f"{subjective_summary['mdd_pct']:.2f}%", '#dc2626'),
+                ("📊 超额收益", f"{subjective_summary['excess_pct']:+.2f}%", '#16a34a' if subjective_summary['excess_pct'] >= 0 else '#dc2626'),
+                ("🎯 胜率", f"{subjective_summary['win_rate']:.1f}%", '#111827'),
+            ]
+        ),
+        unsafe_allow_html=True,
+    )
+    st.caption(
+        f"累计交易 {subjective_summary['n_trades']} 次 | 平均持仓 {subjective_summary['hold_pct']:.1f}%"
+    )
+
+with perf_col_2:
+    st.markdown("**量化策略（增强规则）**")
+    st.markdown(
+        render_metric_grid(
+            [
+                ("🚀 累计收益", f"{quant_summary['total_pct']:+.2f}%", '#16a34a' if quant_summary['total_pct'] >= 0 else '#dc2626'),
+                ("📉 最大回撤", f"{quant_summary['mdd_pct']:.2f}%", '#dc2626'),
+                ("📊 超额收益", f"{quant_summary['excess_pct']:+.2f}%", '#16a34a' if quant_summary['excess_pct'] >= 0 else '#dc2626'),
+                ("🎯 胜率", f"{quant_summary['win_rate']:.1f}%", '#111827'),
+            ]
+        ),
+        unsafe_allow_html=True,
+    )
+    st.caption(
+        f"累计交易 {quant_summary['n_trades']} 次 | 平均持仓 {quant_summary['hold_pct']:.1f}%"
+    )
+
+st.caption(f"共同基准（从 {start_date_fmt} 重新起算）：累计收益 {bench_total:+.2f}% | 最大回撤 {bench_mdd:.2f}%")
 
 st.divider()
 
@@ -446,12 +554,138 @@ else:
             reasons.append("价格在 MA30 下方，趋势不友好，不宜贸然入场")
         risks.append("空仓期间可能错过突发行情，但风控优先")
 
+# ── 量化策略当前状态 ──
+quant_last = quant_df.iloc[-1]
+quant_prev = quant_df.iloc[-2]
+q_b20 = float(quant_last['breadth_ma20'])
+q_b60 = float(quant_last['breadth_ma60'])
+q_heat = float(quant_last['heat_z'])
+q_close = float(quant_last['close'])
+q_ma30 = float(quant_last['ma_30'])
+q_sig = int(quant_last['signal'])
+q_pos = int(quant_last['actual_pos'])
+q_comp_active = bool(quant_last['comp_active'])
+q_trend_active = bool(quant_last['trend_active'])
+q_prev_comp_active = bool(quant_prev['comp_active'])
+q_prev_trend_active = bool(quant_prev['trend_active'])
+q_comp_entry = float(BASE_HYBRID['comp_entry'])
+q_comp_exit_breadth = float(BASE_HYBRID['comp_exit_breadth'])
+q_comp_exit_heat = float(BASE_HYBRID['comp_exit_heat'])
+q_trend_b60_entry = float(BASE_HYBRID['trend_b60_entry'])
+q_trend_b20_entry = float(BASE_HYBRID['trend_b20_entry'])
+q_trend_b60_exit = float(BASE_HYBRID['trend_b60_exit'])
+q_trend_b20_exit = float(BASE_HYBRID['trend_b20_exit'])
+
+if q_comp_active and q_trend_active:
+    q_logic_name = "抄底层 + 趋势层"
+elif q_comp_active:
+    q_logic_name = "抄底层"
+elif q_trend_active:
+    q_logic_name = "趋势层"
+else:
+    q_logic_name = "空仓"
+
+q_reasons = []
+q_risks = []
+if q_sig == 1:
+    if q_comp_active and q_trend_active:
+        q_act_text, q_act_color = "🚀 双引擎买入", "#16a34a"
+        q_act_desc = "抄底层和趋势层同时打开，T+1 次日开盘执行"
+    elif q_comp_active:
+        q_act_text, q_act_color = "🧲 抄底买入", "#16a34a"
+        q_act_desc = "20日广度跌入量化冰点区，T+1 次日开盘执行"
+    elif q_trend_active:
+        q_act_text, q_act_color = "📈 趋势买入", "#16a34a"
+        q_act_desc = "趋势层确认开启，T+1 次日开盘执行"
+    else:
+        q_act_text, q_act_color = "🚨 执行买入", "#16a34a"
+        q_act_desc = "量化策略触发入场信号，T+1 次日开盘执行"
+elif q_sig == -1:
+    if q_prev_comp_active and not q_comp_active and q_prev_trend_active and not q_trend_active:
+        q_act_text, q_act_color = "🚨 双引擎卖出", "#dc2626"
+        q_act_desc = "抄底层与趋势层同时关闭，T+1 次日开盘卖出"
+    elif q_prev_comp_active and not q_comp_active:
+        q_act_text, q_act_color = "🚨 抄底层止盈", "#dc2626"
+        q_act_desc = "抄底层达到退出条件，T+1 次日开盘卖出"
+    else:
+        q_act_text, q_act_color = "🚨 趋势层离场", "#dc2626"
+        q_act_desc = "趋势层跌回防守线下方，T+1 次日开盘卖出"
+elif q_pos == 1:
+    if q_comp_active and q_trend_active:
+        q_act_text, q_act_color = "💎 双引擎持有", "#2563eb"
+        q_act_desc = "抄底层与趋势层同时持有，未触发退出条件"
+    elif q_comp_active:
+        q_act_text, q_act_color = "🛡️ 抄底层持有", "#2563eb"
+        q_act_desc = "量化抄底层仍在持有区，未触发退出条件"
+    elif q_trend_active:
+        q_act_text, q_act_color = "📈 趋势层持有", "#2563eb"
+        q_act_desc = "量化趋势层仍在持有区，未触发退出条件"
+    else:
+        q_act_text, q_act_color = "⏳ 持仓待执行", "#2563eb"
+        q_act_desc = "量化策略持仓尚未完成切换，等待下一交易日执行"
+else:
+    q_act_text, q_act_color = "🛡️ 空仓观望", "#6b7280"
+    q_act_desc = "量化抄底层和趋势层都未开启"
+
+if q_pos == 1:
+    if q_sig == -1:
+        if q_prev_comp_active and not q_comp_active:
+            q_reasons.append(
+                f"抄底层退出：20日广度 {q_b20:.1f}% 超过 {q_comp_exit_breadth:.0f}% ，且 heat_z {q_heat:.2f}σ 低于 {q_comp_exit_heat:.1f}σ"
+            )
+        if q_prev_trend_active and not q_trend_active:
+            q_exit_parts = []
+            if q_close < q_ma30:
+                q_exit_parts.append(f"收盘 {q_close:.2f} 跌回 MA30 {q_ma30:.2f} 下方")
+            if q_b60 < q_trend_b60_exit:
+                q_exit_parts.append(f"60日广度 {q_b60:.1f}% 失守 {q_trend_b60_exit:.0f}%")
+            if q_b20 < q_trend_b20_exit:
+                q_exit_parts.append(f"20日广度 {q_b20:.1f}% 失守 {q_trend_b20_exit:.0f}%")
+            q_reasons.append("趋势层退出：" + "；".join(q_exit_parts))
+        q_risks.append("量化策略同样按 T+1 执行，次日开盘价可能与信号日有偏差")
+    else:
+        if q_comp_active:
+            q_reasons.append(
+                f"抄底层仍开启：20日广度 {q_b20:.1f}% 仍未达到 {q_comp_exit_breadth:.0f}% 的退出区"
+            )
+        if q_trend_active:
+            q_reasons.append(
+                f"趋势层仍开启：收盘 {q_close:.2f} > MA30 {q_ma30:.2f}，60日广度 {q_b60:.1f}% / 20日广度 {q_b20:.1f}% 维持强势"
+            )
+        if q_comp_active and q_b20 > q_comp_exit_breadth - 4:
+            q_risks.append("抄底层已经接近高位退出区，若市场降温会较快离场")
+        if q_trend_active and (q_close < q_ma30 * 1.01 or q_b60 < q_trend_b60_exit + 5 or q_b20 < q_trend_b20_exit + 5):
+            q_risks.append("趋势层离退出阈值不远，留意 MA30 与广度是否继续回落")
+else:
+    if q_sig == 1:
+        if q_comp_active:
+            q_reasons.append(f"抄底层开仓：20日广度 {q_b20:.1f}% 低于 {q_comp_entry:.0f}% 冰点阈值")
+        if q_trend_active:
+            q_reasons.append(
+                f"趋势层开仓：收盘 {q_close:.2f} 站上 MA30 {q_ma30:.2f}，60日广度 {q_b60:.1f}% ≥ {q_trend_b60_entry:.0f}% ，20日广度 {q_b20:.1f}% ≥ {q_trend_b20_entry:.0f}%"
+            )
+        q_risks.append("量化策略也是 T+1 执行，次日开盘若跳空会影响实际成交表现")
+    else:
+        q_reasons.append("当前量化策略没有入场信号")
+        if q_b20 >= q_comp_entry:
+            q_reasons.append(f"抄底层未开：20日广度 {q_b20:.1f}% 没有低于 {q_comp_entry:.0f}%")
+        q_trend_missing = []
+        if q_close <= q_ma30:
+            q_trend_missing.append("收盘未站上 MA30")
+        if q_b60 < q_trend_b60_entry:
+            q_trend_missing.append(f"60日广度 {q_b60:.1f}% 未到 {q_trend_b60_entry:.0f}%")
+        if q_b20 < q_trend_b20_entry:
+            q_trend_missing.append(f"20日广度 {q_b20:.1f}% 未到 {q_trend_b20_entry:.0f}%")
+        if q_trend_missing:
+            q_reasons.append("趋势层未开：" + "；".join(q_trend_missing))
+        q_risks.append("量化策略空仓时可能错过很短的反抽，但能减少无效进出")
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # 渲染：① 状态栏 → ② 操作建议 → ③ 逻辑分析
 # ═══════════════════════════════════════════════════════════════════════════════
 
-# ── ① 市场模式 + 操作建议（两列，手机自动堆叠）──
-s1, s2 = st.columns(2)
+# ── ① 市场模式 + 双策略操作建议（PC 三列，手机自动堆叠）──
+s1, s2, s3 = st.columns(3)
 with s1:
     st.markdown(
         f'<div class="status-card" style="background:{mode_color}">{mode_text}</div>'
@@ -464,6 +698,17 @@ with s2:
         f'<p class="status-desc">{act_desc}</p>',
         unsafe_allow_html=True,
     )
+with s3:
+    st.markdown(
+        f'<div class="status-card" style="background:{q_act_color}">{q_act_text}</div>'
+        f'<p class="status-desc">{q_act_desc}</p>',
+        unsafe_allow_html=True,
+    )
+
+if pos == q_pos and sig == q_sig:
+    st.caption("当前两套策略方向一致：信号与持仓状态同步。")
+else:
+    st.caption("当前两套策略存在分歧：主观策略与量化策略的入场/持有判断不完全相同。")
 
 # ── 参考提示卡片（虚拟首阴仓位）──
 if ref_tip is not None:
@@ -475,26 +720,30 @@ if ref_tip is not None:
         unsafe_allow_html=True,
     )
 
-# ── ② 关键理由 + 风险提示（白色卡片）──
-reason_md = "\n".join(f"- {r}" for r in reasons)
-risk_md   = "\n".join(f"- ⚠️ {r}" for r in risks) if risks else ""
-body_parts = [f"**判断依据：**\n{reason_md}"]
-if risk_md:
-    body_parts.append(f"**风险提示：**\n{risk_md}")
-st.markdown(
-    '<div class="reason-block">' + '</div>',
-    unsafe_allow_html=True,
-)
-st.markdown("\n\n".join(body_parts))
+# ── ② 双策略判断依据 + 风险提示 ──
+reason_col_1, reason_col_2 = st.columns(2)
+with reason_col_1:
+    st.markdown(render_reason_block("主观策略判断", reasons, risks), unsafe_allow_html=True)
+
+with reason_col_2:
+    st.markdown(render_reason_block("量化策略判断", q_reasons, q_risks), unsafe_allow_html=True)
 
 # ── 技术快照 ──
 st.markdown("")
-st.markdown(f'''<div class="metric-grid">
-  <div class="metric-item"><div class="label">广度</div><div class="value">{breadth_val:.1f}%</div></div>
-  <div class="metric-item"><div class="label">20日热度</div><div class="value">{hz_val:.2f}σ</div></div>
-  <div class="metric-item"><div class="label">ETF换手率</div><div class="value">{turn_val:.2f}%</div></div>
-  <div class="metric-item"><div class="label">MA30</div><div class="value">{ma30_val:.2f}</div></div>
-</div>''', unsafe_allow_html=True)
+st.markdown(
+    render_metric_grid(
+        [
+            ("市场广度", f"{breadth_val:.1f}%", '#111827'),
+            ("20日热度", f"{hz_val:.2f}σ", '#111827'),
+            ("ETF换手率", f"{turn_val:.2f}%", '#111827'),
+            ("MA30", f"{ma30_val:.2f}", '#111827'),
+            ("量化20日广度", f"{q_b20:.1f}%", '#111827'),
+            ("量化60日广度", f"{q_b60:.1f}%", '#111827'),
+            ("量化当前层", q_logic_name, '#111827'),
+        ]
+    ),
+    unsafe_allow_html=True,
+)
 
 st.divider()
 
@@ -502,34 +751,51 @@ st.divider()
 # Section B: 参考图表
 # ═══════════════════════════════════════════════════════════════════════════════
 st.markdown('<div class="section-head">📈 参考图表</div>', unsafe_allow_html=True)
+st.caption("净值图中，主观策略买卖点是三角形，量化策略买卖点是圆点；绿色表示买点，红色表示卖点。")
 
 dates = df['date'].values
 
 # ── 图 1：策略净值 vs 基准净值 + 信号标记 ─────────────────────────────────────
 fig1, ax1 = plt.subplots(figsize=(16, 6))
 
-# 持仓区间阴影
-for i in range(1, n):
-    if df['actual_pos'].iloc[i] == 1:
-        ax1.axvspan(df['date'].iloc[i - 1], df['date'].iloc[i],
-                    color='#3b82f6', alpha=0.06)
-
 ax1.plot(dates, df['bench_nav'], color='#94a3b8', linewidth=1.0,
          linestyle='--', alpha=0.7, label='基准净值 (买入持有)')
 ax1.plot(dates, df['strat_nav'], color='#1e3a5f', linewidth=2.0,
-         label='策略净值')
+         label='主观策略净值')
+ax1.plot(quant_df['date'].values, quant_df['strat_nav'], color='#7c3aed', linewidth=2.0,
+         label='量化策略净值')
 
 # 买卖标记 (T+1 执行日)
+main_buy_label = False
+main_sell_label = False
 for i in range(n):
     if df['signal'].iloc[i] == 1 and i + 1 < n:
         ax1.scatter(df['date'].iloc[i + 1], df['strat_nav'].iloc[i + 1],
-                    marker='^', color='#22c55e', s=120, zorder=5)
+                    marker='^', color='#22c55e', s=110, zorder=5,
+                    label='主观买点' if not main_buy_label else None)
+        main_buy_label = True
     elif df['signal'].iloc[i] == -1 and i + 1 < n:
         ax1.scatter(df['date'].iloc[i + 1], df['strat_nav'].iloc[i + 1],
-                    marker='v', color='#ef4444', s=120, zorder=5)
+                    marker='v', color='#ef4444', s=110, zorder=5,
+                    label='主观卖点' if not main_sell_label else None)
+        main_sell_label = True
+
+quant_buy_label = False
+quant_sell_label = False
+for i in range(len(quant_df)):
+    if quant_df['signal'].iloc[i] == 1 and i + 1 < len(quant_df):
+        ax1.scatter(quant_df['date'].iloc[i + 1], quant_df['strat_nav'].iloc[i + 1],
+                    marker='o', color='#22c55e', s=52, zorder=5,
+                    label='量化买点' if not quant_buy_label else None)
+        quant_buy_label = True
+    elif quant_df['signal'].iloc[i] == -1 and i + 1 < len(quant_df):
+        ax1.scatter(quant_df['date'].iloc[i + 1], quant_df['strat_nav'].iloc[i + 1],
+                    marker='o', color='#ef4444', s=52, zorder=5,
+                    label='量化卖点' if not quant_sell_label else None)
+        quant_sell_label = True
 
 ax1.axhline(y=1.0, color='gray', linestyle=':', alpha=0.4)
-ax1.set_title('策略净值表现与信号点分布', fontsize=14)
+ax1.set_title('主观策略 / 量化策略 / 基准净值对比', fontsize=14)
 ax1.set_ylabel('累计净值')
 ax1.legend(loc='upper left', fontsize=10)
 ax1.grid(True, alpha=0.2)
@@ -639,10 +905,10 @@ plt.close(fig5)
 
 st.divider()
 
-# ── ③ 逻辑实时深度扫描（折叠面板，手机友好）──
-st.markdown('<div class="section-head">🔍 逻辑实时深度扫描</div>', unsafe_allow_html=True)
+# ── ③ 主观策略逻辑实时深度扫描（折叠面板，手机友好）──
+st.markdown('<div class="section-head">🔍 主观策略逻辑实时深度扫描</div>', unsafe_allow_html=True)
 
-with st.expander("A. 市场广度分析", expanded=True):
+with st.expander("A. 市场广度分析", expanded=False):
     if breadth_val < 16:
         st.markdown(
             f"📉 **[极端冰点逻辑]**　当前广度 = **{breadth_val:.1f}%**\n\n"
@@ -683,7 +949,7 @@ with st.expander("A. 市场广度分析", expanded=True):
             f"广度在 30%~65% 之间说明市场多空力量相对均衡，暂时不构成方向性判断依据。"
         )
 
-with st.expander("B. 资金热度分析", expanded=True):
+with st.expander("B. 资金热度分析", expanded=False):
     if hz_val > 1.5:
         st.markdown(
             f"🔥 **[情绪过热逻辑]**　当前 Heat_Z = **{hz_val:.2f}σ**\n\n"
@@ -711,7 +977,7 @@ with st.expander("B. 资金热度分析", expanded=True):
             f"暂不构成独立的买卖信号参考。"
         )
 
-with st.expander("C. 趋势保护分析", expanded=True):
+with st.expander("C. 趋势保护分析", expanded=False):
     if above_ma30:
         slope_desc = "均线正向上行" if ma30_slope > 0 else "均线走平或微降"
         st.markdown(
@@ -734,7 +1000,7 @@ with st.expander("C. 趋势保护分析", expanded=True):
             f"**建议**：趋势偏空，控制仓位，避免左侧抄底（除非广度触及冰点 16%）。"
         )
 
-with st.expander("D. 首阴 (FirstNeg) 入场条件扫描", expanded=True):
+with st.expander("D. 首阴 (FirstNeg) 入场条件扫描", expanded=False):
     for label, met, detail in cond_items:
         icon = "✅" if met else "❌"
         st.markdown(f"- {icon} **{label}**　→ {detail}")
@@ -761,3 +1027,119 @@ with st.expander("D. 首阴 (FirstNeg) 入场条件扫描", expanded=True):
             f"📋 已满足 {met_count}/{total_cond} 项条件，"
             f"尚缺：{'、'.join(missing)}。FirstNeg 入场条件暂不具备。"
         )
+
+st.markdown('<div class="section-head">🔍 量化策略逻辑实时深度扫描</div>', unsafe_allow_html=True)
+
+with st.expander("A. 当前量化状态", expanded=False):
+    st.markdown(
+        f"**当前状态**：{q_act_text}\n\n"
+        f"{q_act_desc}\n\n"
+        f"当前有效层：**{q_logic_name}**。"
+        f" 当前 20 日广度为 **{q_b20:.1f}%**，60 日广度为 **{q_b60:.1f}%**，"
+        f"收盘 **{q_close:.2f}**，MA30 **{q_ma30:.2f}**。"
+    )
+
+with st.expander("B. 抄底层（低吸层）", expanded=False):
+    if q_comp_active:
+        st.markdown(
+            f"抄底层当前 **已开启**。\n\n"
+            f"这一层只看两个条件：\n"
+            f"- 入场：20日广度低于 **{q_comp_entry:.0f}%**\n"
+            f"- 退出：20日广度高于 **{q_comp_exit_breadth:.0f}%** 且 heat_z 低于 **{q_comp_exit_heat:.1f}σ**\n\n"
+            f"现在 20 日广度为 **{q_b20:.1f}%**，heat_z 为 **{q_heat:.2f}σ**，所以抄底层仍在场内。"
+        )
+    elif q_prev_comp_active and not q_comp_active:
+        st.markdown(
+            f"抄底层刚刚 **关闭**。\n\n"
+            f"当前 20 日广度 **{q_b20:.1f}%** 已经超过 **{q_comp_exit_breadth:.0f}%**，"
+            f"同时 heat_z **{q_heat:.2f}σ** 低于 **{q_comp_exit_heat:.1f}σ**，"
+            f"说明情绪已经从低位修复到了兑现区。"
+        )
+    else:
+        st.markdown(
+            f"抄底层当前 **未开启**。\n\n"
+            f"它的入场门槛是 20 日广度低于 **{q_comp_entry:.0f}%**。"
+            f"现在是 **{q_b20:.1f}%**，还没有进入量化定义的极端冰点区。"
+        )
+
+with st.expander("C. 趋势层（持有层）", expanded=False):
+    q_trend_checks = [
+        ("收盘站上 MA30", q_close > q_ma30, f"收盘 {q_close:.2f} vs MA30 {q_ma30:.2f}"),
+        (f"60日广度 ≥ {q_trend_b60_entry:.0f}%", q_b60 >= q_trend_b60_entry, f"当前 {q_b60:.1f}%"),
+        (f"20日广度 ≥ {q_trend_b20_entry:.0f}%", q_b20 >= q_trend_b20_entry, f"当前 {q_b20:.1f}%"),
+    ]
+    for label, met, detail in q_trend_checks:
+        icon = "✅" if met else "❌"
+        st.markdown(f"- {icon} **{label}**　→ {detail}")
+
+    if q_trend_active:
+        st.success(
+            f"趋势层当前已开启。只要收盘不跌回 MA30 下方，且 60 日广度不低于 {q_trend_b60_exit:.0f}% 、"
+            f"20 日广度不低于 {q_trend_b20_exit:.0f}% ，量化策略就继续顺势持有。"
+        )
+    else:
+        st.info(
+            f"趋势层当前未开启。它要求价格、20 日广度、60 日广度一起站稳，"
+            f"比主观策略的单点触发更严格。"
+        )
+
+with st.expander("D. 两套策略当前分歧", expanded=False):
+    subjective_state = "持仓" if pos == 1 else "空仓"
+    quant_state = "持仓" if q_pos == 1 else "空仓"
+    if pos == q_pos and sig == q_sig:
+        st.markdown(
+            f"当前两套策略 **方向一致**。\n\n"
+            f"主观策略：**{subjective_state}**，量化策略：**{quant_state}**。"
+            f" 这说明当前市场状态下，两套逻辑给出的结论接近。"
+        )
+    else:
+        st.markdown(
+            f"当前两套策略 **存在分歧**。\n\n"
+            f"- 主观策略：**{subjective_state}**，当前动作是 **{act_text}**\n"
+            f"- 量化策略：**{quant_state}**，当前动作是 **{q_act_text}**\n\n"
+            f"主观策略更偏向人工规则下的冰点抄底与首阴低吸；"
+            f"量化策略则多了一层对全市场强弱结构的过滤，所以有时会更早持有，也有时会更晚入场。"
+        )
+
+st.divider()
+st.markdown('<div class="section-head">🔄 主观策略和量化策略差异分析</div>', unsafe_allow_html=True)
+
+diff_points = []
+diff_risks = []
+if pos == q_pos and sig == q_sig:
+    diff_points.append(f"当前两套策略方向一致，都是“{'持仓' if pos == 1 else '空仓'}”状态。")
+    if pos == 1:
+        diff_points.append(
+            f"主观策略当前持仓逻辑是 {last['logic_state'] or 'N/A'}，量化策略当前持仓层是 {q_logic_name}。"
+        )
+        if q_trend_active:
+            diff_points.append("量化策略当前除了抄底修复外，还叠加了趋势过滤层。")
+        else:
+            diff_points.append("量化策略当前主要由抄底层维持持仓，趋势层还没有打开。")
+    else:
+        diff_points.append("虽然当前方向一致，但两套策略的下一次入场触发条件并不相同。")
+else:
+    diff_points.append(
+        f"当前两套策略有分歧：主观策略是“{act_text}”，量化策略是“{q_act_text}”。"
+    )
+    diff_points.append(
+        f"主观策略状态：{'持仓' if pos == 1 else '空仓'}；量化策略状态：{'持仓' if q_pos == 1 else '空仓'}。"
+    )
+
+diff_points.append("主观策略更偏向规则触发后的直接执行，核心是冰点抄底和首阴低吸。")
+diff_points.append("量化策略多了一层全市场强弱过滤，会根据 20 日广度、60 日广度和 MA30 联合判断是否值得持有。")
+if not q_trend_active and (q_b60 < q_trend_b60_entry or q_b20 < q_trend_b20_entry):
+    diff_points.append(
+        f"当前量化趋势层没开，主要因为 60 日广度 {q_b60:.1f}% / 20 日广度 {q_b20:.1f}% 还没同时达到趋势开仓线。"
+    )
+if pos == 1 and q_pos == 1 and last['logic_state'] == 'Composite' and q_comp_active and not q_trend_active:
+    diff_points.append("这说明当前市场更像“修复中的存量反弹”，而不是量化定义下的全面强趋势。")
+
+diff_risks.append("两套策略口径不同，短期内买卖点不完全重合是正常现象，不代表哪一套算错。")
+if pos != q_pos or sig != q_sig:
+    diff_risks.append("如果你主要拿这个页面做决策，分歧期要特别留意自己最终跟哪一套执行。")
+
+st.markdown(
+    render_reason_block("", diff_points, diff_risks),
+    unsafe_allow_html=True,
+)
