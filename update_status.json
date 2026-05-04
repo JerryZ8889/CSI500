@@ -1,9 +1,9 @@
 {
   "last_update_date": "20260430",
-  "last_update_time": "2026-05-01 18:53:42",
+  "last_update_time": "2026-05-04 17:30:57",
   "status": "idle",
   "retry_count": 0,
-  "error_message": "20260501 非交易日",
+  "error_message": "20260504 非交易日",
   "last_fd_share_date": "20260213",
   "last_fd_share_value": 1089896.86,
   "last_rebalance_check": null
