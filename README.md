@@ -83,7 +83,7 @@ TUSHARE_TOKEN=你的token .venv/bin/python build_strategy_data.py
 
 ## 部署和自动任务
 
-- **看板**：部署在 Streamlit Community Cloud，连着本仓库 `main` 分支，推送后一两分钟自动更新。
+- **看板**：部署在 Streamlit Community Cloud，连着本仓库 `main` 分支，推送后一两分钟自动更新。如果改了 `strategy_engine.py` 或 `tools/` 下的文件，推送后要在看板右下角 Manage app → ⋮ → Reboot app 重启一次，否则线上会报 `ImportError`。
 - **每日数据更新**：GitHub Actions `daily_update.yml`，工作日北京时间 17:30 定时（GitHub 常会推迟几个小时）。需要在仓库 Settings → Secrets 里配置 `TUSHARE_TOKEN`。漏掉的日子可以在 Actions 页面手动运行它，填 `date`。
 - **看板保活**：GitHub Actions `streamlit_keepalive.yml`，每 6 小时用浏览器打开一次看板。看板睡着时也可以在 Actions 页面手动运行它。
 - **打不开看板、提示 `source IP address not allowed`**：是代理节点的 IP 被 Streamlit 拦了，让 `streamlit.app` 和 `streamlit.io` 走直连即可。
