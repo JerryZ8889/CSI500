@@ -1,122 +1,89 @@
-# CSI500 Strategy Dashboard
+# CSI500 量化决策看板
 
-This repository contains a local-first workflow for a CSI500 strategy dashboard, daily data updates, and backtesting.
+中证500 择时策略的数据更新、回测和 Streamlit 看板。策略规则、每个设计为什么这样定、踩过的坑，写在项目设计文档 `design.md` 里（只放在本地项目文件夹，不随公开仓库上传）。本文件只讲怎么跑起来。
 
-## What this project does
+线上看板：https://csi500.streamlit.app/
 
-- Builds and maintains `strategy_data.csv` from CSI500 index data, component stock data, and ETF turnover data
-- Runs a Streamlit dashboard for current strategy status and market context
-- Runs a backtest based on the same strategy engine used by the dashboard
-- Supports daily incremental updates and full rebuilds
+## 环境
 
-## Core files
+- Python 3.11（GitHub Actions 和 Streamlit Cloud 用的版本；本地 3.9 以上也能跑看板）
+- Tushare 账号的 token：只有更新数据、全量重建时需要，看板和回测不需要
 
-- `dashboard.py`
-  Streamlit dashboard for current strategy state, metrics, and explanations
-- `backtest.py`
-  Backtest script and chart output
-- `strategy_engine.py`
-  Shared strategy logic used by both dashboard and backtest
-- `daily_update.py`
-  Daily incremental update pipeline
-- `build_strategy_data.py`
-  Full rebuild pipeline for `strategy_data.csv`
+## 本地运行（macOS）
 
-## Core data files
+在项目文件夹里执行。
 
-- `strategy_data.csv`
-  Main daily strategy input table
-- `csi500_components_schedule.csv`
-  Component schedule used to determine the active stock set for each date
-- `adj_factor_base.csv`
-  Base adjustment factor table for post-adjusted price handling
-- `update_status.json`
-  Status file used by the dashboard to display the latest update result
+建虚拟环境并装依赖：
 
-## Data directories
-
-- `stocks_data/`
-  Current CSI500 component stock files
-- `stocks_archive/`
-  Archived non-current component stock files
-
-The rebuild flow reads from both directories so historical reconstruction still works after archiving.
-
-## Strategy summary
-
-The current strategy engine uses:
-
-- breadth
-- MA5 / MA10 / MA30
-- heat_z
-- ETF turnover
-
-Two main entry modes are used:
-
-- `Composite`: triggered when breadth is extremely weak
-- `FirstNeg`: triggered on a trend pullback after consecutive gains
-
-Signals are generated on day `T` and executed on the next trading day open (`T+1`).
-
-## Local run
-
-Create and use a virtual environment:
-
-```powershell
-.\.venv\Scripts\python -m pip install -r requirements.txt
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
 ```
 
-Run the dashboard:
+启动看板（浏览器打开 http://localhost:3000）：
 
-```powershell
-.\.venv\Scripts\python -m streamlit run dashboard.py --server.port 3000
+```bash
+.venv/bin/python -m streamlit run dashboard.py --server.port 3000
 ```
 
-Run the backtest:
+跑回测：
 
-```powershell
-.\.venv\Scripts\python backtest.py
+```bash
+.venv/bin/python backtest.py
 ```
 
-Run the daily update:
+更新某一天的数据（不写日期就是北京时间今天）：
 
-```powershell
-.\.venv\Scripts\python daily_update.py
+```bash
+TUSHARE_TOKEN=你的token .venv/bin/python daily_update.py --date 20261022
 ```
 
-Run a full rebuild:
+从头重建 `strategy_data.csv`：
 
-```powershell
-.\.venv\Scripts\python build_strategy_data.py
+```bash
+TUSHARE_TOKEN=你的token .venv/bin/python build_strategy_data.py
 ```
 
-## Safety tools
+## 文件
 
-Behavior baseline:
+| 文件 | 作用 |
+|---|---|
+| `dashboard.py` | 看板 |
+| `strategy_engine.py` | 主观策略的买卖规则和门槛数字，看板和回测共用 |
+| `tools/strategy_research_advanced.py`、`tools/strategy_meta_switch_research.py` | 量化策略（看板里的第二套策略）的规则和参数 |
+| `backtest.py` | 回测，输出 K 线图和净值曲线 |
+| `daily_update.py` | 每日增量更新 |
+| `build_strategy_data.py` | 全量重建 |
+| `tools/wake_streamlit.py` | 打开线上看板、睡着就叫醒 |
+| `strategy_data.csv` | 策略每日输入总表 |
+| `csi500_components_schedule.csv` | 每天的成分股名单 |
+| `adj_factor_base.csv` | 复权基准表 |
+| `update_status.json` | 最近一次数据更新的结果，看板顶部会显示 |
+| `stocks_data/`、`stocks_archive/` | 现任 / 已调出成分股的日线 |
+| `.streamlit/config.toml` | 看板固定浅色主题 |
 
-```powershell
-.\.venv\Scripts\python tools\behavior_baseline.py snapshot
-.\.venv\Scripts\python tools\behavior_baseline.py verify
+## 安全检查工具
+
+改策略相关代码时，用行为基线确认买卖结果没被意外改动。改代码之前先拍快照，改完再核对：
+
+```bash
+.venv/bin/python tools/behavior_baseline.py snapshot
+.venv/bin/python tools/behavior_baseline.py verify
 ```
 
-Archive old component files:
+注意：基线连数据一起记录。两步之间如果数据更新过，`verify` 一定会报差异，所以两步要在同一份数据上做。
 
-```powershell
-.\.venv\Scripts\python tools\archive_old_component_files.py plan
-.\.venv\Scripts\python tools\archive_old_component_files.py apply
-.\.venv\Scripts\python tools\archive_old_component_files.py restore
+归档已调出成分股的文件（先 `plan` 看计划，`apply` 执行，`restore` 撤回）：
+
+```bash
+.venv/bin/python tools/archive_old_component_files.py plan
+.venv/bin/python tools/archive_old_component_files.py apply
+.venv/bin/python tools/archive_old_component_files.py restore
 ```
 
-## Update and deployment notes
+## 部署和自动任务
 
-- Daily updates can be triggered by GitHub Actions
-- The Streamlit app is deployed on Streamlit Community Cloud: https://csi500.streamlit.app/
-- `.github/workflows/streamlit_keepalive.yml` opens the app every 6 hours (via `tools/wake_streamlit.py`) so it does not sleep; run it by hand from the Actions tab if the app is asleep
-- If the app shows `source IP address not allowed`, open it without a proxy (see DESIGNE.md section 15)
-- Local-only notes and operational memory are intentionally kept out of the repository
-
-## Repository intent
-
-This repository keeps the project code, data workflow, and reusable tooling.
-
-Local operational notes, personal rollback records, and local-only helper documents are not intended to be tracked here.
+- **看板**：部署在 Streamlit Community Cloud，连着本仓库 `main` 分支，推送后一两分钟自动更新。
+- **每日数据更新**：GitHub Actions `daily_update.yml`，工作日北京时间 17:30 定时（GitHub 常会推迟几个小时）。需要在仓库 Settings → Secrets 里配置 `TUSHARE_TOKEN`。漏掉的日子可以在 Actions 页面手动运行它，填 `date`。
+- **看板保活**：GitHub Actions `streamlit_keepalive.yml`，每 6 小时用浏览器打开一次看板。看板睡着时也可以在 Actions 页面手动运行它。
+- **打不开看板、提示 `source IP address not allowed`**：是代理节点的 IP 被 Streamlit 拦了，让 `streamlit.app` 和 `streamlit.io` 走直连即可。
