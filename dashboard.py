@@ -12,6 +12,7 @@ import matplotlib.dates as mdates
 import os
 import json
 import html
+import hashlib
 
 from strategy_engine import (
     ICE_BREADTH,
@@ -203,6 +204,9 @@ DATA_DIR   = os.path.dirname(os.path.abspath(__file__))
 DATA_FILE  = os.path.join(DATA_DIR, 'strategy_data.csv')
 START_DATE = '20240101'
 END_DATE   = str(pd.read_csv(DATA_FILE, usecols=['trade_date'])['trade_date'].iloc[-1])
+# 缓存按数据内容区分：补数会改写已有日子而最后一天不变，只按日期缓存会继续显示旧结果
+with open(DATA_FILE, 'rb') as _f:
+    DATA_VERSION = hashlib.md5(_f.read()).hexdigest()
 COST       = 0.001
 QUANT_REQUIRED_COLS = ['breadth_ma20', 'breadth_ma60']
 
@@ -268,7 +272,7 @@ def load_quant_source(end_date, rebuild_features=False):
 # 数据加载 & 策略引擎
 # ═══════════════════════════════════════════════════════════════════════════════
 @st.cache_data(ttl=3600)
-def load_and_compute(end_date):
+def load_and_compute(end_date, data_version):
     base = pd.read_csv(DATA_FILE)
     base['trade_date'] = base['trade_date'].astype(str)
     base = base[(base['trade_date'] >= START_DATE) & (base['trade_date'] <= end_date)].copy()
@@ -281,7 +285,8 @@ def load_and_compute(end_date):
         quant_source.empty
         or any(col not in quant_source.columns for col in QUANT_REQUIRED_COLS)
         or len(quant_source) != len(base)
-        or quant_source[QUANT_REQUIRED_COLS].tail(min(len(quant_source), 5)).isna().any().any()
+        # 查整段而不只看最后几行：补数会在中间插入新日子
+        or quant_source[QUANT_REQUIRED_COLS].isna().any().any()
     )
     if need_rebuild:
         quant_source = load_quant_source(end_date, rebuild_features=True)
@@ -295,7 +300,7 @@ def load_and_compute(end_date):
     return subjective, quantitative
 
 
-df, quant_df = load_and_compute(END_DATE)
+df, quant_df = load_and_compute(END_DATE, DATA_VERSION)
 n = len(df)
 
 
