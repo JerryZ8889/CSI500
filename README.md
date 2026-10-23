@@ -110,7 +110,9 @@ Archive old component files:
 ## Update and deployment notes
 
 - Daily updates can be triggered by GitHub Actions
-- The Streamlit app can be deployed separately on Streamlit Community Cloud
+- The Streamlit app is deployed on Streamlit Community Cloud: https://csi500.streamlit.app/
+- `.github/workflows/streamlit_keepalive.yml` opens the app every 6 hours (via `tools/wake_streamlit.py`) so it does not sleep; run it by hand from the Actions tab if the app is asleep
+- If the app shows `source IP address not allowed`, open it without a proxy (see DESIGNE.md section 15)
 - Local-only notes and operational memory are intentionally kept out of the repository
 
 ## Repository intent
