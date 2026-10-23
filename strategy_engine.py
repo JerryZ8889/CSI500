@@ -12,6 +12,15 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
+# Strategy thresholds. The dashboard text reads these too, so the numbers
+# shown to the user can never drift from the numbers the engine trades on.
+ICE_BREADTH = 16          # Composite entry: breadth below this
+OVERHEAT_BREADTH = 79     # common exit: breadth above this ...
+OVERHEAT_HEAT_Z = 1.5     # ... while heat_z is below this
+MIN_CONSEC_GAINS = 3      # FirstNeg: prior up-streak length
+MIN_ETF_TURNOVER = 1.0    # FirstNeg: ETF turnover floor (%)
+TIME_STOP_DAYS = 5        # FirstNeg: days before the time stop can fire
+
 
 def compute_strategy_frame(df: pd.DataFrame, cost: float = 0.001) -> pd.DataFrame:
     """
@@ -54,7 +63,7 @@ def compute_strategy_frame(df: pd.DataFrame, cost: float = 0.001) -> pd.DataFram
         prev_cg = df["consec_gains"].iloc[i - 1]
 
         if position == 0:
-            if brd < 16:
+            if brd < ICE_BREADTH:
                 signals[i] = 1
                 logic_state = "Composite"
                 entry_idx = i
@@ -62,9 +71,9 @@ def compute_strategy_frame(df: pd.DataFrame, cost: float = 0.001) -> pd.DataFram
                 position = 1
             elif (
                 curr_c > ma_t
-                and prev_cg >= 3
+                and prev_cg >= MIN_CONSEC_GAINS
                 and curr_c < prev_c
-                and turn > 1.0
+                and turn > MIN_ETF_TURNOVER
                 and curr_c > ma_s
                 and curr_c > ma_f
             ):
@@ -74,10 +83,10 @@ def compute_strategy_frame(df: pd.DataFrame, cost: float = 0.001) -> pd.DataFram
                 entry_high = df["high"].iloc[i]
                 position = 1
         else:
-            if logic_state == "FirstNeg" and brd < 16:
+            if logic_state == "FirstNeg" and brd < ICE_BREADTH:
                 logic_state = "Composite"
 
-            cond_common = (brd > 79) and (hz < 1.5)
+            cond_common = (brd > OVERHEAT_BREADTH) and (hz < OVERHEAT_HEAT_Z)
             if cond_common:
                 signals[i] = -1
                 exit_reasons[i] = "overheating"
@@ -87,7 +96,7 @@ def compute_strategy_frame(df: pd.DataFrame, cost: float = 0.001) -> pd.DataFram
                 is_1d = curr_c < prev_c
                 is_below_ma = curr_c < ma_f
                 held_days = i - entry_idx
-                if held_days >= 5:
+                if held_days >= TIME_STOP_DAYS:
                     closes_in_period = df["close"].iloc[entry_idx:i + 1]
                     is_5d = not (closes_in_period > entry_high).any()
                 else:
@@ -196,14 +205,14 @@ def compute_virtual_firstneg(df: pd.DataFrame) -> dict[str, object]:
                 v_active = False
                 continue
 
-            if v_held_days >= 5 and is_below_ma:
+            if v_held_days >= TIME_STOP_DAYS and is_below_ma:
                 closes_in_period = df["close"].iloc[v_entry_idx:i + 1]
                 if not (closes_in_period > v_entry_high).any():
                     v_exit_signal = "time_stop"
                     v_active = False
                     continue
 
-            if v_held_days > 5:
+            if v_held_days > TIME_STOP_DAYS:
                 v_active = False
                 v_exit_signal = None
                 continue
@@ -213,9 +222,9 @@ def compute_virtual_firstneg(df: pd.DataFrame) -> dict[str, object]:
             v_exit_signal = None
             conds_met = (
                 curr_c > ma_t
-                and prev_cg >= 3
+                and prev_cg >= MIN_CONSEC_GAINS
                 and is_down
-                and turn > 1.0
+                and turn > MIN_ETF_TURNOVER
                 and curr_c > ma_s
                 and curr_c > ma_f
             )
@@ -271,6 +280,46 @@ def compute_trade_summary(df: pd.DataFrame) -> dict[str, object]:
         "trade_returns": trade_returns,
         "win_rate": win_rate,
     }
+
+
+def list_trades(df: pd.DataFrame) -> list[dict[str, object]]:
+    """
+    One record per trade, using the same T+1 execution and returns as
+    compute_trade_summary. The last trade may still be open.
+
+    `logic` is the logic in force on the last holding day, i.e. the one whose
+    exit rules apply (a FirstNeg hold upgraded to Composite counts as Composite).
+    """
+    n = len(df)
+    last_idx = n - 1
+    signals = df["signal"].to_numpy()
+    trades = []
+    for bi in np.flatnonzero(signals == 1):
+        later_sells = np.flatnonzero(signals[bi + 1:] == -1)
+        si = bi + 1 + later_sells[0] if len(later_sells) else None
+        exec_buy = min(bi + 1, last_idx)
+        if si is None:
+            exec_sell = last_idx
+            logic = df["logic_state"].iloc[last_idx]
+            held_days = last_idx - exec_buy + 1 if bi < last_idx else 0
+        else:
+            exec_sell = min(si + 1, last_idx)
+            logic = df["logic_state"].iloc[si - 1] if si - 1 >= bi else df["logic_state"].iloc[bi]
+            held_days = exec_sell - exec_buy
+        ret = (1 + df["strat_ret"].iloc[exec_buy: exec_sell + 1]).prod() - 1 if bi < last_idx else 0.0
+        trades.append(
+            {
+                "signal_date": df["trade_date"].iloc[bi],
+                "buy_date": df["trade_date"].iloc[exec_buy] if bi < last_idx else None,
+                "buy_price": float(df["open"].iloc[exec_buy]) if bi < last_idx else None,
+                "logic": logic,
+                "held_days": int(held_days),
+                "ret": float(ret),
+                "is_open": si is None,
+                "exit_reason": df["exit_reason"].iloc[si] if si is not None else None,
+            }
+        )
+    return trades
 
 
 def max_drawdown(nav_series: pd.Series) -> float:

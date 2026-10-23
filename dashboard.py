@@ -14,9 +14,16 @@ import json
 import html
 
 from strategy_engine import (
+    ICE_BREADTH,
+    MIN_CONSEC_GAINS,
+    MIN_ETF_TURNOVER,
+    OVERHEAT_BREADTH,
+    OVERHEAT_HEAT_Z,
+    TIME_STOP_DAYS,
     compute_strategy_frame,
     compute_trade_summary,
     compute_virtual_firstneg,
+    list_trades,
     max_drawdown,
 )
 from tools.strategy_meta_switch_research import BASE_HYBRID
@@ -183,7 +190,7 @@ st.markdown("""
 # ── 全局 matplotlib 中文字体 ──────────────────────────────────────────────────
 import matplotlib.font_manager as _fm
 _available = {f.name for f in _fm.fontManager.ttflist}
-for _font in ['SimHei', 'WenQuanYi Zen Hei', 'Microsoft YaHei']:
+for _font in ['SimHei', 'WenQuanYi Zen Hei', 'Microsoft YaHei', 'Hiragino Sans GB', 'Arial Unicode MS']:
     if _font in _available:
         plt.rcParams['font.sans-serif'] = [_font]
         break
@@ -206,10 +213,14 @@ def summarize_display(frame):
     mdd_pct = max_drawdown(frame['strat_nav']) * 100
     bench_mdd_pct = max_drawdown(frame['bench_nav']) * 100
     trade_summary = compute_trade_summary(frame)
+    nav = frame['strat_nav'].reset_index(drop=True)
+    trough_idx = int((nav / nav.cummax() - 1).idxmin())
+    peak_idx = int(nav.iloc[:trough_idx + 1].idxmax())
     return {
         'total_pct': total_pct,
         'bench_total_pct': bench_total_pct,
         'mdd_pct': mdd_pct,
+        'mdd_window': (str(frame['trade_date'].iloc[peak_idx]), str(frame['trade_date'].iloc[trough_idx])),
         'bench_mdd_pct': bench_mdd_pct,
         'excess_pct': total_pct - bench_total_pct,
         'n_trades': trade_summary['n_trades'],
@@ -301,6 +312,29 @@ bench_mdd = subjective_summary['bench_mdd_pct']
 last = df.iloc[-1]
 prev = df.iloc[-2]
 
+# ── 逐笔交易（当前持仓 + 同类历史战绩）──
+trades = list_trades(df)
+open_trade = trades[-1] if trades and trades[-1]['is_open'] else None
+
+
+def fmt_date(trade_date):
+    return pd.to_datetime(str(trade_date), format='%Y%m%d').strftime('%Y-%m-%d')
+
+
+def logic_history_text(logic):
+    """同一持仓逻辑已完成交易的战绩，一句话。没有可比记录时返回 None。"""
+    done = [t for t in trades if not t['is_open'] and t['logic'] == logic]
+    if not done:
+        return None
+    wins = sum(1 for t in done if t['ret'] > 0)
+    avg_ret = sum(t['ret'] for t in done) / len(done) * 100
+    avg_days = sum(t['held_days'] for t in done) / len(done)
+    worst = min(t['ret'] for t in done) * 100
+    return (
+        f"{start_date_fmt[:4]} 年以来 {logic} 共完成 {len(done)} 笔，其中 {wins} 笔赚钱；"
+        f"平均每笔 {avg_ret:+.1f}%，最差一笔 {worst:+.1f}%，平均持有 {avg_days:.0f} 个交易日"
+    )
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # 页面标题
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -379,6 +413,12 @@ with perf_col_2:
     )
 
 st.caption(f"共同基准（从 {start_date_fmt} 重新起算）：累计收益 {bench_total:+.2f}% | 最大回撤 {bench_mdd:.2f}%")
+if (round(subjective_summary['mdd_pct'], 2) == round(quant_summary['mdd_pct'], 2)
+        and subjective_summary['mdd_window'] == quant_summary['mdd_window']):
+    _peak, _trough = subjective_summary['mdd_window']
+    st.caption(
+        f"两套策略最大回撤相同并非算错：两者都持有了 {fmt_date(_peak)} 到 {fmt_date(_trough)} 这同一段下跌。"
+    )
 
 st.divider()
 
@@ -419,11 +459,11 @@ else:
 cond_items = [
     ("收盘 > MA10 (趋势确认)", close_val > ma10_val,
      f"收盘 {close_val:.2f} vs MA10 {ma10_val:.2f}"),
-    ("昨日连涨 >= 3 天", prev_cg >= 3,
+    (f"昨日连涨 >= {MIN_CONSEC_GAINS} 天", prev_cg >= MIN_CONSEC_GAINS,
      f"昨日连涨 {prev_cg} 天"),
     ("今日首阴 (收跌)", is_down,
      f"今收 {close_val:.2f} vs 昨收 {prev['close']:.2f}"),
-    ("ETF 换手率 > 1.0%", turn_val > 1.0,
+    (f"ETF 换手率 > {MIN_ETF_TURNOVER:.1f}%", turn_val > MIN_ETF_TURNOVER,
      f"当前换手率 {turn_val:.2f}%"),
     ("收盘 > MA5 (短期支撑)", close_val > ma5_val,
      f"收盘 {close_val:.2f} vs MA5 {ma5_val:.2f}"),
@@ -451,19 +491,24 @@ elif sig == -1:
     er = last['exit_reason']
     if er == 'overheating':
         act_text, act_color = "🚨 过热平仓", "#dc2626"
-        act_desc = f"广度 {breadth_val:.1f}% 超过 79% 过热阈值，heat_z {hz_val:.2f}σ 未突破放量阈值 → 量价背离退出，T+1 次日开盘卖出"
+        act_desc = f"广度 {breadth_val:.1f}% 超过 {OVERHEAT_BREADTH}% 过热线，heat_z {hz_val:.2f}σ 低于 {OVERHEAT_HEAT_Z}σ（不再放量）→ 过热退出，T+1 次日开盘卖出"
     elif er == 'trend_break':
         act_text, act_color = "🚨 短线平仓", "#dc2626"
         act_desc = f"收盘 {close_val:.2f} < MA30 {ma30_val:.2f} 且当日收跌 → 趋势破位退出，T+1 次日开盘卖出"
     elif er == 'time_stop':
         act_text, act_color = "⏰ 时间止损", "#dc2626"
-        act_desc = "收盘跌破 MA30 且持仓满5日未收复入场高点 → 时间止损退出，T+1 次日开盘卖出"
+        act_desc = f"收盘在 MA30 下方，且持仓满 {TIME_STOP_DAYS} 日收盘从未高过入场当日最高价 → 时间止损退出，T+1 次日开盘卖出"
     else:
         act_text, act_color = "🚨 执行卖出", "#dc2626"
         act_desc = "触发退出条件，T+1 次日开盘卖出"
 elif pos == 1:
     act_text, act_color = "💎 持股待涨", "#2563eb"
-    act_desc = f"持仓逻辑：{last['logic_state'] or 'N/A'}，未触发退出条件"
+    act_desc = f"持仓逻辑：{last['logic_state'] or 'N/A'}，未触发卖出条件"
+    if open_trade and open_trade['buy_date']:
+        act_desc = (
+            f"持仓逻辑：{last['logic_state'] or 'N/A'}，{fmt_date(open_trade['buy_date'])} 买入，"
+            f"浮动 {open_trade['ret'] * 100:+.1f}%"
+        )
     # 检查参考提示：Composite 持仓时的虚拟首阴仓位
     if vfn['active'] and last['logic_state'] == 'Composite':
         ref_tip = {
@@ -498,68 +543,116 @@ else:
 # ── 综合理由 & 风险计算 ──
 reasons = []
 risks   = []
+logic_now = last['logic_state']
 if pos == 1:
     if sig == -1:
         er = last['exit_reason']
         if er == 'overheating':
-            reasons.append(f"广度 {breadth_val:.1f}% 超过 79% 过热阈值，同时 heat_z={hz_val:.2f}σ < 1.5σ 表明资金已退潮")
-            reasons.append("通用过热退出条件触发，适用于 Composite 和 FirstNeg 两种持仓逻辑")
+            reasons.append(
+                f"广度 {breadth_val:.1f}% 超过 {OVERHEAT_BREADTH}% 过热线，同时 heat_z {hz_val:.2f}σ 低于 "
+                f"{OVERHEAT_HEAT_Z}σ，说明普涨但已不再放量"
+            )
+            reasons.append("过热退出是通用规则，Composite 和 FirstNeg 两种持仓都适用")
         elif er == 'trend_break':
             reasons.append(f"收盘 {close_val:.2f} 跌破 MA30 趋势防线 {ma30_val:.2f}")
             reasons.append(f"当日收跌（收盘 {close_val:.2f} < 昨收 {prev['close']:.2f}），趋势破位确认")
         elif er == 'time_stop':
-            reasons.append(f"收盘 {close_val:.2f} 跌破 MA30 趋势防线 {ma30_val:.2f}")
-            reasons.append("持仓已满 5 个交易日且期间收盘价从未超过入场当日最高价，时间止损触发")
+            reasons.append(f"收盘 {close_val:.2f} 在 MA30 趋势防线 {ma30_val:.2f} 下方")
+            reasons.append(f"持仓已满 {TIME_STOP_DAYS} 个交易日，期间收盘价从未超过入场当日最高价，时间止损触发")
         else:
             reasons.append("策略已触发退出信号")
+        closing = trades[-1] if trades else None
+        if closing and closing['buy_date']:
+            reasons.append(
+                f"这笔 {fmt_date(closing['buy_date'])} 买入，到今天收盘为 {closing['ret'] * 100:+.1f}%"
+                f"（实际按明天开盘价卖出，最终结果以开盘价为准）"
+            )
         risks.append("次日以开盘价执行，如隔夜有大幅波动可能产生滑点")
     else:
-        if above_ma30:
-            reasons.append(f"MA30 趋势保护有效，收盘 {close_val:.2f} > MA30 {ma30_val:.2f}")
-        if breadth_val < 70:
-            reasons.append(f"广度 {breadth_val:.1f}% 未过热，上涨空间仍存")
-        if hz_val > -1.5:
-            reasons.append("资金热度正常，无冷清退潮迹象")
-        if not above_ma30:
-            # Composite 只有过热退出，跌破 MA30 不会卖；只有 FirstNeg 才有破位退出
-            if last['logic_state'] == 'Composite':
-                risks.append("价格已在 MA30 下方。Composite 抄底仓只在过热（广度 > 79% 且 heat_z < 1.5σ）时卖出，继续下跌不会触发卖出，需承受期间浮亏")
+        if open_trade and open_trade['buy_date']:
+            reasons.append(
+                f"{fmt_date(open_trade['signal_date'])} 触发信号，{fmt_date(open_trade['buy_date'])} 开盘以 "
+                f"{open_trade['buy_price']:.2f} 买入，已持有 {open_trade['held_days']} 个交易日，"
+                f"按收盘价计浮动 {open_trade['ret'] * 100:+.1f}%"
+            )
+        if logic_now == 'Composite':
+            if breadth_val > OVERHEAT_BREADTH:
+                reasons.append(
+                    f"广度 {breadth_val:.1f}% 已过 {OVERHEAT_BREADTH}% 过热线，但 heat_z {hz_val:.2f}σ 仍在 "
+                    f"{OVERHEAT_HEAT_Z}σ 以上（还在放量），所以继续持有；热度一回落就会卖出"
+                )
             else:
-                risks.append(f"价格已在 MA30 下方，若继续走弱可能触发 FirstNeg 退出条件")
-        if breadth_val > 65:
-            risks.append(f"广度 {breadth_val:.1f}% 偏高，关注是否接近过热卖出阈值")
+                reasons.append(
+                    f"Composite 只有一条卖出规则：广度升到 {OVERHEAT_BREADTH}% 以上、同时 heat_z 低于 "
+                    f"{OVERHEAT_HEAT_Z}σ。当前广度 {breadth_val:.1f}%，离卖出线还差 "
+                    f"{OVERHEAT_BREADTH - breadth_val:.1f} 个百分点"
+                )
+            if not above_ma30:
+                risks.append(
+                    f"价格在 MA30 下方。Composite 抄底仓不看 MA30、也没有止损，继续下跌不会触发卖出，需承受期间浮亏"
+                )
+        elif logic_now == 'FirstNeg':
+            if above_ma30:
+                reasons.append(
+                    f"FirstNeg 的破位卖出以跌破 MA30 为前提：当前收盘 {close_val:.2f} 仍在 MA30 {ma30_val:.2f} 上方"
+                    f"（高出 {dist_pct:.2f}%）"
+                )
+            else:
+                risks.append(
+                    f"价格已在 MA30 下方：之后任何一天收跌都会触发卖出；持满 {TIME_STOP_DAYS} 天收盘仍没高过入场当日最高价 "
+                    f"{last['entry_high_val']:.2f}，也会触发时间止损"
+                )
+            reasons.append(
+                f"另有通用过热卖出：广度超过 {OVERHEAT_BREADTH}% 且 heat_z 低于 {OVERHEAT_HEAT_Z}σ（当前广度 {breadth_val:.1f}%）"
+            )
+        history = logic_history_text(logic_now)
+        if history:
+            reasons.append(f"同类持仓的历史表现：{history}")
+        if OVERHEAT_BREADTH - 10 < breadth_val <= OVERHEAT_BREADTH:
+            risks.append(
+                f"广度 {breadth_val:.1f}% 已接近 {OVERHEAT_BREADTH}% 过热线，若 heat_z 同时低于 {OVERHEAT_HEAT_Z}σ 就会卖出"
+            )
         # 参考提示上下文
         if ref_tip is not None:
             if ref_tip['type'] == 'entry':
-                reasons.append(f"[参考] {last['logic_state'] or ''} 持仓期间 FirstNeg 6项条件全部满足，可参考加仓")
+                reasons.append(f"[参考] {logic_now or ''} 持仓期间 FirstNeg 6项条件全部满足，可参考加仓")
                 risks.append("[参考] 首阴加仓为参考提示，非策略强制动作，请自行判断仓位管理")
             elif ref_tip['type'] == 'exit':
                 reasons.append("[参考] 虚拟首阴仓位已触发退出条件，主仓位策略暂未触发卖出")
                 risks.append("[参考] 虚拟首阴退出仅供参考，实际仓位应以策略信号为准")
 else:
     if sig == 1:
-        ls = last['logic_state']
-        if ls == 'Composite':
-            reasons.append(f"广度 {breadth_val:.1f}% 触及冰点 (< 16%) → Composite 左侧抄底信号")
-            reasons.append("市场极度恐慌，历史上冰点往往对应阶段性底部区域")
+        if logic_now == 'Composite':
+            reasons.append(f"广度 {breadth_val:.1f}% 跌破 {ICE_BREADTH}% 冰点线 → Composite 左侧抄底信号")
             risks.append("T+1 执行，次日以开盘价买入")
-            risks.append("底部可能有反复磨底，需做好短期波动准备")
-        elif ls == 'FirstNeg':
+            risks.append(
+                f"抄底仓没有止损，只在过热（广度 > {OVERHEAT_BREADTH}% 且 heat_z < {OVERHEAT_HEAT_Z}σ）时卖出，"
+                f"买入后可能继续下跌磨底"
+            )
+        elif logic_now == 'FirstNeg':
             reasons.append("FirstNeg 6 项条件全部满足 → 连涨后首阴低吸机会")
             reasons.append(f"趋势向上 (收盘 > MA10/MA5/MA30)，量能充沛 (换手率 {turn_val:.2f}%)")
             risks.append("T+1 执行，次日以开盘价买入")
-            risks.append("首阴反弹失败概率存在，最长 5 天后可能触发时间止损")
+            risks.append(
+                f"买入后若跌破 MA30 且当日收跌就会卖出；持满 {TIME_STOP_DAYS} 天收盘没高过今天最高价、又在 MA30 下方，也会止损"
+            )
         else:
-            reasons.append(f"入场逻辑：{ls or 'N/A'}")
+            reasons.append(f"入场逻辑：{logic_now or 'N/A'}")
             risks.append("T+1 执行，次日以开盘价买入")
+        history = logic_history_text(logic_now)
+        if history:
+            reasons.append(f"同类信号的历史表现：{history}")
     else:
         reasons.append("当前未产生任何入场信号")
-        if breadth_val > 30:
-            reasons.append(f"广度 {breadth_val:.1f}% 远离冰点（16%），Composite 条件不满足")
+        reasons.append(
+            f"Composite 抄底要等广度跌破 {ICE_BREADTH}%：当前 {breadth_val:.1f}%，还差 "
+            f"{breadth_val - ICE_BREADTH:.1f} 个百分点"
+        )
         if met_count < total_cond:
-            reasons.append(f"FirstNeg 仅满足 {met_count}/{total_cond} 项条件")
+            missing = [label for label, met, _ in cond_items if not met]
+            reasons.append(f"FirstNeg 满足 {met_count}/{total_cond} 项条件，还缺：{'、'.join(missing)}")
         if not above_ma30:
-            reasons.append("价格在 MA30 下方，趋势不友好，不宜贸然入场")
+            reasons.append("价格在 MA30 下方，FirstNeg 不会触发；只有广度跌到冰点才会抄底入场")
         risks.append("空仓期间可能错过突发行情，但风控优先")
 
 # ── 量化策略当前状态 ──
@@ -601,7 +694,7 @@ if q_sig == 1:
         q_act_desc = "抄底层和趋势层同时打开，T+1 次日开盘执行"
     elif q_comp_active:
         q_act_text, q_act_color = "🧲 抄底买入", "#16a34a"
-        q_act_desc = "20日广度跌入量化冰点区，T+1 次日开盘执行"
+        q_act_desc = "站上20日线占比跌入量化冰点区，T+1 次日开盘执行"
     elif q_trend_active:
         q_act_text, q_act_color = "📈 趋势买入", "#16a34a"
         q_act_desc = "趋势层确认开启，T+1 次日开盘执行"
@@ -639,26 +732,26 @@ if q_pos == 1:
     if q_sig == -1:
         if q_prev_comp_active and not q_comp_active:
             q_reasons.append(
-                f"抄底层退出：20日广度 {q_b20:.1f}% 超过 {q_comp_exit_breadth:.0f}% ，且 heat_z {q_heat:.2f}σ 低于 {q_comp_exit_heat:.1f}σ"
+                f"抄底层退出：站上20日线占比 {q_b20:.1f}% 超过 {q_comp_exit_breadth:.0f}% ，且 heat_z {q_heat:.2f}σ 低于 {q_comp_exit_heat:.1f}σ"
             )
         if q_prev_trend_active and not q_trend_active:
             q_exit_parts = []
             if q_close < q_ma30:
                 q_exit_parts.append(f"收盘 {q_close:.2f} 跌回 MA30 {q_ma30:.2f} 下方")
             if q_b60 < q_trend_b60_exit:
-                q_exit_parts.append(f"60日广度 {q_b60:.1f}% 失守 {q_trend_b60_exit:.0f}%")
+                q_exit_parts.append(f"站上60日线占比 {q_b60:.1f}% 失守 {q_trend_b60_exit:.0f}%")
             if q_b20 < q_trend_b20_exit:
-                q_exit_parts.append(f"20日广度 {q_b20:.1f}% 失守 {q_trend_b20_exit:.0f}%")
+                q_exit_parts.append(f"站上20日线占比 {q_b20:.1f}% 失守 {q_trend_b20_exit:.0f}%")
             q_reasons.append("趋势层退出：" + "；".join(q_exit_parts))
         q_risks.append("量化策略同样按 T+1 执行，次日开盘价可能与信号日有偏差")
     else:
         if q_comp_active:
             q_reasons.append(
-                f"抄底层仍开启：20日广度 {q_b20:.1f}% 仍未达到 {q_comp_exit_breadth:.0f}% 的退出区"
+                f"抄底层仍开启：站上20日线占比 {q_b20:.1f}% 仍未达到 {q_comp_exit_breadth:.0f}% 的退出区"
             )
         if q_trend_active:
             q_reasons.append(
-                f"趋势层仍开启：收盘 {q_close:.2f} > MA30 {q_ma30:.2f}，60日广度 {q_b60:.1f}% / 20日广度 {q_b20:.1f}% 维持强势"
+                f"趋势层仍开启：收盘 {q_close:.2f} > MA30 {q_ma30:.2f}，站上60日线占比 {q_b60:.1f}% / 站上20日线占比 {q_b20:.1f}% 维持强势"
             )
         if q_comp_active and q_b20 > q_comp_exit_breadth - 4:
             q_risks.append("抄底层已经接近高位退出区，若市场降温会较快离场")
@@ -667,23 +760,23 @@ if q_pos == 1:
 else:
     if q_sig == 1:
         if q_comp_active:
-            q_reasons.append(f"抄底层开仓：20日广度 {q_b20:.1f}% 低于 {q_comp_entry:.0f}% 冰点阈值")
+            q_reasons.append(f"抄底层开仓：站上20日线占比 {q_b20:.1f}% 低于 {q_comp_entry:.0f}% 冰点阈值")
         if q_trend_active:
             q_reasons.append(
-                f"趋势层开仓：收盘 {q_close:.2f} 站上 MA30 {q_ma30:.2f}，60日广度 {q_b60:.1f}% ≥ {q_trend_b60_entry:.0f}% ，20日广度 {q_b20:.1f}% ≥ {q_trend_b20_entry:.0f}%"
+                f"趋势层开仓：收盘 {q_close:.2f} 站上 MA30 {q_ma30:.2f}，站上60日线占比 {q_b60:.1f}% ≥ {q_trend_b60_entry:.0f}% ，站上20日线占比 {q_b20:.1f}% ≥ {q_trend_b20_entry:.0f}%"
             )
         q_risks.append("量化策略也是 T+1 执行，次日开盘若跳空会影响实际成交表现")
     else:
         q_reasons.append("当前量化策略没有入场信号")
         if q_b20 >= q_comp_entry:
-            q_reasons.append(f"抄底层未开：20日广度 {q_b20:.1f}% 没有低于 {q_comp_entry:.0f}%")
+            q_reasons.append(f"抄底层未开：站上20日线占比 {q_b20:.1f}% 没有低于 {q_comp_entry:.0f}%")
         q_trend_missing = []
         if q_close <= q_ma30:
             q_trend_missing.append("收盘未站上 MA30")
         if q_b60 < q_trend_b60_entry:
-            q_trend_missing.append(f"60日广度 {q_b60:.1f}% 未到 {q_trend_b60_entry:.0f}%")
+            q_trend_missing.append(f"站上60日线占比 {q_b60:.1f}% 未到 {q_trend_b60_entry:.0f}%")
         if q_b20 < q_trend_b20_entry:
-            q_trend_missing.append(f"20日广度 {q_b20:.1f}% 未到 {q_trend_b20_entry:.0f}%")
+            q_trend_missing.append(f"站上20日线占比 {q_b20:.1f}% 未到 {q_trend_b20_entry:.0f}%")
         if q_trend_missing:
             q_reasons.append("趋势层未开：" + "；".join(q_trend_missing))
         q_risks.append("量化策略空仓时可能错过很短的反抽，但能减少无效进出")
@@ -744,12 +837,13 @@ st.markdown("")
 st.markdown(
     render_metric_grid(
         [
-            ("市场广度", f"{breadth_val:.1f}%", '#111827'),
-            ("20日热度", f"{hz_val:.2f}σ", '#111827'),
+            ("市场广度（站上20日线占比）", f"{breadth_val:.1f}%", '#111827'),
+            ("站上60日线占比", f"{q_b60:.1f}%", '#111827'),
+            ("成交热度 heat_z", f"{hz_val:.2f}σ", '#111827'),
             ("ETF换手率", f"{turn_val:.2f}%", '#111827'),
+            ("收盘", f"{close_val:.2f}", '#111827'),
             ("MA30", f"{ma30_val:.2f}", '#111827'),
-            ("量化20日广度", f"{q_b20:.1f}%", '#111827'),
-            ("量化60日广度", f"{q_b60:.1f}%", '#111827'),
+            ("主观策略持仓", logic_now if pos == 1 else "空仓", '#111827'),
             ("量化当前层", q_logic_name, '#111827'),
         ]
     ),
@@ -853,10 +947,10 @@ for i in range(1, n):
 
 ax3.plot(dates, df['breadth'], color='#f59e0b', linewidth=1.2,
          label='MA20上方占比 (%)')
-ax3.axhline(y=16, color='#22c55e', linestyle='--', linewidth=1, label='冰点线 (16%)')
-ax3.axhline(y=80, color='#ef4444', linestyle='--', linewidth=1, label='过热线 (80%)')
-ax3.fill_between(dates, 0, 16, color='#22c55e', alpha=0.04)
-ax3.fill_between(dates, 80, 100, color='#ef4444', alpha=0.04)
+ax3.axhline(y=ICE_BREADTH, color='#22c55e', linestyle='--', linewidth=1, label=f'冰点线 ({ICE_BREADTH}%，抄底买入)')
+ax3.axhline(y=OVERHEAT_BREADTH, color='#ef4444', linestyle='--', linewidth=1, label=f'过热线 ({OVERHEAT_BREADTH}%，配合热度卖出)')
+ax3.fill_between(dates, 0, ICE_BREADTH, color='#22c55e', alpha=0.04)
+ax3.fill_between(dates, OVERHEAT_BREADTH, 100, color='#ef4444', alpha=0.04)
 
 ax3.set_title('市场广度监控', fontsize=14)
 ax3.set_ylabel('广度 (%)')
@@ -875,15 +969,15 @@ fig4, ax4 = plt.subplots(figsize=(16, 4))
 
 hz_pos = df['heat_z'].clip(lower=0)
 hz_neg = df['heat_z'].clip(upper=0)
-ax4.fill_between(dates, 0, hz_pos, color='#ef4444', alpha=0.4, label='过热 (Z>0)')
-ax4.fill_between(dates, 0, hz_neg, color='#3b82f6', alpha=0.4, label='冷清 (Z<0)')
-ax4.axhline(y=1.5, color='#ef4444', linestyle=':', linewidth=1, label='过热阈值 (1.5σ)')
-ax4.axhline(y=-1.5, color='#3b82f6', linestyle=':', linewidth=1, label='冰点阈值 (-1.5σ)')
+ax4.fill_between(dates, 0, hz_pos, color='#ef4444', alpha=0.4, label='高于20日均值 (Z>0)')
+ax4.fill_between(dates, 0, hz_neg, color='#3b82f6', alpha=0.4, label='低于20日均值 (Z<0)')
+ax4.axhline(y=OVERHEAT_HEAT_Z, color='#ef4444', linestyle=':', linewidth=1, label=f'放量线 ({OVERHEAT_HEAT_Z}σ，过热卖出要求低于此线)')
+ax4.axhline(y=-1.5, color='#3b82f6', linestyle=':', linewidth=1, label='冷清参考线 (-1.5σ，不参与交易)')
 ax4.axhline(y=0, color='gray', linestyle='-', linewidth=0.5, alpha=0.5)
 
 ax4.set_title('资金成交热度 (Z-Score)', fontsize=14)
 ax4.set_ylabel('Z-Score (σ)')
-ax4.legend(loc='upper left', fontsize=9, ncol=4)
+ax4.legend(loc='upper left', fontsize=9, ncol=2)
 ax4.grid(True, alpha=0.2)
 ax4.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
 ax4.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
@@ -897,10 +991,10 @@ fig5, ax5 = plt.subplots(figsize=(16, 4))
 
 ax5.plot(dates, df['etf_turnover'], color='#8b5cf6', linewidth=1.0,
          label='510500 ETF 换手率 (%)')
-ax5.axhline(y=1.0, color='#22c55e', linestyle='--', linewidth=1,
-            label='流动性下限 (1.0%)')
+ax5.axhline(y=MIN_ETF_TURNOVER, color='#22c55e', linestyle='--', linewidth=1,
+            label=f'FirstNeg 换手率下限 ({MIN_ETF_TURNOVER:.1f}%)')
 ax5.fill_between(dates, 0, df['etf_turnover'],
-                 where=(df['etf_turnover'] < 1.0),
+                 where=(df['etf_turnover'] < MIN_ETF_TURNOVER),
                  color='#fbbf24', alpha=0.15)
 
 ax5.set_title('510500 ETF 换手率监控', fontsize=14)
@@ -920,95 +1014,95 @@ st.divider()
 st.markdown('<div class="section-head">🔍 主观策略逻辑实时深度扫描</div>', unsafe_allow_html=True)
 
 with st.expander("A. 市场广度分析", expanded=False):
-    if breadth_val < 16:
+    st.caption("广度 = 中证500成分股中，收盘价站在自己 20 日均线上方的股票占比。")
+    if breadth_val < ICE_BREADTH:
+        comp_history = logic_history_text('Composite')
         st.markdown(
-            f"📉 **[极端冰点逻辑]**　当前广度 = **{breadth_val:.1f}%**\n\n"
-            f"全场仅不足 16% 的个股站上其 20 日均线，这意味着市场已进入极度恐慌或卖盘枯竭阶段。"
-            f"历史回测表明，广度触及冰点往往预示着阶段性底部的临近——此时绝大多数筹码已被"
-            f"充分换手，剩余抛压有限。但需注意：冰点状态可能持续数日甚至更久（「磨底」），"
-            f"不宜盲目追涨。\n\n"
-            f"**策略含义**：Composite 买入条件已满足（breadth < 16%），若当前空仓则触发左侧入场信号。"
+            f"📉 **[冰点区]**　当前广度 = **{breadth_val:.1f}%**（冰点线 {ICE_BREADTH}%）\n\n"
+            f"只有不到 {ICE_BREADTH}% 的成分股站在 20 日均线上方，市场处于集中抛售后的恐慌阶段。"
+            f"冰点可能持续好几天（磨底），买入后继续下跌并不少见。\n\n"
+            f"**策略含义**：空仓时触发 Composite 抄底买入；持有 FirstNeg 时会升级为 Composite"
+            f"（之后只按过热规则卖出）；已持有 Composite 时不做任何动作。"
+            + (f"\n\n**历史参考**：{comp_history}。" if comp_history else "")
         )
-    elif breadth_val > 80:
+    elif breadth_val > OVERHEAT_BREADTH:
+        exit_now = hz_val < OVERHEAT_HEAT_Z
         st.markdown(
-            f"🚩 **[广度高位警示]**　当前广度 = **{breadth_val:.1f}%**\n\n"
-            f"超过 80% 的个股已站上其 20 日均线，市场处于全面亢奋状态。赚钱效应虽然普遍，"
-            f"但也意味着场内潜在买盘可能已被充分消耗。历史经验表明，广度持续高于 80% 后，"
-            f"市场容易出现两种情况：(1) 指数惯性冲高但个股开始分化，(2) 某一根放量阴线"
-            f"引发集体获利了结。\n\n"
-            f"**策略含义**：如同时满足 heat_z < 1.5（资金退潮），将触发通用卖出条件。"
-            f"即使未触发，也建议提高警惕，避免追涨。"
+            f"🚩 **[过热区]**　当前广度 = **{breadth_val:.1f}%**（过热线 {OVERHEAT_BREADTH}%）\n\n"
+            f"超过 {OVERHEAT_BREADTH}% 的成分股站在 20 日均线上方，市场普涨。\n\n"
+            f"**策略含义**：过热卖出还要求成交热度回落到 {OVERHEAT_HEAT_Z}σ 以下。"
+            f"当前 heat_z = {hz_val:.2f}σ，"
+            + ("两项同时满足，持仓会触发过热卖出。" if exit_now else
+               f"仍在放量，所以继续持有；热度一回落到 {OVERHEAT_HEAT_Z}σ 以下就会卖出。")
         )
     elif breadth_val < 30:
         st.markdown(
             f"🔵 **[偏冷区间]**　当前广度 = **{breadth_val:.1f}%**\n\n"
-            f"不到三成个股站上均线，市场整体偏弱。虽未达冰点触发线（16%），但赚钱效应"
-            f"已经较差。此阶段通常对应指数的缩量下跌或横盘整理，需要关注广度是否继续"
-            f"下探接近冰点（可能产生 Composite 入场信号），还是企稳回升。"
+            f"不到三成成分股站在 20 日均线上方，市场整体偏弱，赚钱效应较差。"
+            f"离 {ICE_BREADTH}% 冰点线还差 **{breadth_val - ICE_BREADTH:.1f}** 个百分点；"
+            f"跌破冰点线时，空仓状态下会触发 Composite 抄底。"
         )
     elif breadth_val > 65:
         st.markdown(
             f"🟡 **[偏热区间]**　当前广度 = **{breadth_val:.1f}%**\n\n"
-            f"超过六成个股站上均线，市场情绪偏向乐观。赚钱效应尚好，但已逐步接近过热"
-            f"区间。如果广度继续走高突破 80%，需密切关注是否叠加 heat_z 降温，形成卖出条件。"
-            f"此阶段适合顺势持有，但不建议新增仓位追涨。"
+            f"超过六成成分股站在 20 日均线上方，市场情绪偏乐观。"
+            f"离 {OVERHEAT_BREADTH}% 过热线还差 **{OVERHEAT_BREADTH - breadth_val:.1f}** 个百分点；"
+            f"升破过热线、同时 heat_z 低于 {OVERHEAT_HEAT_Z}σ 时，持仓会过热卖出。"
         )
     else:
         st.markdown(
             f"✅ **[常规区间]**　当前广度 = **{breadth_val:.1f}%**\n\n"
-            f"市场广度处于正常波动范围（16%~80%），无极端信号。"
-            f"广度在 30%~65% 之间说明市场多空力量相对均衡，暂时不构成方向性判断依据。"
+            f"广度处于 30%~65% 的常规波动范围，离 {ICE_BREADTH}% 冰点线和 {OVERHEAT_BREADTH}% 过热线都较远，"
+            f"不会触发 Composite 买入或过热卖出。"
         )
 
 with st.expander("B. 资金热度分析", expanded=False):
-    if hz_val > 1.5:
+    st.caption("heat_z = 中证500当日成交额比近 20 日平均高（或低）几个标准差。")
+    if hz_val > OVERHEAT_HEAT_Z:
         st.markdown(
-            f"🔥 **[情绪过热逻辑]**　当前 Heat_Z = **{hz_val:.2f}σ**\n\n"
-            f"成交额已超出近 20 日均值 1.5 倍标准差，市场情绪达到高潮。大幅放量通常"
-            f"伴随着「最后一波」的集中入场，量能急速释放后往往出现动能衰竭。\n\n"
-            f"历史规律：heat_z > 1.5σ 后的 3~5 个交易日内，指数出现阶段性回调的概率"
-            f"显著升高。如同时叠加广度 > 79%，策略将触发通用卖出条件。\n\n"
-            f"**策略含义**：若当前持仓，需高度警惕短期回调风险。"
+            f"🔥 **[明显放量]**　当前 heat_z = **{hz_val:.2f}σ**\n\n"
+            f"成交额比近 20 日平均高出 {OVERHEAT_HEAT_Z} 个标准差以上，资金在集中进场。\n\n"
+            f"**策略含义**：放量期间过热卖出**不会**触发——过热卖出要求 heat_z 低于 {OVERHEAT_HEAT_Z}σ。"
+            f"即使广度超过 {OVERHEAT_BREADTH}%，只要还在放量，策略就继续持有；"
+            f"等放量消退、heat_z 回落到 {OVERHEAT_HEAT_Z}σ 以下才会卖出。"
         )
     elif hz_val < -1.5:
         st.markdown(
-            f"🧊 **[交投冷清逻辑]**　当前 Heat_Z = **{hz_val:.2f}σ**\n\n"
-            f"成交额跌至近 20 日均值 1.5 倍标准差以下，市场陷入地量状态。这通常出现在"
-            f"长假前、阴跌末期或市场极度观望阶段。地量往往意味着浮筹已被充分清洗，"
-            f"但也可能是趋势延续下跌的中继缩量。\n\n"
-            f"**策略含义**：单独的冷清信号不构成买卖依据，需结合广度冰点（breadth < 16%）"
-            f"综合判断。当冷清遇上冰点，往往是底部区域的标志性特征。"
+            f"🧊 **[交投冷清]**　当前 heat_z = **{hz_val:.2f}σ**\n\n"
+            f"成交额比近 20 日平均低 1.5 个标准差以上，市场处于地量、观望状态。"
+            f"地量可能是抛压衰竭，也可能只是下跌途中的缩量。\n\n"
+            f"**策略含义**：热度不参与任何买入判断，抄底只看广度是否跌破 {ICE_BREADTH}%"
+            f"（当前 {breadth_val:.1f}%）。"
         )
     else:
         hz_status = "偏热" if hz_val > 0.5 else ("偏冷" if hz_val < -0.5 else "中性")
+        half_met = "已满足" if hz_val < OVERHEAT_HEAT_Z else "未满足"
         st.markdown(
-            f"✅ **[资金面{hz_status}]**　当前 Heat_Z = **{hz_val:.2f}σ**\n\n"
-            f"成交热度处于正常波动区间（±1.5σ 以内），市场交投活跃度无极端表现。"
-            f"当前 Z 值为 {hz_val:.2f}σ，{'成交略高于平均水平，市场参与意愿尚可' if hz_val > 0 else '成交略低于平均水平，市场观望情绪较浓'}。"
-            f"暂不构成独立的买卖信号参考。"
+            f"✅ **[资金面{hz_status}]**　当前 heat_z = **{hz_val:.2f}σ**\n\n"
+            f"成交{'略高于' if hz_val > 0 else '略低于'}近 20 日平均水平，没有极端放量或地量。\n\n"
+            f"**策略含义**：过热卖出要同时满足两条——heat_z 低于 {OVERHEAT_HEAT_Z}σ（当前{half_met}）、"
+            f"广度高于 {OVERHEAT_BREADTH}%（当前 {breadth_val:.1f}%）。"
         )
 
 with st.expander("C. 趋势保护分析", expanded=False):
     if above_ma30:
         slope_desc = "均线正向上行" if ma30_slope > 0 else "均线走平或微降"
         st.markdown(
-            f"✅ **[趋势生命线保护]**　收盘价 **{close_val:.2f}** > MA30 **{ma30_val:.2f}**"
-            f"（偏离 {dist_pct:+.2f}%）\n\n"
-            f"当前价格站稳在 MA30 (30日均线) 之上，{slope_desc}。只要不放量跌破该防守位，"
-            f"中线「看多做多」的逻辑基石依然稳固。MA30 同时也是 Composite 退出判定中"
-            f"的 MA_Filter 参数，价格在其上方时 FirstNeg 退出条件更难触发。\n\n"
-            f"**建议**：趋势友好，适合顺势持有或等待回踩 MA30 附近的入场机会。"
+            f"✅ **[站在 MA30 上方]**　收盘价 **{close_val:.2f}** > MA30 **{ma30_val:.2f}**"
+            f"（偏离 {dist_pct:+.2f}%），{slope_desc}。\n\n"
+            f"**策略含义**：MA30 只用于 FirstNeg，Composite 买卖都不看它。"
+            f"FirstNeg 入场要求收盘在 MA30 上方（当前满足）；持有 FirstNeg 时，"
+            f"只要不跌破 MA30，就不会触发破位卖出或时间止损。"
         )
     else:
         slope_desc = "均线正在走低" if ma30_slope < 0 else "均线走平"
         st.markdown(
-            f"⚠️ **[趋势压制风险]**　收盘价 **{close_val:.2f}** < MA30 **{ma30_val:.2f}**"
-            f"（偏离 {dist_pct:+.2f}%）\n\n"
-            f"价格处于 MA30 下方，{slope_desc}，属于典型的空头排布。在这种格局下，"
-            f"任何反弹在没有放量收复 MA30 之前，都应视为「技术性抽风」而非真正的反转。"
-            f"如果当前以 FirstNeg 逻辑持仓，跌破 MA30 将满足退出条件的前置因子"
-            f"（is_below_ma），配合日内下跌或 5 日滞涨即触发卖出。\n\n"
-            f"**建议**：趋势偏空，控制仓位，避免左侧抄底（除非广度触及冰点 16%）。"
+            f"⚠️ **[跌在 MA30 下方]**　收盘价 **{close_val:.2f}** < MA30 **{ma30_val:.2f}**"
+            f"（偏离 {dist_pct:+.2f}%），{slope_desc}。\n\n"
+            f"**策略含义**：MA30 只用于 FirstNeg，Composite 买卖都不看它。\n"
+            f"- FirstNeg 不会入场（要求收盘在 MA30 上方）\n"
+            f"- 若持有 FirstNeg：任何一天收跌即卖出；持满 {TIME_STOP_DAYS} 天收盘仍没高过入场当日最高价，也会卖出\n"
+            f"- 若持有 Composite：不受影响，继续等过热卖出"
         )
 
 with st.expander("D. 首阴 (FirstNeg) 入场条件扫描", expanded=False):
@@ -1046,7 +1140,7 @@ with st.expander("A. 当前量化状态", expanded=False):
         f"**当前状态**：{q_act_text}\n\n"
         f"{q_act_desc}\n\n"
         f"当前有效层：**{q_logic_name}**。"
-        f" 当前 20 日广度为 **{q_b20:.1f}%**，60 日广度为 **{q_b60:.1f}%**，"
+        f" 当前站上20日线占比为 **{q_b20:.1f}%**，站上60日线占比为 **{q_b60:.1f}%**，"
         f"收盘 **{q_close:.2f}**，MA30 **{q_ma30:.2f}**。"
     )
 
@@ -1055,29 +1149,29 @@ with st.expander("B. 抄底层（低吸层）", expanded=False):
         st.markdown(
             f"抄底层当前 **已开启**。\n\n"
             f"这一层只看两个条件：\n"
-            f"- 入场：20日广度低于 **{q_comp_entry:.0f}%**\n"
-            f"- 退出：20日广度高于 **{q_comp_exit_breadth:.0f}%** 且 heat_z 低于 **{q_comp_exit_heat:.1f}σ**\n\n"
-            f"现在 20 日广度为 **{q_b20:.1f}%**，heat_z 为 **{q_heat:.2f}σ**，所以抄底层仍在场内。"
+            f"- 入场：站上20日线占比低于 **{q_comp_entry:.0f}%**\n"
+            f"- 退出：站上20日线占比高于 **{q_comp_exit_breadth:.0f}%** 且 heat_z 低于 **{q_comp_exit_heat:.1f}σ**\n\n"
+            f"现在站上20日线占比为 **{q_b20:.1f}%**，heat_z 为 **{q_heat:.2f}σ**，所以抄底层仍在场内。"
         )
     elif q_prev_comp_active and not q_comp_active:
         st.markdown(
             f"抄底层刚刚 **关闭**。\n\n"
-            f"当前 20 日广度 **{q_b20:.1f}%** 已经超过 **{q_comp_exit_breadth:.0f}%**，"
+            f"当前站上20日线占比 **{q_b20:.1f}%** 已经超过 **{q_comp_exit_breadth:.0f}%**，"
             f"同时 heat_z **{q_heat:.2f}σ** 低于 **{q_comp_exit_heat:.1f}σ**，"
             f"说明情绪已经从低位修复到了兑现区。"
         )
     else:
         st.markdown(
             f"抄底层当前 **未开启**。\n\n"
-            f"它的入场门槛是 20 日广度低于 **{q_comp_entry:.0f}%**。"
+            f"它的入场门槛是站上20日线占比低于 **{q_comp_entry:.0f}%**。"
             f"现在是 **{q_b20:.1f}%**，还没有进入量化定义的极端冰点区。"
         )
 
 with st.expander("C. 趋势层（持有层）", expanded=False):
     q_trend_checks = [
         ("收盘站上 MA30", q_close > q_ma30, f"收盘 {q_close:.2f} vs MA30 {q_ma30:.2f}"),
-        (f"60日广度 ≥ {q_trend_b60_entry:.0f}%", q_b60 >= q_trend_b60_entry, f"当前 {q_b60:.1f}%"),
-        (f"20日广度 ≥ {q_trend_b20_entry:.0f}%", q_b20 >= q_trend_b20_entry, f"当前 {q_b20:.1f}%"),
+        (f"站上60日线占比 ≥ {q_trend_b60_entry:.0f}%", q_b60 >= q_trend_b60_entry, f"当前 {q_b60:.1f}%"),
+        (f"站上20日线占比 ≥ {q_trend_b20_entry:.0f}%", q_b20 >= q_trend_b20_entry, f"当前 {q_b20:.1f}%"),
     ]
     for label, met, detail in q_trend_checks:
         icon = "✅" if met else "❌"
@@ -1085,12 +1179,12 @@ with st.expander("C. 趋势层（持有层）", expanded=False):
 
     if q_trend_active:
         st.success(
-            f"趋势层当前已开启。只要收盘不跌回 MA30 下方，且 60 日广度不低于 {q_trend_b60_exit:.0f}% 、"
-            f"20 日广度不低于 {q_trend_b20_exit:.0f}% ，量化策略就继续顺势持有。"
+            f"趋势层当前已开启。只要收盘不跌回 MA30 下方，且站上60日线占比不低于 {q_trend_b60_exit:.0f}% 、"
+            f"站上20日线占比不低于 {q_trend_b20_exit:.0f}% ，量化策略就继续顺势持有。"
         )
     else:
         st.info(
-            f"趋势层当前未开启。它要求价格、20 日广度、60 日广度一起站稳，"
+            f"趋势层当前未开启。它要求价格、站上20日线占比、站上60日线占比一起站稳，"
             f"比主观策略的单点触发更严格。"
         )
 
@@ -1108,7 +1202,7 @@ with st.expander("D. 两套策略当前分歧", expanded=False):
             f"当前两套策略 **存在分歧**。\n\n"
             f"- 主观策略：**{subjective_state}**，当前动作是 **{act_text}**\n"
             f"- 量化策略：**{quant_state}**，当前动作是 **{q_act_text}**\n\n"
-            f"主观策略更偏向人工规则下的冰点抄底与首阴低吸；"
+            f"主观策略同样是固定规则，看单日广度和均线，任一入场条件满足就买（冰点抄底、首阴低吸）；"
             f"量化策略则多了一层对全市场强弱结构的过滤，所以有时会更早持有，也有时会更晚入场。"
         )
 
@@ -1137,11 +1231,11 @@ else:
         f"主观策略状态：{'持仓' if pos == 1 else '空仓'}；量化策略状态：{'持仓' if q_pos == 1 else '空仓'}。"
     )
 
-diff_points.append("主观策略更偏向规则触发后的直接执行，核心是冰点抄底和首阴低吸。")
-diff_points.append("量化策略多了一层全市场强弱过滤，会根据 20 日广度、60 日广度和 MA30 联合判断是否值得持有。")
+diff_points.append("主观策略看单日广度和均线，任一入场条件满足就买，核心是冰点抄底和首阴低吸。")
+diff_points.append("量化策略多了一层全市场强弱过滤，会根据站上20日线占比、站上60日线占比和 MA30 联合判断是否值得持有。")
 if not q_trend_active and (q_b60 < q_trend_b60_entry or q_b20 < q_trend_b20_entry):
     diff_points.append(
-        f"当前量化趋势层没开，主要因为 60 日广度 {q_b60:.1f}% / 20 日广度 {q_b20:.1f}% 还没同时达到趋势开仓线。"
+        f"当前量化趋势层没开，主要因为站上60日线占比 {q_b60:.1f}% / 站上20日线占比 {q_b20:.1f}% 还没同时达到趋势开仓线。"
     )
 if pos == 1 and q_pos == 1 and last['logic_state'] == 'Composite' and q_comp_active and not q_trend_active:
     diff_points.append("这说明当前市场更像“修复中的存量反弹”，而不是量化定义下的全面强趋势。")
