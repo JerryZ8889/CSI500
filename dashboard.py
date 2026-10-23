@@ -371,6 +371,12 @@ if os.path.exists(_status_file):
         st.caption(f"🔵 数据同步进行中...")
     else:
         st.caption(f"⚪ 最后更新: {_tm}")
+    _missing = _sync.get('missing_days') or []
+    if _missing:
+        st.warning(
+            f"⚠️ 数据有缺口：交易日历上开市、但数据表里没有的日子共 {len(_missing)} 天"
+            f"（{'、'.join(fmt_date(d) for d in _missing)}）。均线、热度、广度和买卖点都可能因此偏离，需要补数。"
+        )
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Section A: 核心绩效看板

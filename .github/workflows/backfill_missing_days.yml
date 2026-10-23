@@ -1,0 +1,69 @@
+name: 补回漏掉的交易日
+
+# 手动运行。不勾“写入”就是预演：在临时环境里补完、出报告，不提交任何文件。
+# 看过报告确认后，勾上“写入”再跑一次，才会把补好的数据提交到仓库。
+on:
+  workflow_dispatch:
+    inputs:
+      write:
+        description: '写入并提交（不勾 = 只预演出报告）'
+        type: boolean
+        required: false
+        default: false
+
+concurrency:
+  group: data-files
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Backfill and write report
+        env:
+          TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}
+        run: |
+          python tools/backfill_missing_days.py --report backfill_report.md
+          cat backfill_report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backfill-report
+          path: |
+            backfill_report.md
+            strategy_data.csv
+          if-no-files-found: ignore
+
+      - name: Commit backfilled data
+        if: ${{ inputs.write }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add stocks_data/ stocks_archive/ strategy_data.csv update_status.json
+          if git diff --cached --quiet; then
+            echo "No data changes to commit"
+          else
+            git commit -m "data: 补回漏掉的交易日并从首个缺口起重算
+
+            Co-Authored-By: github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+            git push
+          fi

@@ -7,9 +7,14 @@ on:
   workflow_dispatch:
     inputs:
       date:
-        description: '指定更新日期 (YYYYMMDD)，留空则默认今日'
+        description: '补齐到这一天为止 (YYYYMMDD)，留空则补到北京时间今天'
         required: false
         default: ''
+
+# 和补数任务共用一个组：两者都会改数据文件并推送，不能同时跑
+concurrency:
+  group: data-files
+  cancel-in-progress: false
 
 jobs:
   update:

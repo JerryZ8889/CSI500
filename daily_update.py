@@ -5,12 +5,12 @@ daily_update.py — CSI500 每日数据增量更新管道
 
 功能：
   Task 1: 生成 adj_factor_base.csv（一次性）
-  Task 2: 每日增量数据更新（17:30 触发）
+  Task 2: 每日增量数据更新（17:30 触发）：从表里最后一天往后，按交易日历逐日补齐
   Task 3: 成分股调整检查（月初 / 半年度）
 
 用法：
-  python daily_update.py                    # 执行每日更新（默认今日）
-  python daily_update.py --date 20260214    # 指定日期
+  python daily_update.py                    # 补齐到今天（北京时间）为止的所有交易日
+  python daily_update.py --date 20260214    # 补齐到指定日期为止
   python daily_update.py --generate-base    # 仅生成 adj_factor_base.csv
   python daily_update.py --check-rebalance  # 强制检查成分股调整
 """
@@ -25,6 +25,13 @@ import time
 import logging
 import argparse
 from datetime import datetime, timedelta, timezone
+
+from market_data import (
+    adjusted_stock_row,
+    find_missing_days,
+    insert_stock_row,
+    open_trading_days,
+)
 
 # ── 路径配置 ─────────────────────────────────────────────────────────────────
 DATA_DIR      = os.path.dirname(os.path.abspath(__file__))
@@ -152,23 +159,10 @@ def generate_adj_factor_base(logger):
 # Task 2: 每日数据更新
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def is_trading_day(today_str, logger):
-    """检测是否为交易日（通过指数日线是否有数据判断）"""
-    result = api_call(pro.index_daily,
-                      ts_code=INDEX_CODE,
-                      start_date=today_str,
-                      end_date=today_str)
-    if result is None:
-        logger.info(f"{today_str} 非交易日")
-        return False, None
-    logger.info(f"{today_str} 是交易日")
-    return True, result
-
-
 def fetch_daily_data(today_str, index_daily, status, logger):
     """
     拉取今日全部 API 数据，带重试逻辑。
-    index_daily 已在 is_trading_day 中获取，直接传入避免重复调用。
+    index_daily 已由主流程获取，直接传入避免重复调用。
 
     返回 dict 包含：
       index_daily, stock_daily, adj_factor, etf_daily, fd_share
@@ -324,11 +318,6 @@ def update_stocks_data(today_str, stock_daily, adj_factor_df, adj_base, logger):
         if isinstance(row_daily, pd.DataFrame):
             row_daily = row_daily.iloc[0]
 
-        raw_close = row_daily['close']
-        raw_pre_close = row_daily['pre_close']
-        raw_vol = row_daily['vol']
-        raw_amount = row_daily['amount']
-
         # 获取今日复权因子
         if ts_code not in adj_idx.index:
             continue
@@ -346,30 +335,8 @@ def update_stocks_data(today_str, stock_daily, adj_factor_df, adj_base, logger):
             latest_factor = adj_factor_today
             logger.warning(f"{ts_code} 不在 adj_factor_base 中，使用今日因子")
 
-        # 计算后复权价
-        adj_close = raw_close * adj_factor_today / latest_factor
-        adj_pre_close = raw_pre_close * adj_factor_today / latest_factor
-
-        # 追加到 CSV（降序：新行插入 header 后）
-        new_row = (f"{ts_code},{today_str},{adj_close},{adj_pre_close},"
-                   f"{raw_vol},{raw_amount}\n")
-
-        if os.path.exists(csv_path):
-            with open(csv_path, 'r', encoding='utf-8-sig') as f:
-                lines = f.readlines()
-            # 防重复
-            if len(lines) > 1 and today_str in lines[1]:
-                pass  # 已有今日数据
-            else:
-                lines.insert(1, new_row)
-                with open(csv_path, 'w', encoding='utf-8-sig') as f:
-                    f.writelines(lines)
-                updated_count += 1
-        else:
-            header = "ts_code,trade_date,close,pre_close,vol,amount\n"
-            with open(csv_path, 'w', encoding='utf-8-sig') as f:
-                f.write(header)
-                f.write(new_row)
+        row_text = adjusted_stock_row(ts_code, today_str, row_daily, adj_factor_today, latest_factor)
+        if insert_stock_row(csv_path, today_str, row_text):
             updated_count += 1
 
         # 使用与 build_strategy_data.py 一致的 MA20 口径，避免边界股票因浮点误差翻票。
@@ -455,17 +422,21 @@ def calculate_and_append_strategy_row(today_str, data, breadth, logger):
 # Task 3: 成分股调整检查
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def check_component_rebalance(today_str, adj_base, logger, force=False):
+def check_component_rebalance(today_str, adj_base, logger, force=False, prev_trade_date=None):
     """
     检查并执行成分股调整。
-    触发条件：每月1日 / 6月12月第三个周一，或 force=True。
+    触发条件：每月第一个交易日 / 6月12月第三个周一，或 force=True。
+    prev_trade_date 是上一个已入表的交易日；不给时退回到“当天是 1 号”。
     """
     today = datetime.strptime(today_str, '%Y%m%d')
     month = today.month
     day = today.day
     weekday = today.weekday()  # 0=Monday
 
-    is_monthly_1st = (day == 1)
+    if prev_trade_date:
+        is_monthly_1st = prev_trade_date[:6] != today_str[:6]
+    else:
+        is_monthly_1st = (day == 1)
     is_third_monday = (weekday == 0 and 15 <= day <= 21 and month in [6, 12])
 
     if not force and not is_monthly_1st and not is_third_monday:
@@ -603,62 +574,89 @@ def backfill_new_stocks(new_codes, today_str, adj_base, logger):
 # 主入口
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def run_daily_update(today_str=None):
-    """主入口：执行每日更新全流程"""
+CALENDAR_START = '20190101'   # 缺口核对从 strategy_data.csv 的起点开始
+
+
+def update_one_day(day_str, index_daily, adj_base, status, logger):
+    """把一个交易日写进个股文件和 strategy_data.csv（调用前该日必须还不在表里）。"""
+    prev_trade_date = get_previous_trading_day(logger)
+
+    # 拉取当日全部 API 数据（含重试）
+    data = fetch_daily_data(day_str, index_daily, status, logger)
+
+    # 成分股调整检查
+    # 必须先于 breadth 计算执行，避免 rebalance 日当天仍按旧成分股口径计算。
+    check_component_rebalance(day_str, adj_base, logger, prev_trade_date=prev_trade_date)
+
+    # 更新 stocks_data/ 并计算 breadth
+    breadth = update_stocks_data(
+        day_str, data['stock_daily'], data['adj_factor'], adj_base, logger
+    )
+
+    # 计算指标并追加 strategy_data.csv
+    calculate_and_append_strategy_row(day_str, data, breadth, logger)
+
+
+def run_daily_update(end_date=None):
+    """
+    主入口：从 strategy_data.csv 最后一天往后，按交易日历逐日补齐到 end_date（默认北京时间今天）。
+
+    只做“今天”会漏日子：GitHub 定时任务常推迟到北京时间零点以后才启动，
+    那时“今天”已经是第二天，前一天就再也没人补了。
+    """
     logger = setup_logging()
 
-    if today_str is None:
-        today_str = datetime.now(TZ_BEIJING).strftime('%Y%m%d')
+    if end_date is None:
+        end_date = datetime.now(TZ_BEIJING).strftime('%Y%m%d')
 
     logger.info("=" * 60)
-    logger.info(f"每日更新启动: {today_str}")
+    logger.info(f"每日更新启动：补齐到 {end_date}")
     logger.info("=" * 60)
 
     status = load_status()
 
-    # 防止同日重复运行
-    if status.get('last_update_date') == today_str and status.get('status') == 'success':
-        logger.info(f"{today_str} 已成功更新，跳过")
-        return
-
     try:
-        # Step 0: 确保 adj_factor_base.csv 存在
+        # 确保 adj_factor_base.csv 存在
         adj_base = generate_adj_factor_base(logger)
 
-        # Step 1: 检查是否为交易日
-        is_td, index_daily = is_trading_day(today_str, logger)
-        if not is_td:
+        open_days = open_trading_days(pro, CALENDAR_START, end_date)
+        last_date = get_previous_trading_day(logger)
+        todo = [d for d in open_days if d > last_date]
+        logger.info(f"待补交易日 {len(todo)} 天: {todo}")
+
+        done = []
+        for day_str in todo:
+            index_daily = api_call(pro.index_daily, ts_code=INDEX_CODE,
+                                   start_date=day_str, end_date=day_str)
+            if index_daily is None:
+                if day_str == end_date:
+                    # 当天行情还没发布：等下次运行再补，不算失败
+                    logger.info(f"{day_str} 行情尚未发布，留到下次运行")
+                    break
+                raise RuntimeError(f"{day_str} 是交易日，但取不到指数行情")
+
+            logger.info("-" * 60)
+            logger.info(f"更新 {day_str}")
+            update_one_day(day_str, index_daily, adj_base, status, logger)
+            done.append(day_str)
+
+            status['last_update_date'] = day_str
             status['last_update_time'] = datetime.now(TZ_BEIJING).strftime('%Y-%m-%d %H:%M:%S')
-            status['status'] = 'idle'
-            status['error_message'] = f'{today_str} 非交易日'
+            status['status'] = 'success'
+            status['retry_count'] = 0
+            status['error_message'] = None
             save_status(status)
-            return
 
-        # Step 2: 拉取所有 API 数据（含重试）
-        data = fetch_daily_data(today_str, index_daily, status, logger)
-
-        # Step 3: 成分股调整检查
-        # 必须先于 breadth 计算执行，避免 rebalance 日当天仍按旧成分股口径计算。
-        check_component_rebalance(today_str, adj_base, logger)
-
-        # Step 4: 更新 stocks_data/ 并计算 breadth
-        breadth = update_stocks_data(
-            today_str, data['stock_daily'], data['adj_factor'], adj_base, logger
-        )
-
-        # Step 5: 计算指标并追加 strategy_data.csv
-        calculate_and_append_strategy_row(today_str, data, breadth, logger)
-
-        # 更新状态
-        status['last_update_date'] = today_str
-        status['last_update_time'] = datetime.now(TZ_BEIJING).strftime('%Y-%m-%d %H:%M:%S')
-        status['status'] = 'success'
-        status['retry_count'] = 0
-        status['error_message'] = None
+        # 表中间若还有缺口（例如历史上漏掉的日子），记下来给看板报警
+        strategy_dates = pd.read_csv(STRATEGY_FILE, usecols=['trade_date'])['trade_date'].astype(str)
+        status['missing_days'] = find_missing_days(strategy_dates, open_days)
+        if status['missing_days']:
+            logger.warning(f"strategy_data.csv 中间缺 {len(status['missing_days'])} 个交易日: "
+                           f"{status['missing_days']}")
         save_status(status)
 
         logger.info("=" * 60)
-        logger.info(f"每日更新完成: {today_str}")
+        logger.info(f"每日更新完成：本次补了 {len(done)} 天 {done}")
         logger.info("=" * 60)
 
     except Exception as e:
@@ -673,7 +671,7 @@ def run_daily_update(today_str=None):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='CSI500 每日数据更新')
     parser.add_argument('--date', type=str, default=None,
-                        help='指定更新日期 (YYYYMMDD)，默认今日')
+                        help='补齐到这一天为止 (YYYYMMDD)，默认北京时间今天')
     parser.add_argument('--generate-base', action='store_true',
                         help='仅生成 adj_factor_base.csv')
     parser.add_argument('--check-rebalance', action='store_true',
