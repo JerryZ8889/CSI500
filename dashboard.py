@@ -77,6 +77,10 @@ st.markdown("""
     }
 
     /* 状态卡片 */
+    .status-label {
+        text-align: center; color: #374151; font-size: 0.85rem;
+        font-weight: 600; margin: 0 0 6px 0;
+    }
     .status-card {
         color: white; padding: 20px 14px; border-radius: 12px;
         text-align: center; font-size: 1.25rem; font-weight: 700;
@@ -517,7 +521,11 @@ if pos == 1:
         if hz_val > -1.5:
             reasons.append("资金热度正常，无冷清退潮迹象")
         if not above_ma30:
-            risks.append(f"价格已在 MA30 下方，若继续走弱可能触发 FirstNeg 退出条件")
+            # Composite 只有过热退出，跌破 MA30 不会卖；只有 FirstNeg 才有破位退出
+            if last['logic_state'] == 'Composite':
+                risks.append("价格已在 MA30 下方。Composite 抄底仓只在过热（广度 > 79% 且 heat_z < 1.5σ）时卖出，继续下跌不会触发卖出，需承受期间浮亏")
+            else:
+                risks.append(f"价格已在 MA30 下方，若继续走弱可能触发 FirstNeg 退出条件")
         if breadth_val > 65:
             risks.append(f"广度 {breadth_val:.1f}% 偏高，关注是否接近过热卖出阈值")
         # 参考提示上下文
@@ -688,18 +696,21 @@ else:
 s1, s2, s3 = st.columns(3)
 with s1:
     st.markdown(
+        '<div class="status-label">市场趋势</div>'
         f'<div class="status-card" style="background:{mode_color}">{mode_text}</div>'
         f'<p class="status-desc">{mode_desc}</p>',
         unsafe_allow_html=True,
     )
 with s2:
     st.markdown(
+        '<div class="status-label">主观策略</div>'
         f'<div class="status-card" style="background:{act_color}">{act_text}</div>'
         f'<p class="status-desc">{act_desc}</p>',
         unsafe_allow_html=True,
     )
 with s3:
     st.markdown(
+        '<div class="status-label">量化策略</div>'
         f'<div class="status-card" style="background:{q_act_color}">{q_act_text}</div>'
         f'<p class="status-desc">{q_act_desc}</p>',
         unsafe_allow_html=True,
