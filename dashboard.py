@@ -48,7 +48,6 @@ st.markdown("""
 <style>
     /* 隐藏侧边栏 & 全局 */
     [data-testid="collapsedControl"] { display: none; }
-    .main { background-color: #f0f2f6; }
     .block-container { max-width: 1200px; }
 
     /* 页面顶部彩条 */
@@ -99,11 +98,29 @@ st.markdown("""
         margin: 6px 0 14px 0;
     }
 
+    /* 白卡片面板；主观策略深蓝、量化策略紫色，和净值图两条线同色 */
+    .panel {
+        background: #ffffff; border: 1px solid #e5e7eb; border-radius: 10px;
+        padding: 14px 16px; margin: 0 0 12px 0;
+    }
+    .panel-title { font-weight: 700; font-size: 0.95rem; color: #1f2937; margin: 0 0 10px 0; }
+    .panel-note { font-size: 0.8rem; color: #6b7280; margin: 4px 0 0 0; }
+    .accent-subj { box-shadow: inset 0 3px 0 #1e3a5f; }
+    .accent-quant { box-shadow: inset 0 3px 0 #7c3aed; }
+    .accent-subj-left { box-shadow: inset 3px 0 0 #1e3a5f; }
+    .accent-quant-left { box-shadow: inset 3px 0 0 #7c3aed; }
+    .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+    .dot-subj { background: #1e3a5f; }
+    .dot-quant { background: #7c3aed; }
+
     /* 理由/风险区块 */
     .reason-block {
-        background: #ffffff; border-radius: 10px; padding: 16px 20px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin: 10px 0;
+        background: #ffffff; border: 1px solid #e5e7eb; border-radius: 10px;
+        padding: 16px 20px; margin: 10px 0;
     }
+
+    /* 折叠面板放在灰底上用白底 */
+    [data-testid="stExpander"] details { background: #ffffff; }
 
     /* Expander 美化 */
     .streamlit-expanderHeader {
@@ -114,11 +131,10 @@ st.markdown("""
     .metric-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 12px; margin: 8px 0 16px 0;
+        gap: 10px; margin: 0;
     }
     .metric-item {
-        background: #ffffff; border-radius: 12px; padding: 16px;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.06); text-align: center;
+        background: #f7f8fa; border-radius: 8px; padding: 14px 10px; text-align: center;
     }
     .metric-item .label {
         font-size: 0.8rem; color: #6b7280; margin-bottom: 4px;
@@ -234,17 +250,28 @@ def summarize_display(frame):
 
 
 def render_metric_grid(items):
+    """items: (标签, 数值, 数值颜色[, 色条 class])"""
     cards = []
-    for label, value, color in items:
+    for label, value, color, *accent in items:
+        cls = f'metric-item {accent[0]}' if accent else 'metric-item'
         cards.append(
-            f'<div class="metric-item"><div class="label">{label}</div>'
+            f'<div class="{cls}"><div class="label">{label}</div>'
             f'<div class="value" style="color:{color}">{value}</div></div>'
         )
     return '<div class="metric-grid">' + ''.join(cards) + '</div>'
 
 
-def render_reason_block(title, reasons, risks):
-    parts = [f'<div class="reason-block">']
+def render_panel(title, inner_html, accent='', note=''):
+    """白卡片：标题 + 内容 + 可选小字；accent 为策略色条 class。"""
+    return (
+        f'<div class="panel {accent}"><div class="panel-title">{title}</div>{inner_html}'
+        + (f'<div class="panel-note">{note}</div>' if note else '')
+        + '</div>'
+    )
+
+
+def render_reason_block(title, reasons, risks, accent=''):
+    parts = [f'<div class="reason-block {accent}">']
     if title:
         parts.append(f'<div style="font-weight:700; margin-bottom:10px;">{html.escape(title)}</div>')
     if reasons:
@@ -388,40 +415,25 @@ if os.path.exists(_status_file):
 # ═══════════════════════════════════════════════════════════════════════════════
 st.markdown('<div class="section-head">📊 核心绩效看板</div>', unsafe_allow_html=True)
 
+def render_perf_panel(title, summary, accent):
+    pct_color = lambda v: '#16a34a' if v >= 0 else '#dc2626'
+    grid = render_metric_grid(
+        [
+            ("🚀 累计收益", f"{summary['total_pct']:+.2f}%", pct_color(summary['total_pct'])),
+            ("📉 最大回撤", f"{summary['mdd_pct']:.2f}%", '#dc2626'),
+            ("📊 超额收益", f"{summary['excess_pct']:+.2f}%", pct_color(summary['excess_pct'])),
+            ("🎯 胜率", f"{summary['win_rate']:.1f}%", '#111827'),
+        ]
+    )
+    note = f"累计交易 {summary['n_trades']} 次 | 平均持仓 {summary['hold_pct']:.1f}%"
+    return render_panel(title, grid, accent, note)
+
+
 perf_col_1, perf_col_2 = st.columns(2)
 with perf_col_1:
-    st.markdown("**主观策略**")
-    st.markdown(
-        render_metric_grid(
-            [
-                ("🚀 累计收益", f"{subjective_summary['total_pct']:+.2f}%", '#16a34a' if subjective_summary['total_pct'] >= 0 else '#dc2626'),
-                ("📉 最大回撤", f"{subjective_summary['mdd_pct']:.2f}%", '#dc2626'),
-                ("📊 超额收益", f"{subjective_summary['excess_pct']:+.2f}%", '#16a34a' if subjective_summary['excess_pct'] >= 0 else '#dc2626'),
-                ("🎯 胜率", f"{subjective_summary['win_rate']:.1f}%", '#111827'),
-            ]
-        ),
-        unsafe_allow_html=True,
-    )
-    st.caption(
-        f"累计交易 {subjective_summary['n_trades']} 次 | 平均持仓 {subjective_summary['hold_pct']:.1f}%"
-    )
-
+    st.markdown(render_perf_panel("主观策略", subjective_summary, 'accent-subj'), unsafe_allow_html=True)
 with perf_col_2:
-    st.markdown("**量化策略（增强规则）**")
-    st.markdown(
-        render_metric_grid(
-            [
-                ("🚀 累计收益", f"{quant_summary['total_pct']:+.2f}%", '#16a34a' if quant_summary['total_pct'] >= 0 else '#dc2626'),
-                ("📉 最大回撤", f"{quant_summary['mdd_pct']:.2f}%", '#dc2626'),
-                ("📊 超额收益", f"{quant_summary['excess_pct']:+.2f}%", '#16a34a' if quant_summary['excess_pct'] >= 0 else '#dc2626'),
-                ("🎯 胜率", f"{quant_summary['win_rate']:.1f}%", '#111827'),
-            ]
-        ),
-        unsafe_allow_html=True,
-    )
-    st.caption(
-        f"累计交易 {quant_summary['n_trades']} 次 | 平均持仓 {quant_summary['hold_pct']:.1f}%"
-    )
+    st.markdown(render_perf_panel("量化策略（增强规则）", quant_summary, 'accent-quant'), unsafe_allow_html=True)
 
 st.caption(f"共同基准（从 {start_date_fmt} 重新起算）：累计收益 {bench_total:+.2f}% | 最大回撤 {bench_mdd:.2f}%")
 if (round(subjective_summary['mdd_pct'], 2) == round(quant_summary['mdd_pct'], 2)
@@ -807,14 +819,14 @@ with s1:
     )
 with s2:
     st.markdown(
-        '<div class="status-label">主观策略</div>'
+        '<div class="status-label"><span class="dot dot-subj"></span>主观策略</div>'
         f'<div class="status-card" style="background:{act_color}">{act_text}</div>'
         f'<p class="status-desc">{act_desc}</p>',
         unsafe_allow_html=True,
     )
 with s3:
     st.markdown(
-        '<div class="status-label">量化策略</div>'
+        '<div class="status-label"><span class="dot dot-quant"></span>量化策略</div>'
         f'<div class="status-card" style="background:{q_act_color}">{q_act_text}</div>'
         f'<p class="status-desc">{q_act_desc}</p>',
         unsafe_allow_html=True,
@@ -838,28 +850,25 @@ if ref_tip is not None:
 # ── ② 双策略判断依据 + 风险提示 ──
 reason_col_1, reason_col_2 = st.columns(2)
 with reason_col_1:
-    st.markdown(render_reason_block("主观策略判断", reasons, risks), unsafe_allow_html=True)
+    st.markdown(render_reason_block("主观策略判断", reasons, risks, 'accent-subj-left'), unsafe_allow_html=True)
 
 with reason_col_2:
-    st.markdown(render_reason_block("量化策略判断", q_reasons, q_risks), unsafe_allow_html=True)
+    st.markdown(render_reason_block("量化策略判断", q_reasons, q_risks, 'accent-quant-left'), unsafe_allow_html=True)
 
-# ── 技术快照 ──
-st.markdown("")
-st.markdown(
-    render_metric_grid(
-        [
-            ("市场广度（站上20日线占比）", f"{breadth_val:.1f}%", '#111827'),
-            ("站上60日线占比", f"{q_b60:.1f}%", '#111827'),
-            ("成交热度 heat_z", f"{hz_val:.2f}σ", '#111827'),
-            ("ETF换手率", f"{turn_val:.2f}%", '#111827'),
-            ("收盘", f"{close_val:.2f}", '#111827'),
-            ("MA30", f"{ma30_val:.2f}", '#111827'),
-            ("主观策略持仓", logic_now if pos == 1 else "空仓", '#111827'),
-            ("量化当前层", q_logic_name, '#111827'),
-        ]
-    ),
-    unsafe_allow_html=True,
+# ── 当日数据快照 ──
+snapshot = render_metric_grid(
+    [
+        ("市场广度（站上20日线占比）", f"{breadth_val:.1f}%", '#111827'),
+        ("站上60日线占比", f"{q_b60:.1f}%", '#111827'),
+        ("成交热度 heat_z", f"{hz_val:.2f}σ", '#111827'),
+        ("ETF换手率", f"{turn_val:.2f}%", '#111827'),
+        ("收盘", f"{close_val:.2f}", '#111827'),
+        ("MA30", f"{ma30_val:.2f}", '#111827'),
+        ("主观策略持仓", logic_now if pos == 1 else "空仓", '#1e3a5f', 'accent-subj-left'),
+        ("量化当前层", q_logic_name, '#7c3aed', 'accent-quant-left'),
+    ]
 )
+st.markdown(render_panel("当日数据快照", snapshot), unsafe_allow_html=True)
 
 st.divider()
 

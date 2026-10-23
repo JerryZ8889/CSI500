@@ -1,4 +1,6 @@
 # 看板的卡片和图表都是按浅色设计的（白底卡片、白底 matplotlib 图），
 # 固定浅色主题，免得浏览器在深色模式下把文字变成白色、和白底卡片撞色。
+# 页面铺浅灰，白卡片才有层次（design.md 15.9）。
 [theme]
 base = "light"
+backgroundColor = "#f3f5f8"
