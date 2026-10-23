@@ -353,6 +353,14 @@ def fmt_date(trade_date):
     return pd.to_datetime(str(trade_date), format='%Y%m%d').strftime('%Y-%m-%d')
 
 
+LOGIC_LABELS = {'Composite': '冰点抄底'}
+
+
+def logic_label(logic):
+    """持仓逻辑在页面上显示的名字；程序内部仍用 Composite / FirstNeg。"""
+    return LOGIC_LABELS.get(logic, logic) if logic else 'N/A'
+
+
 def logic_history_text(logic):
     """同一持仓逻辑已完成交易的战绩，一句话。没有可比记录时返回 None。"""
     done = [t for t in trades if not t['is_open'] and t['logic'] == logic]
@@ -363,7 +371,7 @@ def logic_history_text(logic):
     avg_days = sum(t['held_days'] for t in done) / len(done)
     worst = min(t['ret'] for t in done) * 100
     return (
-        f"{start_date_fmt[:4]} 年以来 {logic} 共完成 {len(done)} 笔，其中 {wins} 笔赚钱；"
+        f"{start_date_fmt[:4]} 年以来 {logic_label(logic)} 共完成 {len(done)} 笔，其中 {wins} 笔赚钱；"
         f"平均每笔 {avg_ret:+.1f}%，最差一笔 {worst:+.1f}%，平均持有 {avg_days:.0f} 个交易日"
     )
 
@@ -503,7 +511,7 @@ if sig == 1:
     ls = last['logic_state']
     if ls == 'Composite':
         act_text, act_color = "🔥 抄底买入", "#16a34a"
-        act_desc = "Composite 左侧抄底信号触发，T+1 次日开盘执行"
+        act_desc = "冰点抄底信号触发，T+1 次日开盘执行"
     elif ls == 'FirstNeg':
         act_text, act_color = "⚡ 首阴买入", "#16a34a"
         act_desc = "FirstNeg 连涨首阴低吸信号触发，T+1 次日开盘执行"
@@ -526,17 +534,17 @@ elif sig == -1:
         act_desc = "触发退出条件，T+1 次日开盘卖出"
 elif pos == 1:
     act_text, act_color = "💎 持股待涨", "#2563eb"
-    act_desc = f"持仓逻辑：{last['logic_state'] or 'N/A'}，未触发卖出条件"
+    act_desc = f"持仓逻辑：{logic_label(last['logic_state'])}，未触发卖出条件"
     if open_trade and open_trade['buy_date']:
         act_desc = (
-            f"持仓逻辑：{last['logic_state'] or 'N/A'}，{fmt_date(open_trade['buy_date'])} 买入，"
+            f"持仓逻辑：{logic_label(last['logic_state'])}，{fmt_date(open_trade['buy_date'])} 买入，"
             f"浮动 {open_trade['ret'] * 100:+.1f}%"
         )
     # 检查参考提示：Composite 持仓时的虚拟首阴仓位
     if vfn['active'] and last['logic_state'] == 'Composite':
         ref_tip = {
             'text': "⚡ 首阴加仓（参考提示）",
-            'desc': f"Composite 持仓期间 FirstNeg 6项条件全部满足，可考虑加仓 | 虚拟入场高点: {vfn['entry_high']:.2f}",
+            'desc': f"冰点抄底持仓期间 FirstNeg 6项条件全部满足，可考虑加仓 | 虚拟入场高点: {vfn['entry_high']:.2f}",
             'type': 'entry',
         }
     # vfn.exit_signal 仅在当前 Composite 持仓时才可能非 None（函数内部有前置守卫）
@@ -575,7 +583,7 @@ if pos == 1:
                 f"广度 {breadth_val:.1f}% 超过 {OVERHEAT_BREADTH}% 过热线，同时 heat_z {hz_val:.2f}σ 低于 "
                 f"{OVERHEAT_HEAT_Z}σ，说明普涨但已不再放量"
             )
-            reasons.append("过热退出是通用规则，Composite 和 FirstNeg 两种持仓都适用")
+            reasons.append("过热退出是通用规则，冰点抄底和 FirstNeg 两种持仓都适用")
         elif er == 'trend_break':
             reasons.append(f"收盘 {close_val:.2f} 跌破 MA30 趋势防线 {ma30_val:.2f}")
             reasons.append(f"当日收跌（收盘 {close_val:.2f} < 昨收 {prev['close']:.2f}），趋势破位确认")
@@ -606,13 +614,13 @@ if pos == 1:
                 )
             else:
                 reasons.append(
-                    f"Composite 只有一条卖出规则：广度升到 {OVERHEAT_BREADTH}% 以上、同时 heat_z 低于 "
+                    f"冰点抄底只有一条卖出规则：广度升到 {OVERHEAT_BREADTH}% 以上、同时 heat_z 低于 "
                     f"{OVERHEAT_HEAT_Z}σ。当前广度 {breadth_val:.1f}%，离卖出线还差 "
                     f"{OVERHEAT_BREADTH - breadth_val:.1f} 个百分点"
                 )
             if not above_ma30:
                 risks.append(
-                    f"价格在 MA30 下方。Composite 抄底仓不看 MA30、也没有止损，继续下跌不会触发卖出，需承受期间浮亏"
+                    f"价格在 MA30 下方。冰点抄底仓不看 MA30、也没有止损，继续下跌不会触发卖出，需承受期间浮亏"
                 )
         elif logic_now == 'FirstNeg':
             if above_ma30:
@@ -638,7 +646,7 @@ if pos == 1:
         # 参考提示上下文
         if ref_tip is not None:
             if ref_tip['type'] == 'entry':
-                reasons.append(f"[参考] {logic_now or ''} 持仓期间 FirstNeg 6项条件全部满足，可参考加仓")
+                reasons.append(f"[参考] {logic_label(logic_now)} 持仓期间 FirstNeg 6项条件全部满足，可参考加仓")
                 risks.append("[参考] 首阴加仓为参考提示，非策略强制动作，请自行判断仓位管理")
             elif ref_tip['type'] == 'exit':
                 reasons.append("[参考] 虚拟首阴仓位已触发退出条件，主仓位策略暂未触发卖出")
@@ -646,7 +654,7 @@ if pos == 1:
 else:
     if sig == 1:
         if logic_now == 'Composite':
-            reasons.append(f"广度 {breadth_val:.1f}% 跌破 {ICE_BREADTH}% 冰点线 → Composite 左侧抄底信号")
+            reasons.append(f"广度 {breadth_val:.1f}% 跌破 {ICE_BREADTH}% 冰点线 → 冰点抄底信号")
             risks.append("T+1 执行，次日以开盘价买入")
             risks.append(
                 f"抄底仓没有止损，只在过热（广度 > {OVERHEAT_BREADTH}% 且 heat_z < {OVERHEAT_HEAT_Z}σ）时卖出，"
@@ -660,7 +668,7 @@ else:
                 f"买入后若跌破 MA30 且当日收跌就会卖出；持满 {TIME_STOP_DAYS} 天收盘没高过今天最高价、又在 MA30 下方，也会止损"
             )
         else:
-            reasons.append(f"入场逻辑：{logic_now or 'N/A'}")
+            reasons.append(f"入场逻辑：{logic_label(logic_now)}")
             risks.append("T+1 执行，次日以开盘价买入")
         history = logic_history_text(logic_now)
         if history:
@@ -668,7 +676,7 @@ else:
     else:
         reasons.append("当前未产生任何入场信号")
         reasons.append(
-            f"Composite 抄底要等广度跌破 {ICE_BREADTH}%：当前 {breadth_val:.1f}%，还差 "
+            f"冰点抄底要等广度跌破 {ICE_BREADTH}%：当前 {breadth_val:.1f}%，还差 "
             f"{breadth_val - ICE_BREADTH:.1f} 个百分点"
         )
         if met_count < total_cond:
@@ -864,7 +872,7 @@ snapshot = render_metric_grid(
         ("ETF换手率", f"{turn_val:.2f}%", '#111827'),
         ("收盘", f"{close_val:.2f}", '#111827'),
         ("MA30", f"{ma30_val:.2f}", '#111827'),
-        ("主观策略持仓", logic_now if pos == 1 else "空仓", '#1e3a5f', 'accent-subj-left'),
+        ("主观策略持仓", logic_label(logic_now) if pos == 1 else "空仓", '#1e3a5f', 'accent-subj-left'),
         ("量化当前层", q_logic_name, '#7c3aed', 'accent-quant-left'),
     ]
 )
@@ -1041,8 +1049,8 @@ with st.expander("A. 市场广度分析", expanded=False):
             f"📉 **[冰点区]**　当前广度 = **{breadth_val:.1f}%**（冰点线 {ICE_BREADTH}%）\n\n"
             f"只有不到 {ICE_BREADTH}% 的成分股站在 20 日均线上方，市场处于集中抛售后的恐慌阶段。"
             f"冰点可能持续好几天（磨底），买入后继续下跌并不少见。\n\n"
-            f"**策略含义**：空仓时触发 Composite 抄底买入；持有 FirstNeg 时会升级为 Composite"
-            f"（之后只按过热规则卖出）；已持有 Composite 时不做任何动作。"
+            f"**策略含义**：空仓时触发冰点抄底买入；持有 FirstNeg 时会升级为冰点抄底"
+            f"（之后只按过热规则卖出）；已持有冰点抄底时不做任何动作。"
             + (f"\n\n**历史参考**：{comp_history}。" if comp_history else "")
         )
     elif breadth_val > OVERHEAT_BREADTH:
@@ -1060,7 +1068,7 @@ with st.expander("A. 市场广度分析", expanded=False):
             f"🔵 **[偏冷区间]**　当前广度 = **{breadth_val:.1f}%**\n\n"
             f"不到三成成分股站在 20 日均线上方，市场整体偏弱，赚钱效应较差。"
             f"离 {ICE_BREADTH}% 冰点线还差 **{breadth_val - ICE_BREADTH:.1f}** 个百分点；"
-            f"跌破冰点线时，空仓状态下会触发 Composite 抄底。"
+            f"跌破冰点线时，空仓状态下会触发冰点抄底。"
         )
     elif breadth_val > 65:
         st.markdown(
@@ -1073,7 +1081,7 @@ with st.expander("A. 市场广度分析", expanded=False):
         st.markdown(
             f"✅ **[常规区间]**　当前广度 = **{breadth_val:.1f}%**\n\n"
             f"广度处于 30%~65% 的常规波动范围，离 {ICE_BREADTH}% 冰点线和 {OVERHEAT_BREADTH}% 过热线都较远，"
-            f"不会触发 Composite 买入或过热卖出。"
+            f"不会触发冰点抄底买入或过热卖出。"
         )
 
 with st.expander("B. 资金热度分析", expanded=False):
@@ -1110,7 +1118,7 @@ with st.expander("C. 趋势保护分析", expanded=False):
         st.markdown(
             f"✅ **[站在 MA30 上方]**　收盘价 **{close_val:.2f}** > MA30 **{ma30_val:.2f}**"
             f"（偏离 {dist_pct:+.2f}%），{slope_desc}。\n\n"
-            f"**策略含义**：MA30 只用于 FirstNeg，Composite 买卖都不看它。"
+            f"**策略含义**：MA30 只用于 FirstNeg，冰点抄底买卖都不看它。"
             f"FirstNeg 入场要求收盘在 MA30 上方（当前满足）；持有 FirstNeg 时，"
             f"只要不跌破 MA30，就不会触发破位卖出或时间止损。"
         )
@@ -1119,10 +1127,10 @@ with st.expander("C. 趋势保护分析", expanded=False):
         st.markdown(
             f"⚠️ **[跌在 MA30 下方]**　收盘价 **{close_val:.2f}** < MA30 **{ma30_val:.2f}**"
             f"（偏离 {dist_pct:+.2f}%），{slope_desc}。\n\n"
-            f"**策略含义**：MA30 只用于 FirstNeg，Composite 买卖都不看它。\n"
+            f"**策略含义**：MA30 只用于 FirstNeg，冰点抄底买卖都不看它。\n"
             f"- FirstNeg 不会入场（要求收盘在 MA30 上方）\n"
             f"- 若持有 FirstNeg：任何一天收跌即卖出；持满 {TIME_STOP_DAYS} 天收盘仍没高过入场当日最高价，也会卖出\n"
-            f"- 若持有 Composite：不受影响，继续等过热卖出"
+            f"- 若持有冰点抄底：不受影响，继续等过热卖出"
         )
 
 with st.expander("D. 首阴 (FirstNeg) 入场条件扫描", expanded=False):
@@ -1133,7 +1141,7 @@ with st.expander("D. 首阴 (FirstNeg) 入场条件扫描", expanded=False):
     if met_count == total_cond:
         if pos == 1 and last['logic_state'] == 'Composite':
             st.success(
-                f"🎯 全部 {total_cond} 项条件满足！当前以 Composite 逻辑持仓，"
+                f"🎯 全部 {total_cond} 项条件满足！当前以冰点抄底逻辑持仓，"
                 f"FirstNeg 加仓窗口已打开（参考提示）。"
             )
         elif pos == 0:
@@ -1144,7 +1152,7 @@ with st.expander("D. 首阴 (FirstNeg) 入场条件扫描", expanded=False):
         else:
             st.success(
                 f"🎯 全部 {total_cond} 项条件满足！"
-                f"当前已持仓（逻辑：{last['logic_state'] or 'N/A'}）。"
+                f"当前已持仓（逻辑：{logic_label(last['logic_state'])}）。"
             )
     else:
         missing = [label for label, met, _ in cond_items if not met]
@@ -1235,7 +1243,7 @@ if pos == q_pos and sig == q_sig:
     diff_points.append(f"当前两套策略方向一致，都是“{'持仓' if pos == 1 else '空仓'}”状态。")
     if pos == 1:
         diff_points.append(
-            f"主观策略当前持仓逻辑是 {last['logic_state'] or 'N/A'}，量化策略当前持仓层是 {q_logic_name}。"
+            f"主观策略当前持仓逻辑是 {logic_label(last['logic_state'])}，量化策略当前持仓层是 {q_logic_name}。"
         )
         if q_trend_active:
             diff_points.append("量化策略当前除了抄底修复外，还叠加了趋势过滤层。")
