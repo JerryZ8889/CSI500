@@ -1,4 +1,6 @@
 tushare>=1.4.0
+# tushare 自己要用 six 却没声明，以前靠 python-dateutil 旧版顺带装上；dateutil 4.0 起不带了，必须自己写上
+six>=1.16.0
 pandas>=2.0.0
 numpy>=1.24.0
 streamlit>=1.30.0
