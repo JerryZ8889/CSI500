@@ -10,6 +10,11 @@ on:
         description: '补齐到这一天为止 (YYYYMMDD)，留空则补到北京时间今天'
         required: false
         default: ''
+      test_mail:
+        description: '只发一封测试用的失败提醒邮件，不跑更新'
+        type: boolean
+        required: false
+        default: false
 
 # 和补数任务共用一个组：两者都会改数据文件并推送，不能同时跑
 concurrency:
@@ -28,15 +33,21 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
+        if: ${{ !inputs.test_mail }}
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
 
       - name: Install dependencies
+        if: ${{ !inputs.test_mail }}
         run: pip install -r requirements.txt
 
       - name: Run daily update
+        if: ${{ !inputs.test_mail }}
+        # 超时放在这一步而不是整个任务上：这一步超时算“失败”，后面的提醒邮件才会发；
+        # 整个任务超时算“取消”，提醒邮件那一步不会跑
+        timeout-minutes: 340
         env:
           TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}
         run: |
@@ -47,6 +58,7 @@ jobs:
           fi
 
       - name: Commit and push updated data
+        if: ${{ !inputs.test_mail }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -59,3 +71,58 @@ jobs:
             Co-Authored-By: github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
             git push
           fi
+
+      # 前面任何一步失败都发邮件。仓库是公开的，收件人、发件账号和授权码都放在 Secrets 里
+      - name: 更新失败时发邮件提醒
+        if: ${{ failure() || inputs.test_mail }}
+        env:
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+          TEST_MAIL: ${{ inputs.test_mail }}
+          TRIGGER: ${{ github.event_name }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 - <<'PY'
+          import os, smtplib, ssl, sys
+          from datetime import datetime, timedelta, timezone
+          from email.header import Header
+          from email.mime.text import MIMEText
+          from email.utils import formataddr
+
+          user = os.environ.get('MAIL_USERNAME', '')
+          pw = os.environ.get('MAIL_PASSWORD', '')
+          to = [a.strip() for a in os.environ.get('MAIL_TO', '').split(',') if a.strip()]
+          missing = [k for k, v in (('MAIL_USERNAME', user), ('MAIL_PASSWORD', pw), ('MAIL_TO', to)) if not v]
+          if missing:
+              print('::error::缺少 Secret：' + '、'.join(missing) + '，失败提醒邮件发不出去')
+              sys.exit(1)
+
+          now = datetime.now(timezone(timedelta(hours=8))).strftime('%Y-%m-%d %H:%M')
+          trigger = {'schedule': '每天定时', 'workflow_dispatch': '手动运行'}.get(os.environ['TRIGGER'], os.environ['TRIGGER'])
+          lines = []
+          if os.environ.get('TEST_MAIL') == 'true':
+              lines += ['这是一封测试邮件，数据更新本身没有出问题。', '']
+          lines += [
+              f'失败时间（北京时间）：{now}',
+              f'触发方式：{trigger}',
+              f'运行记录（点开看哪一步报错）：{os.environ["RUN_URL"]}',
+              '',
+              '看板上的数据会停在上一次成功的那天。修好后手动跑一次每日更新，缺的交易日会自动补齐。',
+          ]
+          try:
+              with open('daily_update.log', encoding='utf-8') as f:
+                  tail = f.read().splitlines()[-30:]
+              lines += ['', '—— 更新日志最后 30 行 ——', *tail]
+          except OSError:
+              lines += ['', '（没有更新日志：程序在启动阶段就出错了，具体看上面的运行记录）']
+
+          msg = MIMEText('\n'.join(lines), 'plain', 'utf-8')
+          msg['Subject'] = Header('【紧急】CSI 数据更新失败', 'utf-8')
+          msg['From'] = formataddr(('CSI500 自动更新', user))
+          msg['To'] = ', '.join(to)
+          with smtplib.SMTP_SSL('smtp.qq.com', 465, context=ssl.create_default_context(), timeout=30) as s:
+              s.login(user, pw)
+              s.sendmail(user, to, msg.as_string())
+          print('失败提醒邮件已发出')
+          PY
